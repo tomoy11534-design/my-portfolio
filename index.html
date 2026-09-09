@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Web制作作品集</title>
+  <meta name="description" content="料理教室サイト・在庫管理アプリ・家族共有アプリなど、制作した3つの作品を紹介するポートフォリオサイトです。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="#works">Works</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ヒーローセクション -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="hero-eyebrow">Web Developer Portfolio</p>
+        <h1>使う人の<span class="hero-highlight">毎日に寄り添う</span><br>サービスをつくる</h1>
+        <p class="hero-lead">
+          料理教室のWebサイトから食材の在庫管理アプリ、家族で使う音声入力システムまで。
+          企画・UI設計・実装を担当した3つの制作物を紹介します。
+        </p>
+        <a href="#works" class="button button-primary">作品を見る <span class="hero-arrow">↓</span></a>
+      </div>
+    </section>
+
+    <!-- Works セクション -->
+    <section id="works" class="works">
+      <div class="container">
+        <div class="section-head">
+          <p class="section-eyebrow">Works</p>
+          <h2 class="section-title">制作物</h2>
+          <p class="section-lead">それぞれ異なる課題に向けて設計した3つのプロジェクトです。</p>
+        </div>
+
+        <div class="work-grid">
+
+          <!-- 1. Kitchen LAB -->
+          <article class="work-card work-card--kitchen">
+            <a href="works/kitchen-lab.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--kitchen">
+                <span class="work-card-icon-tile" aria-hidden="true">🍳</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">料理教室サイト</span>
+                <h3>料理教室 Kitchen LAB</h3>
+                <p class="work-card-desc">
+                  作る楽しさと美味しい感動を食卓へ届ける料理教室のサイト。ビギナー・ベーシック・プレミアムのおもてなしコースを紹介するデザイン。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS</li>
+                  <li>JavaScript (jQuery)</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 2. ReciFridge -->
+          <article class="work-card work-card--fridge">
+            <a href="works/reci-fridge.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--fridge">
+                <span class="work-card-icon-tile" aria-hidden="true">🥦</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">在庫管理アプリ</span>
+                <h3>ReciFridge</h3>
+                <p class="work-card-desc">
+                  食材を「冷蔵庫」「冷凍庫」「野菜室」ごとに在庫管理できるアプリ。数量の増減や写真からのレシピ提案機能付き。
+                </p>
+                <ul class="tag-list">
+                  <li>Node.js / Express</li>
+                  <li>Firebase Auth</li>
+                  <li>Groq API</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 3. KakeiVoice -->
+          <article class="work-card work-card--family">
+            <a href="works/kakei-voice.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--family">
+                <span class="work-card-icon-tile" aria-hidden="true">🎙️</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">家計簿PWA</span>
+                <h3>KakeiVoice</h3>
+                <p class="work-card-desc">
+                  音声入力で手軽に家計簿を記録し、家族やパートナーとグループでリアルタイムに共有できるPWA。履歴確認やカテゴリ別の月次サマリーも見られる。
+                </p>
+                <ul class="tag-list">
+                  <li>Next.js / React</li>
+                  <li>TypeScript</li>
+                  <li>Firebase</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About セクション -->
+    <section id="about" class="about">
+      <div class="container">
+        <div class="about-card">
+          <div class="about-intro">
+            <p class="section-eyebrow">About</p>
+            <h2 class="section-title">プロフィール</h2>
+            <p class="section-lead">
+              Web制作やUI/UXデザインを中心に学んでいます。「使う人の毎日に寄り添うサービス」をモットーに、
+              ただ動くだけでなく、操作していて心地よいと感じるフロントエンド実装を心がけています。
+              日々の制作で培ったデザインの工夫や、課題解決へのアプローチを発信していきます。
+            </p>
+          </div>
+          <div class="about-divider"></div>
+          <ul class="about-list">
+            <li><b>名前</b><span>新井 朋美</span></li>
+            <li><b>活動内容</b><span>Webサイト・アプリのデザインと実装</span></li>
+            <li><b>得意分野</b><span>UI設計 / フロントエンド実装</span></li>
+            <li><b>興味・関心</b><span>使いやすさを追求したプロダクト作り</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact セクション -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-inner">
+            <p class="section-eyebrow">Contact</p>
+            <h2 class="section-title">お問い合わせ</h2>
+            <p class="section-lead" style="margin-left:auto;margin-right:auto;">
+              お仕事のご相談やご質問など、お気軽にご連絡ください。
+            </p>
+            <div class="contact-links">
+              <!-- 以下のリンク先を実際の連絡先に書き換えてください -->
+              <a href="mailto:your-email@example.com" class="button button-primary">メールを送る</a>
+              <a href="https://github.com/your-account" class="button button-ghost" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

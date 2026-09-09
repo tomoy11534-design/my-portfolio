@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReciFridge | Portfolio</title>
+  <meta name="description" content="食材を「冷蔵庫」「冷凍庫」「野菜室」ごとに在庫管理できるアプリ。数量の増減や写真からのレシピ提案機能付き。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--fridge">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>ReciFridge</h1>
+        <p class="work-hero-lead">
+          食材を「冷蔵庫」「冷凍庫」「野菜室」ごとに在庫管理できるアプリ。
+          数量の増減や写真からのレシピ提案機能が付いています。
+        </p>
+        <ul class="tag-list">
+          <li>在庫管理</li>
+          <li>アプリUI</li>
+          <li>レシピ機能</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              家庭の食材管理を「冷蔵庫」「冷凍庫」「野菜室」の3つの保管場所に分けて可視化するアプリです。
+              買いすぎ・使い忘れによる食材のムダを減らし、今ある食材で作れるレシピをすぐに探せることを目指しました。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>保管場所別の在庫管理</h3>
+                <p>冷蔵庫・冷凍庫・野菜室ごとにタブを分け、食材の場所がひと目で分かるように設計。</p>
+              </div>
+              <div class="feature-card">
+                <h3>数量の増減操作</h3>
+                <p>ワンタップで食材の数量を増減できるシンプルな操作で、買い物後の登録もスムーズ。</p>
+              </div>
+              <div class="feature-card">
+                <h3>写真からの食材認識</h3>
+                <p>Groqの画像認識モデルに写真を送信し、写っている食材・食品を自動で検出して在庫登録候補にする機能。</p>
+              </div>
+              <div class="feature-card">
+                <h3>レシピ提案</h3>
+                <p>登録済みの食材リストをもとに、Groqのテキスト生成モデルが作れる料理を提案する機能。</p>
+              </div>
+              <div class="feature-card">
+                <h3>期限切れ・使い忘れ防止</h3>
+                <p>保管場所ごとに食材の一覧が見えることで、使い忘れによる食品ロスを防止。</p>
+              </div>
+              <div class="feature-card">
+                <h3>認証・アクセス制限</h3>
+                <p>Firebase AuthenticationによるGoogleログイン・メールアドレス認証に対応し、許可済みメールアドレスのみ在庫データへアクセスできるよう制限。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              冷たさを感じる青緑系のカラーで「冷蔵庫らしさ」を表現しつつ、情報量が多くなりがちな在庫一覧を
+              カード型UIでグルーピングし、視認性を保つよう設計しました。バックエンドはNode.js/Expressで実装し、
+              Vercelのサーバーレス関数として静的フロントエンドと同一プロジェクトから配信しています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--fridge">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>Node.js / Express</li>
+            <li>Firebase Authentication</li>
+            <li>Groq API</li>
+            <li>Vercel</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">機能設計・画面デザインを担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="kitchen-lab.html">← 前の作品：Kitchen LAB</a>
+        <a href="kakei-voice.html">次の作品：KakeiVoice →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

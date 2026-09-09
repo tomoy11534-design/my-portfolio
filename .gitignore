@@ -1,0 +1,11 @@
+# 実プロジェクトのフォルダ（別リポジトリのため対象外）
+KakeiVoice/
+ReciFridge/
+kitchen Lab/
+
+# OS・エディタ関連
+.DS_Store
+Thumbs.db
+
+# ショートカットファイル
+*.lnk

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KakeiVoice | Portfolio</title>
+  <meta name="description" content="音声入力で手軽に家計簿を記録し、家族やパートナーとグループでリアルタイムに共有できるPWA。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--family">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>KakeiVoice</h1>
+        <p class="work-hero-lead">
+          「音声で話すだけ」で家計簿を記録できるPWA。家族・パートナーとグループを組んでリアルタイムにデータを共有し、
+          履歴やカテゴリ別の月次サマリーをいつでも確認できます。
+        </p>
+        <ul class="tag-list">
+          <li>PWA</li>
+          <li>音声入力</li>
+          <li>家計簿共有</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              従来の家計簿アプリは入力の手間が大きく続けにくいという課題や、家族間で共有する際に個々で入力・集計する
+              二度手間が発生しやすいという課題に対して、「話すだけ」で支出・収入を記録できるPWAとして設計しました。
+              ネイティブアプリのストア審査・配布コストをかけずに、ブラウザからそのまま使え、ホーム画面にも追加できます。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>音声入力での記録</h3>
+                <p>Web Speech APIで音声を取得し、テキスト解析（金額・カテゴリ・メモの抽出）を経て確認画面から登録する。</p>
+              </div>
+              <div class="feature-card">
+                <h3>家族グループ管理</h3>
+                <p>グループの作成・招待コードでの参加・メンバー一覧・脱退/削除に対応し、家族やパートナーで1つの家計簿を共有できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>履歴一覧・編集</h3>
+                <p>記録した支出・収入を一覧化し、絞り込みやページングで確認、詳細画面から編集・削除ができる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>月次サマリー</h3>
+                <p>カテゴリ別・メンバー別の内訳をドーナツグラフで可視化し、サブカテゴリの階層表示にも対応。</p>
+              </div>
+              <div class="feature-card">
+                <h3>認証・認可</h3>
+                <p>メール/パスワードとGoogleログインに対応し、Firestoreセキュリティルールでグループ単位のアクセス制御を行う。</p>
+              </div>
+              <div class="feature-card">
+                <h3>PWA対応</h3>
+                <p>Web App Manifest・Service Workerを手書きで実装し、ホーム画面への追加やオフラインキャッシュに対応。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              状態管理ライブラリやスキーマ検証ライブラリを導入せず、認証状態はReact Context、グループ選択状態は
+              URLクエリパラメータで受け渡すなど、アプリの規模に対して過剰にならない構成を意識して設計しています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--family">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>Next.js (App Router)</li>
+            <li>React</li>
+            <li>TypeScript</li>
+            <li>Tailwind CSS</li>
+            <li>Firebase Authentication</li>
+            <li>Firestore</li>
+            <li>Web Speech API</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">要件定義・設計・フロントエンド実装を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="reci-fridge.html">← 前の作品：ReciFridge</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
