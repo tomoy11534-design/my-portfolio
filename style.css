@@ -15,6 +15,8 @@
   --color-fridge-dark: #1f6f6a;
   --color-family: #8a5fc7;
   --color-family-dark: #6c43a6;
+  --color-stock: #3f7dc9;
+  --color-stock-dark: #2a5a96;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -299,7 +301,7 @@ section {
    ========================================================== */
 .work-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 28px;
 }
 
@@ -376,6 +378,13 @@ section {
     linear-gradient(135deg, #d9c2f5 0%, #a878e0 45%, #6c43a6 100%);
 }
 
+.work-card-cover--stock {
+  background-color: var(--color-stock);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #a9d4f5 0%, #5fa0dd 45%, #2a5a96 100%);
+}
+
 .work-card-icon-tile {
   position: relative;
   z-index: 1;
@@ -424,6 +433,11 @@ section {
   color: var(--color-family-dark);
 }
 
+.work-card--stock .work-card-tag {
+  background: rgba(63, 125, 201, 0.12);
+  color: var(--color-stock-dark);
+}
+
 .work-card h3 {
   font-size: 1.1rem;
   margin-bottom: 10px;
@@ -447,6 +461,10 @@ section {
 
 .work-card--family .work-card-more {
   color: var(--color-family);
+}
+
+.work-card--stock .work-card-more {
+  color: var(--color-stock);
 }
 
 .tag-list {
@@ -599,6 +617,10 @@ section {
   background: linear-gradient(135deg, #b18ce8, #6c43a6);
 }
 
+.work-hero--stock {
+  background: linear-gradient(135deg, #7db8ea, #2a5a96);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -713,6 +735,10 @@ section {
   background: linear-gradient(135deg, #b18ce8, #6c43a6);
 }
 
+.work-sidebar--stock::before {
+  background: linear-gradient(135deg, #7db8ea, #2a5a96);
+}
+
 .work-sidebar-label {
   display: flex;
   align-items: center;
@@ -743,6 +769,10 @@ section {
 
 .work-sidebar--family .work-sidebar-label::before {
   background: var(--color-family);
+}
+
+.work-sidebar--stock .work-sidebar-label::before {
+  background: var(--color-stock);
 }
 
 .work-sidebar .tag-list {

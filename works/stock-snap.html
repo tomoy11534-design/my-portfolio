@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockSnap | Portfolio</title>
+  <meta name="description" content="家庭の日用品在庫を入出庫履歴から管理し、発注点を下回った商品についてClaude APIが購入数量・緊急度・コメントを提案するアプリ。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--stock">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>StockSnap</h1>
+        <p class="work-hero-lead">
+          トイレットペーパーや洗剤など家庭の日用品在庫を入出庫履歴から管理し、発注点を下回った商品については
+          Claude APIが購入数量・緊急度・コメントを提案するAIアシスタントアプリです。
+        </p>
+        <ul class="tag-list">
+          <li>日用品在庫管理</li>
+          <li>AI発注提案</li>
+          <li>ダッシュボードUI</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              家庭の日用品は「まだあると思っていたら切れていた」「気づいたら買いすぎていた」ということが起きやすく、
+              食材以上に在庫の把握が後回しになりがちです。StockSnapは入出庫の履歴を積み上げて現在庫を算出する設計により、
+              発注点を下回った商品を自動で検知し、Claude APIが過去の消費ペースから購入数量・緊急度・アドバイスコメントを
+              提案することで、買い忘れと買いすぎの両方を防ぐことを目指したアプリです。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>入出庫履歴による在庫管理</h3>
+                <p>購入・消費・調整などの入出庫履歴（stock_movements）を積み上げ、現在庫はビュー（stock_levels）で都度集計する設計。在庫数そのものを直接書き換えないため、履歴の整合性が崩れにくい。</p>
+              </div>
+              <div class="feature-card">
+                <h3>発注点による要購入判定</h3>
+                <p>商品ごとに設定した発注点を現在庫が下回ると「要購入」として一覧上にステータス表示し、買い忘れに気づきやすくする。</p>
+              </div>
+              <div class="feature-card">
+                <h3>Claude APIによる発注提案</h3>
+                <p>直近30日の平均消費数・在庫切れまでの推定日数をClaude APIに渡し、Tool useで購入数量・緊急度（low/medium/high）・日本語コメントを構造化データとして取得、履歴として保存する。</p>
+              </div>
+              <div class="feature-card">
+                <h3>ワンタップ在庫ステッパー</h3>
+                <p>一覧上の「－／＋」ボタンで入出庫をその場で記録。API応答を待たずに表示を先に増減させる楽観的更新で、体感速度を向上させている。</p>
+              </div>
+              <div class="feature-card">
+                <h3>レスポンシブダッシュボード</h3>
+                <p>同じ商品データをPC向けのテーブルとスマホ向けのカードの両方に描画し、CSSメディアクエリで表示を出し分けるフロントエンドフレームワーク未使用のシンプルな構成。</p>
+              </div>
+              <div class="feature-card">
+                <h3>商品追加モーダル・入力アシスト</h3>
+                <p>商品名入力欄にdatalistで既存商品名をサジェスト表示し、選択すると対応するカテゴリを自動反映。新規商品は初期在庫数を指定して登録できる。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              在庫データはORMを使わずpsycopg（生SQL）で扱い、入出庫履歴を積み上げて現在庫をビューで都度集計する設計にすることで、
+              在庫数の直接更新による不整合を防いでいます。AIへの提案依頼はTool useを強制する形で呼び出し、
+              数量・緊急度・コメントのスキーマを保証することでレスポンスのパース処理をシンプルに保ちました。
+              画面側もアプリの規模に対して過剰にならないよう、状態管理ライブラリ等は導入せず素のHTML/CSS/JavaScriptで実装しています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--stock">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>Python / FastAPI</li>
+            <li>PostgreSQL</li>
+            <li>Claude API (claude-sonnet-5)</li>
+            <li>Docker / Docker Compose</li>
+            <li>HTML / CSS / JavaScript</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">要件定義・DB設計・API実装・AI連携・画面デザインを担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="kakei-voice.html">← 前の作品：KakeiVoice</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
