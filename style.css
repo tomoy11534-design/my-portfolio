@@ -621,6 +621,10 @@ section {
   background: linear-gradient(135deg, #7db8ea, #2a5a96);
 }
 
+.work-hero--pocket {
+  background: linear-gradient(135deg, #8b98ec, #3f4fc4);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -739,6 +743,10 @@ section {
   background: linear-gradient(135deg, #7db8ea, #2a5a96);
 }
 
+.work-sidebar--pocket::before {
+  background: linear-gradient(135deg, #8b98ec, #3f4fc4);
+}
+
 .work-sidebar-label {
   display: flex;
   align-items: center;
@@ -773,6 +781,10 @@ section {
 
 .work-sidebar--stock .work-sidebar-label::before {
   background: var(--color-stock);
+}
+
+.work-sidebar--pocket .work-sidebar-label::before {
+  background: var(--color-pocket);
 }
 
 .work-sidebar .tag-list {

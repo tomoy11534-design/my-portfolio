@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketSub | Portfolio</title>
+  <meta name="description" content="日々のサブスクリプションを一覧・カテゴリ別に管理し、Claude APIが支出見直しを提案するサブスク管理SaaSアプリ。">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--pocket">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>PocketSub</h1>
+        <p class="work-hero-lead">
+          日々増えていくサブスクリプションを一覧・カテゴリ別に管理できるSaaSアプリです。今月の月額換算コストを自動計算し、
+          Claude APIが利用状況から支出見直しの提案を行うことで、無駄なサブスクの見落としを防ぎます。
+        </p>
+        <ul class="tag-list">
+          <li>サブスク管理</li>
+          <li>AI支出見直し提案</li>
+          <li>SaaS UI</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              動画配信やクラウドストレージ、音楽配信など契約するサブスクリプションが増えるほど、総額の把握や使っていないサービスの
+              見直しは後回しになりがちです。PocketSubはサブスクを一覧・カテゴリ別に整理し、月額・年額が混在する契約でも
+              月額換算した合計コストを自動計算する設計により、現状の支出を一目で把握できるようにしています。
+              さらにClaude APIが登録内容から利用頻度の低いサブスクや契約プランの見直しポイントを提案し、支出の最適化を後押しします。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>サブスク一覧・カテゴリ別管理</h3>
+                <p>動画配信・音楽配信・クラウドストレージなどカテゴリごとにサブスクを登録・分類し、一覧画面から契約状況を把握できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>月額換算コストの自動計算</h3>
+                <p>月払い・年払いが混在する契約を月額に換算し、カテゴリ別・全体の今月の合計支出をリアルタイムに集計して表示する。</p>
+              </div>
+              <div class="feature-card">
+                <h3>検索・並び替え</h3>
+                <p>サービス名やカテゴリでの絞り込み検索に加え、料金・次回更新日・登録日などの条件でサブスク一覧を並び替えられる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>Claude APIによる支出見直し提案</h3>
+                <p>登録済みサブスクの料金・利用頻度メモをClaude APIに渡し、解約候補やプラン見直し候補を理由付きで提案として受け取れる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>次回更新日のリマインド表示</h3>
+                <p>各サブスクの次回更新日を一覧上にハイライト表示し、更新が近いサービスに気づきやすくする。</p>
+              </div>
+              <div class="feature-card">
+                <h3>レスポンシブなダッシュボードUI</h3>
+                <p>Tailwind CSSでPC・スマホ双方に最適化したダッシュボードを構築し、合計コストや内訳をカードとグラフで可視化する。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              バックエンドはGoの標準パッケージ（net/http）のみで構成し、フレームワークに頼らずルーティングやミドルウェアを
+              最小限の実装で組み立てることで、依存関係が少なく見通しの良い設計を意識しました。
+              月額換算のようなドメインロジックはハンドラから切り離して関数化し、テストしやすい形にしています。
+              Claude APIへの提案依頼はTool useでレスポンスの構造（対象サブスク・理由・提案内容）を固定し、
+              画面側でのパース処理をシンプルに保っています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--pocket">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>Go (net/http)</li>
+            <li>PostgreSQL</li>
+            <li>Tailwind CSS</li>
+            <li>Claude API (claude-sonnet-5)</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">要件定義・DB設計・API実装・AI連携・画面デザインを担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="stock-snap.html">← 前の作品：StockSnap</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
