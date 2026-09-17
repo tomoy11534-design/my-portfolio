@@ -17,6 +17,8 @@
   --color-family-dark: #6c43a6;
   --color-stock: #3f7dc9;
   --color-stock-dark: #2a5a96;
+  --color-pocket: #5b6ee1;
+  --color-pocket-dark: #3f4fc4;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -385,6 +387,13 @@ section {
     linear-gradient(135deg, #a9d4f5 0%, #5fa0dd 45%, #2a5a96 100%);
 }
 
+.work-card-cover--pocket {
+  background-color: var(--color-pocket);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #c7cffa 0%, #7c8ce6 45%, #3f4fc4 100%);
+}
+
 .work-card-icon-tile {
   position: relative;
   z-index: 1;
@@ -438,6 +447,11 @@ section {
   color: var(--color-stock-dark);
 }
 
+.work-card--pocket .work-card-tag {
+  background: rgba(91, 110, 225, 0.12);
+  color: var(--color-pocket-dark);
+}
+
 .work-card h3 {
   font-size: 1.1rem;
   margin-bottom: 10px;
@@ -465,6 +479,10 @@ section {
 
 .work-card--stock .work-card-more {
   color: var(--color-stock);
+}
+
+.work-card--pocket .work-card-more {
+  color: var(--color-pocket);
 }
 
 .tag-list {
