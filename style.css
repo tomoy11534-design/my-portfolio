@@ -19,6 +19,10 @@
   --color-stock-dark: #2a5a96;
   --color-pocket: #5b6ee1;
   --color-pocket-dark: #3f4fc4;
+  --color-shizai: #4f8f3a;
+  --color-shizai-dark: #36692a;
+  --color-voice: #d9577a;
+  --color-voice-dark: #b13a5c;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -394,6 +398,20 @@ section {
     linear-gradient(135deg, #c7cffa 0%, #7c8ce6 45%, #3f4fc4 100%);
 }
 
+.work-card-cover--shizai {
+  background-color: var(--color-shizai);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #cfe9b4 0%, #7fbf5c 45%, #36692a 100%);
+}
+
+.work-card-cover--voice {
+  background-color: var(--color-voice);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #f8c6d3 0%, #e7829d 45%, #b13a5c 100%);
+}
+
 .work-card-icon-tile {
   position: relative;
   z-index: 1;
@@ -452,6 +470,16 @@ section {
   color: var(--color-pocket-dark);
 }
 
+.work-card--shizai .work-card-tag {
+  background: rgba(79, 143, 58, 0.12);
+  color: var(--color-shizai-dark);
+}
+
+.work-card--voice .work-card-tag {
+  background: rgba(217, 87, 122, 0.12);
+  color: var(--color-voice-dark);
+}
+
 .work-card h3 {
   font-size: 1.1rem;
   margin-bottom: 10px;
@@ -483,6 +511,14 @@ section {
 
 .work-card--pocket .work-card-more {
   color: var(--color-pocket);
+}
+
+.work-card--shizai .work-card-more {
+  color: var(--color-shizai);
+}
+
+.work-card--voice .work-card-more {
+  color: var(--color-voice);
 }
 
 .tag-list {
@@ -643,6 +679,14 @@ section {
   background: linear-gradient(135deg, #8b98ec, #3f4fc4);
 }
 
+.work-hero--shizai {
+  background: linear-gradient(135deg, #8cc76a, #36692a);
+}
+
+.work-hero--voice {
+  background: linear-gradient(135deg, #ee93ab, #b13a5c);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -765,6 +809,14 @@ section {
   background: linear-gradient(135deg, #8b98ec, #3f4fc4);
 }
 
+.work-sidebar--shizai::before {
+  background: linear-gradient(135deg, #8cc76a, #36692a);
+}
+
+.work-sidebar--voice::before {
+  background: linear-gradient(135deg, #ee93ab, #b13a5c);
+}
+
 .work-sidebar-label {
   display: flex;
   align-items: center;
@@ -803,6 +855,14 @@ section {
 
 .work-sidebar--pocket .work-sidebar-label::before {
   background: var(--color-pocket);
+}
+
+.work-sidebar--shizai .work-sidebar-label::before {
+  background: var(--color-shizai);
+}
+
+.work-sidebar--voice .work-sidebar-label::before {
+  background: var(--color-voice);
 }
 
 .work-sidebar .tag-list {

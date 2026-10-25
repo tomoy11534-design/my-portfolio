@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資材ノート | Portfolio</title>
+  <meta name="description" content="肥料・農薬・包装資材の在庫と購入単価の履歴を家族で共有し、前年比・3年前比や全国の物価データとの比較で値上がりを把握できる農業資材管理アプリ。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--shizai">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>資材ノート</h1>
+        <p class="work-hero-lead">
+          肥料・農薬・包装資材などの在庫数と金額を、パソコンやスマホから家族と一緒に確認・更新できる農業資材の管理アプリです。
+          購入単価の履歴から前年比・3年前比を自動で計算し、農林水産省の全国物価データと比べることで、値上がりの状況をひと目で把握できます。
+        </p>
+        <ul class="tag-list">
+          <li>農業資材の在庫管理</li>
+          <li>価格変動の分析</li>
+          <li>家族でリアルタイム共有</li>
+        </ul>
+        <a href="https://shizai-note.vercel.app" class="button button-ghost work-hero-link" target="_blank" rel="noopener">実際のサイトを見る ↗</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              肥料や農薬などの農業資材は年々値上がりしていますが、紙の明細やメモだけでは「去年と比べてどれだけ上がったか」「全国の相場より高く買っていないか」を
+              判断するのは難しいものです。資材ノートは入庫のたびに購入日・単価・数量・購入先を価格の履歴として蓄積し、年平均単価から前年比・3年前比を自動で算出します。
+              さらに農林水産省「農業物価統計調査」の価格指数と品目別の全国平均価格を毎月自動で取り込み、自分の仕入れ値と全国の値動きを並べて比べられるようにしました。
+              在庫・発注の目安・使用期限・取扱説明書もまとめて管理でき、家族の誰かが更新するとほかの家族の画面にもすぐ反映されます。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>在庫管理と入出庫・棚卸し</h3>
+                <p>一覧の＋／−ボタンで1タップ増減、入庫・出庫で数量や購入単価を記録。棚卸しでは実際の数を入力し、帳簿との差だけをまとめて反映する。</p>
+              </div>
+              <div class="feature-card">
+                <h3>価格の履歴と変動率の自動計算</h3>
+                <p>購入記録から年平均単価・前年比・3年前比を算出し、価格推移グラフや変動一覧表で表示。値上がりは赤の↑、値下がりは青の↓で色だけに頼らず示す。</p>
+              </div>
+              <div class="feature-card">
+                <h3>全国の物価データとの比較</h3>
+                <p>農林水産省の機械判読用Excelを毎月自動取得し、17系列の価格指数と166品目の全国平均価格を保存。自分の単価と重ねてグラフで比べられる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>資材の辞書と取扱説明書</h3>
+                <p>用途・特徴・使い方・注意点・対象の作物を資材ごとに記録し、PDFや写真の取扱説明書を一括管理。スマホではカメラで撮影して登録できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>注意表示と毎朝のメール通知</h3>
+                <p>在庫切れ・残りわずか・期限間近・値上がり注意・全国より高めを画面上部にまとめて表示し、発注や期限に注意が必要な資材は毎朝メールで家族に知らせる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>家族共有とスプレッドシート連携</h3>
+                <p>招待した家族だけがデータを閲覧・更新でき、変更はリアルタイムに同期。JAのお買上げ明細はGoogleスプレッドシートから「過去の購入」として一括で取り込める。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              家族が同時に操作しても在庫数がずれないよう、＋／−や入出庫は「今の数に足す・引く」形でデータベース側の関数として処理し、
+              編集中に他の人が同じ資材を更新した場合は上書き前に知らせるようにしました。データは農園ごとに行単位のアクセス制限（RLS）で守り、
+              取扱説明書のファイルも1時間だけ有効なURLで表示しています。起動時に必要なデータをまとめて読み込み、前回のデータを端末に残しておくことで、
+              検索・絞り込み・グラフ・タブ切り替えを通信なしで素早く行えるようにしました。全国データの取得や明細の取り込みといった計算ロジックは関数に切り出し、
+              Vitestでテストを書いて、農林水産省のExcel形式や返品を含む明細などのケースを確認しています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--shizai">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>SvelteKit (Svelte 5)</li>
+            <li>TypeScript</li>
+            <li>Supabase (PostgreSQL / Auth / Storage / Realtime)</li>
+            <li>Chart.js</li>
+            <li>Vercel / Vercel Cron</li>
+            <li>Google Apps Script</li>
+            <li>Vitest</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">要件定義・DB設計・画面設計・実装・外部データ連携・テスト・公開を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="pocket-sub.html">← 前の作品：PocketSub</a>
+        <a href="voice-fix.html">次の作品：VoiceFix →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

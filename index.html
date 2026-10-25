@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio | Web制作作品集</title>
-  <meta name="description" content="料理教室サイト・在庫管理アプリ・家族共有アプリ・AI在庫管理アプリ・サブスク管理SaaSなど、制作した5つの作品を紹介するポートフォリオサイトです。">
+  <meta name="description" content="料理教室サイト・在庫管理アプリ・家族共有アプリ・AI在庫管理アプリ・サブスク管理SaaS・農業資材管理アプリ・音声メモPWAなど、制作した7つの作品を紹介するポートフォリオサイトです。">
   <link rel="stylesheet" href="style.css">
   <!-- Googleアナリティクス（GA4） -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
@@ -39,8 +39,8 @@
         <p class="hero-eyebrow">Web Developer Portfolio</p>
         <h1>使う人の<span class="hero-highlight">毎日に寄り添う</span><br>サービスをつくる</h1>
         <p class="hero-lead">
-          料理教室のWebサイトから食材の在庫管理アプリ、家族で使う音声入力システム、AIが発注提案する日用品の在庫管理アプリ、AIが支出を提案するサブスク管理SaaSまで。
-          企画・UI設計・実装を担当した5つの制作物を紹介します。
+          料理教室のWebサイトから食材の在庫管理アプリ、家族で使う音声入力システム、AIが発注提案する日用品の在庫管理アプリ、AIが支出を提案するサブスク管理SaaS、農家の資材と値上がりを管理するアプリ、毎日の困りごとを声で集めるPWAまで。
+          企画・UI設計・実装を担当した7つの制作物を紹介します。
         </p>
         <a href="#works" class="button button-primary">作品を見る <span class="hero-arrow">↓</span></a>
       </div>
@@ -52,7 +52,7 @@
         <div class="section-head">
           <p class="section-eyebrow">Works</p>
           <h2 class="section-title">制作物</h2>
-          <p class="section-lead">それぞれ異なる課題に向けて設計した5つのプロジェクトです。</p>
+          <p class="section-lead">それぞれ異なる課題に向けて設計した7つのプロジェクトです。</p>
         </div>
 
         <div class="work-grid">
@@ -161,6 +161,52 @@
                   <li>PostgreSQL</li>
                   <li>Tailwind CSS</li>
                   <li>Claude API</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 6. 資材ノート -->
+          <article class="work-card work-card--shizai">
+            <a href="works/shizai-note.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--shizai">
+                <span class="work-card-icon-tile" aria-hidden="true">🌾</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">農業資材管理アプリ</span>
+                <h3>資材ノート</h3>
+                <p class="work-card-desc">
+                  肥料・農薬・包装資材の在庫と金額を家族で共有できるWebアプリ。購入単価の履歴から前年比・3年前比を自動計算し、農林水産省の全国物価データと比べて値上がりをひと目で把握できる。
+                </p>
+                <ul class="tag-list">
+                  <li>SvelteKit / TypeScript</li>
+                  <li>Supabase</li>
+                  <li>Vercel Cron</li>
+                  <li>Google Apps Script</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 7. VoiceFix -->
+          <article class="work-card work-card--voice">
+            <a href="works/voice-fix.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--voice">
+                <span class="work-card-icon-tile" aria-hidden="true">💬</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">困りごと音声メモPWA</span>
+                <h3>VoiceFix</h3>
+                <p class="work-card-desc">
+                  「今日の困りごと、ひとこと話すだけ」。音声で毎日の困りごとを投稿し、運営者のスプレッドシートに集めるPWA。キーワードによる分野・困り度の自動選択やカレンダー、ランキングで毎日の記録を後押しする。運用費0円。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS / JavaScript</li>
+                  <li>Web Speech API</li>
+                  <li>Google Apps Script</li>
+                  <li>PWA</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>

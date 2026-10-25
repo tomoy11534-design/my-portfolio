@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoiceFix | Portfolio</title>
+  <meta name="description" content="毎日の困りごとを声でひとこと投稿し、運営者のGoogleスプレッドシートに集める運用費0円の音声メモPWA。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--voice">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>VoiceFix</h1>
+        <p class="work-hero-lead">
+          「今日の困りごと、ひとこと話すだけ」をコンセプトに、毎日の困りごとを声で投稿してもらい、運営者のGoogleスプレッドシートに集めるPWAです。
+          「何に困っているのか」を知るためのデータを、入力の手間を最小限にしながら毎日続けて集められるよう設計しました。開発・運用ともに費用0円です。
+        </p>
+        <ul class="tag-list">
+          <li>音声入力</li>
+          <li>毎日続けられる仕組み</li>
+          <li>運用費0円</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              困りごとを聞き取るアンケートは、手間がかかるほど続かなくなります。VoiceFixはアプリを開くとすぐにマイクボタンが画面中央に表示され、
+              「マイクをタップ → 話す → 送信」の3タップ以内で投稿が完了します。音声はブラウザ標準のWeb Speech APIでリアルタイムに文字起こしし、
+              キーボードでの修正とも自由に組み合わせられます。投稿はGoogle Apps Script経由でスプレッドシートに1行ずつ保存され、
+              運営者は並べ替えや絞り込み、CSVでのAI分析などで困りごとの傾向を把握できます。投稿者側では自分の記録をカレンダーやランキングで振り返れます。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>音声入力＋手入力</h3>
+                <p>マイクボタンのタップで録音を開始し、話した内容をカーソル位置に追記。音声認識が使えないブラウザではマイクを隠し、手入力だけで使える。</p>
+              </div>
+              <div class="feature-card">
+                <h3>分野・困り度の自動選択</h3>
+                <p>「エアコン」→家電・機器、「最悪」→すごく、のように話した言葉のキーワードから分野と困り度を端末内で自動選択。自分で選び直した項目は上書きしない。</p>
+              </div>
+              <div class="feature-card">
+                <h3>スタンプカード風カレンダー</h3>
+                <p>投稿した日に印がつく月カレンダーと、毎回少しずつ違う褒め言葉で記録を後押し。「困りごとなし」ボタンで何もない日もワンタップで記録できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>困りごとランキング</h3>
+                <p>今週／今月／全期間で分野別ランキングと、Intl.Segmenterで単語に分けた「よく出る言葉」上位10語を表示。集計は端末内で行い通信不要。</p>
+              </div>
+              <div class="feature-card">
+                <h3>リマインダーとホーム画面追加</h3>
+                <p>毎日決まった時刻に通知される.icsファイルをスマホのカレンダーに登録でき、PWAとしてホーム画面からアプリのように起動できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>オフライン時の自動再送</h3>
+                <p>通信できないときは端末に一時保存し、次に開いたときに自動で再送。投稿IDで重複を防ぎ、スプレッドシートに同じ投稿が二重に入らない。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              「毎日続けてもらうこと」を最優先にし、分野や困り度は選ばなくても送信できる任意項目にしたうえで、キーワードによる自動選択で手間をかけずにデータの質を上げました。
+              有料のAI APIは使わず、文字起こしはWeb Speech API、保存はGoogleスプレッドシートとApps Script、公開はGitHub Pagesという構成で、サーバーを持たずに運用費0円を実現しています。
+              Apps Scriptのウェブアプリは投稿の追加だけを受け付け、中身を返す処理を持たせないことで、スプレッドシートを運営者だけが見られる状態に保ちました。
+              音声そのものは保存せず文字だけを送るなど、プライバシーにも配慮しています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--voice">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>Web Speech API</li>
+            <li>PWA (Service Worker)</li>
+            <li>Google Apps Script</li>
+            <li>Google スプレッドシート</li>
+            <li>GitHub Pages</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">企画・要件定義・画面設計・実装・データ連携・公開と運用を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="shizai-note.html">← 前の作品：資材ノート</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
