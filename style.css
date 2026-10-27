@@ -23,8 +23,8 @@
   --color-shizai-dark: #36692a;
   --color-voice: #d9577a;
   --color-voice-dark: #b13a5c;
-  --color-invoice: #4f6577;
-  --color-invoice-dark: #344756;
+  --color-invoice: #c08a1e;
+  --color-invoice-dark: #8a5f0c;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -418,7 +418,7 @@ section {
   background-color: var(--color-invoice);
   background-image:
     radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
-    linear-gradient(135deg, #d3dde6 0%, #8299ad 45%, #344756 100%);
+    linear-gradient(135deg, #f6d98a 0%, #dfa93a 45%, #8a5f0c 100%);
 }
 
 .work-card-icon-tile {
@@ -460,7 +460,7 @@ section {
 }
 
 .work-card--fridge .work-card-tag {
-  background: rgba(79, 101, 119, 0.12);
+  background: rgba(192, 138, 30, 0.14);
   color: var(--color-fridge-dark);
 }
 
@@ -490,7 +490,7 @@ section {
 }
 
 .work-card--invoice .work-card-tag {
-  background: rgba(79, 101, 119, 0.12);
+  background: rgba(192, 138, 30, 0.14);
   color: var(--color-invoice-dark);
 }
 
@@ -706,7 +706,7 @@ section {
 }
 
 .work-hero--invoice {
-  background: linear-gradient(135deg, #94a8b9, #344756);
+  background: linear-gradient(135deg, #e2b545, #8a5f0c);
 }
 
 .work-back {
@@ -840,7 +840,7 @@ section {
 }
 
 .work-sidebar--invoice::before {
-  background: linear-gradient(135deg, #94a8b9, #344756);
+  background: linear-gradient(135deg, #e2b545, #8a5f0c);
 }
 
 .work-sidebar-label {
