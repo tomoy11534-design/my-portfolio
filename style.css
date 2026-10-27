@@ -23,6 +23,8 @@
   --color-shizai-dark: #36692a;
   --color-voice: #d9577a;
   --color-voice-dark: #b13a5c;
+  --color-invoice: #4f6577;
+  --color-invoice-dark: #344756;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -412,6 +414,13 @@ section {
     linear-gradient(135deg, #f8c6d3 0%, #e7829d 45%, #b13a5c 100%);
 }
 
+.work-card-cover--invoice {
+  background-color: var(--color-invoice);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #d3dde6 0%, #8299ad 45%, #344756 100%);
+}
+
 .work-card-icon-tile {
   position: relative;
   z-index: 1;
@@ -451,7 +460,7 @@ section {
 }
 
 .work-card--fridge .work-card-tag {
-  background: rgba(47, 143, 138, 0.12);
+  background: rgba(79, 101, 119, 0.12);
   color: var(--color-fridge-dark);
 }
 
@@ -478,6 +487,11 @@ section {
 .work-card--voice .work-card-tag {
   background: rgba(217, 87, 122, 0.12);
   color: var(--color-voice-dark);
+}
+
+.work-card--invoice .work-card-tag {
+  background: rgba(79, 101, 119, 0.12);
+  color: var(--color-invoice-dark);
 }
 
 .work-card h3 {
@@ -519,6 +533,10 @@ section {
 
 .work-card--voice .work-card-more {
   color: var(--color-voice);
+}
+
+.work-card--invoice .work-card-more {
+  color: var(--color-invoice);
 }
 
 .tag-list {
@@ -687,6 +705,10 @@ section {
   background: linear-gradient(135deg, #ee93ab, #b13a5c);
 }
 
+.work-hero--invoice {
+  background: linear-gradient(135deg, #94a8b9, #344756);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -817,6 +839,10 @@ section {
   background: linear-gradient(135deg, #ee93ab, #b13a5c);
 }
 
+.work-sidebar--invoice::before {
+  background: linear-gradient(135deg, #94a8b9, #344756);
+}
+
 .work-sidebar-label {
   display: flex;
   align-items: center;
@@ -863,6 +889,10 @@ section {
 
 .work-sidebar--voice .work-sidebar-label::before {
   background: var(--color-voice);
+}
+
+.work-sidebar--invoice .work-sidebar-label::before {
+  background: var(--color-invoice);
 }
 
 .work-sidebar .tag-list {

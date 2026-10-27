@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>かんたん請求書（デモ） | Portfolio</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- デモ版の案内（印刷時は非表示） -->
+  <div class="demo-banner no-print">
+    <p>これはデモ版です。表示している農園・お客さん・口座はすべて架空です。入力した内容はこのブラウザの中だけに保存されます。</p>
+    <div class="demo-banner-actions">
+      <button type="button" id="btn-demo-reset">最初の状態に戻す</button>
+      <a href="../../works/invoice-tool.html">作品紹介へ戻る</a>
+    </div>
+  </div>
+
+  <!-- 操作ボタン（印刷時は非表示） -->
+  <div class="toolbar no-print">
+    <button type="button" id="btn-new">新規作成</button>
+    <button type="button" id="btn-print" class="primary">印刷</button>
+    <button type="button" id="btn-pdf">PDFを保存</button>
+    <button type="button" id="btn-share" hidden>送る（メールなど）</button>
+  </div>
+
+  <!-- お客さん・品目ボタン（タップで請求書に入る） -->
+  <section class="panel no-print">
+    <div class="panel-title-row">
+      <h2 class="panel-title">お客さんを選ぶ</h2>
+      <input id="customer-filter" class="filter" type="search" placeholder="名前で絞り込み" aria-label="お客さんを名前で絞り込み">
+    </div>
+    <div class="quick-buttons" id="customer-buttons"></div>
+
+    <h2 class="panel-title panel-title-spaced">品目をタップして追加</h2>
+    <div class="quick-buttons" id="quick-buttons"></div>
+    <p class="hint">同じ品目をもう一度押すと数量が1つ増えます。品目や金額は下の「品目の設定」で変えられます。</p>
+  </section>
+
+  <main class="sheet">
+    <h1>請求書</h1>
+
+    <div class="head">
+      <div class="head-left">
+        <p class="shop" contenteditable="plaintext-only" data-key="shopName" data-placeholder="（お店・屋号の名前）"></p>
+        <p class="client">宛名：<input class="fill" id="client" data-key="client" list="client-list" placeholder="お名前を入力">様</p>
+        <datalist id="client-list"></datalist>
+        <p class="client-address" contenteditable="plaintext-only" data-key="clientAddress" data-placeholder="（住所・電話：載せたいときだけ）"></p>
+      </div>
+      <dl class="head-right">
+        <div><dt>請求番号</dt><dd contenteditable="plaintext-only" data-key="number"></dd></div>
+        <div><dt>発行日</dt><dd contenteditable="plaintext-only" data-key="issueDate"></dd></div>
+        <div><dt>お支払期限</dt><dd contenteditable="plaintext-only" data-key="due" data-placeholder="（例：到着から3日以内）"></dd></div>
+        <div><dt>発行者住所</dt><dd contenteditable="plaintext-only" data-key="address" data-placeholder="（あなたの住所）"></dd></div>
+        <div><dt>連絡先</dt><dd contenteditable="plaintext-only" data-key="tel" data-placeholder="（電話番号）"></dd></div>
+      </dl>
+    </div>
+
+    <div class="amount-bar">
+      <span class="amount-label">ご請求金額</span>
+      <span class="amount-value" id="grand-total">0円</span>
+    </div>
+
+    <h2>明細</h2>
+    <table class="items">
+      <colgroup>
+        <col class="c-name"><col class="c-qty"><col class="c-price"><col class="c-amount"><col class="c-del no-print">
+      </colgroup>
+      <thead>
+        <tr><th>品名</th><th>数量</th><th>単価</th><th>金額</th><th class="no-print"></th></tr>
+      </thead>
+      <tbody id="item-rows"></tbody>
+      <tfoot>
+        <tr><td colspan="4">合計<span id="sum-total">0円</span></td><td class="no-print"></td></tr>
+      </tfoot>
+    </table>
+    <button type="button" id="btn-add" class="no-print add-row">＋ 行を追加</button>
+    <datalist id="product-list"></datalist>
+
+    <h2>振込先</h2>
+    <table class="bank">
+      <tr><th>銀行名</th><td contenteditable="plaintext-only" data-key="bankName" data-placeholder="（銀行名）"></td></tr>
+      <tr><th>支店名</th><td contenteditable="plaintext-only" data-key="branch" data-placeholder="（支店名）"></td></tr>
+      <tr><th>口座種別</th><td contenteditable="plaintext-only" data-key="accountType" data-placeholder="（普通・当座）"></td></tr>
+      <tr><th>口座番号</th><td contenteditable="plaintext-only" data-key="accountNo" data-placeholder="（口座番号）"></td></tr>
+      <tr><th>口座名義</th><td contenteditable="plaintext-only" data-key="accountName" data-placeholder="（口座名義）"></td></tr>
+    </table>
+    <p class="note" contenteditable="plaintext-only" data-key="note" data-placeholder="（ほかの支払い方法やひとこと：不要なら空欄）"></p>
+  </main>
+
+  <!-- 品目の設定 -->
+  <details class="panel no-print">
+    <summary class="panel-title">品目の設定（作物・金額・送料）</summary>
+    <div class="product-head">
+      <span>区分</span><span>品名</span><span>単位</span><span>単価（円）</span><span></span>
+    </div>
+    <div id="product-editor"></div>
+    <button type="button" id="btn-add-product" class="add-row">＋ 品目を追加</button>
+  </details>
+
+  <!-- お客さん名簿 -->
+  <details class="panel no-print">
+    <summary class="panel-title">お客さん名簿</summary>
+    <p class="hint">登録すると、上の「お客さんを選ぶ」にボタンが出ます。「請求書に住所を載せる」にチェックすると、宛名の下に住所と電話番号が印刷されます。</p>
+    <div id="customer-editor"></div>
+    <div class="history-actions">
+      <button type="button" id="btn-add-customer">＋ お客さんを追加</button>
+      <button type="button" id="btn-add-current-customer">今の宛名を名簿に追加</button>
+    </div>
+  </details>
+
+  <!-- Googleスプレッドシート連携 -->
+  <details class="panel no-print" id="sheet-panel">
+    <summary class="panel-title">Googleスプレッドシート連携</summary>
+    <p class="hint">Apps Script をデプロイしたときの「ウェブアプリのURL」を貼り付けて「接続テスト」を押してください。設定後は、発行するたびに「発行履歴」シートへ自動で追加されます。</p>
+    <div class="sheet-setting">
+      <input id="sheet-url" type="url" placeholder="https://script.google.com/macros/s/…/exec" aria-label="ウェブアプリのURL">
+      <button type="button" id="btn-sheet-test">接続テスト</button>
+    </div>
+    <p class="sheet-status" id="sheet-status"></p>
+  </details>
+
+  <!-- 発行履歴（スプレッドシート管理用） -->
+  <section class="panel no-print">
+    <h2 class="panel-title">発行履歴</h2>
+    <p class="hint">印刷・PDF保存・送信をすると自動で記録されます。Googleスプレッドシート連携を設定していれば、スプレッドシートにも自動で追加されます。連携していないときやうまく送れないときは、「スプレッドシートに貼る用にコピー」で手動で貼り付けられます（まだ転記していない分だけコピーされます）。</p>
+    <div class="history-actions">
+      <button type="button" id="btn-copy-new" class="primary">スプレッドシートに貼る用にコピー</button>
+      <button type="button" id="btn-csv">全件をCSVで保存</button>
+    </div>
+    <div class="table-scroll">
+      <table class="history">
+        <thead>
+          <tr><th>請求番号</th><th>発行日</th><th>宛名</th><th>合計</th><th>方法</th><th>転記</th><th></th></tr>
+        </thead>
+        <tbody id="history-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- バックアップ -->
+  <details class="panel no-print">
+    <summary class="panel-title">バックアップ</summary>
+    <p class="hint">品目・お客さん名簿・発行履歴・自分の情報・連携の設定は、このPCのブラウザの中だけに保存されています。ときどき「バックアップを保存」をしておくと、PCを買い替えたときやデータが消えたときに「バックアップから復元」で元に戻せます。</p>
+    <div class="history-actions">
+      <button type="button" id="btn-backup" class="primary">バックアップを保存</button>
+      <label class="file-button" for="restore-file">バックアップから復元</label>
+      <input type="file" id="restore-file" accept="application/json,.json" hidden>
+    </div>
+    <p class="hint" id="backup-status"></p>
+  </details>
+
+  <div class="toast no-print" id="toast" role="status"></div>
+
+  <!-- PDF作成用ライブラリ（インターネット接続が必要） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

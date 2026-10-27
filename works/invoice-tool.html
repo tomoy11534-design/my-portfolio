@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>かんたん請求書 | Portfolio</title>
+  <meta name="description" content="農家の直販向けに、品目とお客さんをタップするだけで請求書を作り、印刷・PDF保存・送信のたびにGoogleスプレッドシートへ発行履歴を自動で記録するWebツール。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--invoice">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>かんたん請求書</h1>
+        <p class="work-hero-lead">
+          お米や野菜を直接販売している農家向けに、品目とお客さんをタップするだけで請求書を作れるWebツールです。
+          印刷・PDF保存・送信のたびに発行履歴を記録し、Googleスプレッドシートへ自動で追加するので、請求と入金の管理をひとつの表で続けられます。
+        </p>
+        <ul class="tag-list">
+          <li>業務の効率化</li>
+          <li>スプレッドシート連携</li>
+          <li>パソコンが苦手な人でも使える画面</li>
+        </ul>
+        <a href="../demos/invoice/" class="button button-ghost work-hero-link" target="_blank" rel="noopener">デモを見る（架空のデータ） ↗</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              手書きやExcelの請求書は、毎回お客さんの名前や品目、金額を打ち直す必要があり、発行した記録も散らばりがちです。
+              かんたん請求書では、よく使う品目とお客さんをボタンとして登録しておき、タップするだけで明細と宛名が入ります。
+              金額と合計は自動で計算され、請求番号も年ごとに自動で振られます。発行した請求書は履歴に残り、Google Apps Script を通して
+              スプレッドシートの「発行履歴」シートに作物代・送料・合計を分けて記録されるので、入金の確認もその表で行えます。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>タップで明細を作成</h3>
+                <p>登録した品目のボタンを押すと明細に追加され、同じ品目をもう一度押すと数量が1つ増える。品名を手で入力したときも、登録済みなら単位と単価を自動で入れる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>お客さん名簿</h3>
+                <p>お客さんを登録してボタンから宛名を選べる。住所と電話番号を請求書に載せるかどうかもお客さんごとに設定でき、名前での絞り込みにも対応。</p>
+              </div>
+              <div class="feature-card">
+                <h3>印刷・PDF保存・送信</h3>
+                <p>A4に収まる請求書を印刷またはPDFで保存。ファイル名は「請求書_宛名様_日付」に自動で設定され、対応する端末では共有画面からメールに添付して送れる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>発行履歴と再発行</h3>
+                <p>発行した請求書を自動で記録し、「同じ内容で作る」で新しい番号の請求書をすぐ作れる。過去の請求書を開いて再印刷や修正もできる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>スプレッドシートへ自動記録</h3>
+                <p>発行のたびにApps Scriptのウェブアプリへ送り、作物代と送料を分けて1行ずつ追加。送れなかった分は次に開いたときに再送し、手動コピーやCSV保存にも対応。</p>
+              </div>
+              <div class="feature-card">
+                <h3>バックアップと復元</h3>
+                <p>データはブラウザの中に保存し、品目・名簿・履歴・設定をまとめてファイルに保存できる。PCを買い替えたときも内容を確認してから復元できる。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              パソコンに慣れていない人でも迷わないよう、操作はボタンを押すことを中心にし、誤操作しやすい削除や未発行の請求書を消す操作は、確認ダイアログの代わりに
+              「3秒以内にもう一度押したら実行」にしました。スプレッドシートへの書き込みは合言葉で守り、同時に書き込まれても行が重ならないようロックをかけたうえで、
+              同じ請求番号の行は上書きし、入金確認の列は書き換えないようにしています。サーバーを持たずにブラウザとGoogleスプレッドシートだけで動くため、運用費はかかりません。
+              通信できないときやPDF作成用のライブラリが読めないときは、手動コピーや印刷画面に切り替えて、請求書を出せない状態にならないようにしました。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--invoice">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>Google Apps Script</li>
+            <li>Google スプレッドシート</li>
+            <li>html2canvas / jsPDF</li>
+            <li>Web Share API</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">企画・画面設計・実装・スプレッドシート連携を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="voice-fix.html">← 前の作品：VoiceFix</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
