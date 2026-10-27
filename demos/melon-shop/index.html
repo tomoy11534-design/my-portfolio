@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>みどりメロン農園（デモ）｜旭メロン（ラブコールメロン）</title>
+  <meta name="description" content="みどりメロン農園（デモ）の旭メロン（ラブコールメロン）通販。寒暖差の大きい盆地で育った、果汁たっぷりで上品な甘さのメロンです。">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 手書き風アイコン定義 -->
+  <svg class="icon-sprite" aria-hidden="true">
+    <defs>
+      <!-- 線をわずかにゆらして手描き感を出すフィルター -->
+      <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4"/>
+        <feDisplacementMap in="SourceGraphic" scale="1.8"/>
+      </filter>
+      <!-- 色鉛筆の塗りムラ用の斜線 -->
+      <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)">
+        <path d="M0 1.2h7M0 4.6h7" stroke="#fff" stroke-width="1.3" stroke-opacity="0.75" stroke-linecap="round"/>
+      </pattern>
+      <pattern id="hatch2" width="11" height="11" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+        <path d="M0 3h11M0 8.5h11" stroke="#fff" stroke-width="0.9" stroke-opacity="0.6" stroke-linecap="round"/>
+      </pattern>
+    </defs>
+    <symbol id="i-melon" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M10 27c0-9 7-15 15-15s14 6 14 14-6 15-15 15S10 36 10 27z"/><path fill="url(#hatch)" stroke="none" d="M10 27c0-9 7-15 15-15s14 6 14 14-6 15-15 15S10 36 10 27z"/><path fill="url(#hatch2)" stroke="none" d="M10 27c0-9 7-15 15-15s14 6 14 14-6 15-15 15S10 36 10 27z"/>
+      <path fill="none" d="M8 26c0-9.5 7-16 16-16 8.5 0 15.5 6.5 15.5 15.5S32.5 41 23.5 41C15 41 8 35 8 26z"/>
+      <path fill="none" stroke="#f7fbe8" d="M13 18c5 4 13 12 18 20M20 12c-1 7 2 19 8 27M35 17c-6 3-17 12-22 20M39 27c-8 0-19 4-27 8"/>
+      <path fill="none" d="M24 10c0-3 1-5 3-6M27 6c3-1 6 0 7 2"/>
+    </symbol>
+    <symbol id="i-cart" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M14 16h28l-4 14H18z"/><path fill="url(#hatch)" stroke="none" d="M14 16h28l-4 14H18z"/><path fill="url(#hatch2)" stroke="none" d="M14 16h28l-4 14H18z"/>
+      <path fill="none" d="M4 8h6l6 24h22M12 15h30l-4 14H16"/>
+      <path fill="none" d="M16 39c0-2 1.5-3.2 3-3.2s3 1.3 3 3.2-1.4 3-3 3-3-1-3-3zM32 39c0-2 1.5-3.2 3-3.2s3 1.3 3 3.2-1.4 3-3 3-3-1-3-3z"/>
+    </symbol>
+    <symbol id="i-hall" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M8 20L25 9l16 11z"/><path fill="url(#hatch)" stroke="none" d="M8 20L25 9l16 11z"/><path fill="url(#hatch2)" stroke="none" d="M8 20L25 9l16 11z"/>
+      <path fill="none" d="M6 19L24 7l18 12zM9 41h31M7 44h35M12 22v17M20 22v17M28 22v17M36 22v17"/>
+    </symbol>
+    <symbol id="i-sprout" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M25 26c-1-8 5-14 15-14 0 9-6 15-15 14zM23 28c-1-7-7-11-15-11 0 8 6 12 15 11z"/><path fill="url(#hatch)" stroke="none" d="M25 26c-1-8 5-14 15-14 0 9-6 15-15 14zM23 28c-1-7-7-11-15-11 0 8 6 12 15 11z"/><path fill="url(#hatch2)" stroke="none" d="M25 26c-1-8 5-14 15-14 0 9-6 15-15 14zM23 28c-1-7-7-11-15-11 0 8 6 12 15 11z"/>
+      <path fill="none" d="M24 42V26M24 26c0-9 6-14 15-14-1 9-6 14-15 14zM24 29c-1-7-7-11-15-11 0 8 6 12 15 11zM8 42c10-1 22-1 32 0"/>
+    </symbol>
+    <symbol id="i-gift" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M10 22h30v19H10z"/><path fill="url(#hatch)" stroke="none" d="M10 22h30v19H10z"/><path fill="url(#hatch2)" stroke="none" d="M10 22h30v19H10z"/>
+      <path fill="none" d="M8 20h32v6H8zM10 26v15h28V26M24 20v21M24 20c-4-1-9-4-8-8 1-3 6-2 8 8zM24 20c4-1 9-4 8-8-1-3-6-2-8 8z"/>
+    </symbol>
+    <symbol id="i-truck" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M6 14h22v20H6z"/><path fill="url(#hatch)" stroke="none" d="M6 14h22v20H6z"/><path fill="url(#hatch2)" stroke="none" d="M6 14h22v20H6z"/>
+      <path fill="none" d="M4 12h24v21H4zM28 19h8l7 8v6H28"/>
+      <path fill="none" d="M8.5 36c0-2 1.5-3.5 3.5-3.5s3.5 1.5 3.5 3.5-1.6 3.5-3.5 3.5-3.5-1.5-3.5-3.5zM31.5 36c0-2 1.5-3.5 3.5-3.5s3.5 1.5 3.5 3.5-1.6 3.5-3.5 3.5-3.5-1.5-3.5-3.5z"/>
+    </symbol>
+    <symbol id="i-card" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M8 14h34v22H8z"/><path fill="url(#hatch)" stroke="none" d="M8 14h34v22H8z"/><path fill="url(#hatch2)" stroke="none" d="M8 14h34v22H8z"/>
+      <path fill="none" d="M5 12h37v24H5zM5 19h37M10 29h9"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M17 25c0-5 3.5-8.5 8-8.5s8.5 3.5 8.5 8.5-3.8 8.5-8.5 8.5S17 30 17 25z"/><path fill="url(#hatch)" stroke="none" d="M17 25c0-5 3.5-8.5 8-8.5s8.5 3.5 8.5 8.5-3.8 8.5-8.5 8.5S17 30 17 25z"/><path fill="url(#hatch2)" stroke="none" d="M17 25c0-5 3.5-8.5 8-8.5s8.5 3.5 8.5 8.5-3.8 8.5-8.5 8.5S17 30 17 25z"/>
+      <path fill="none" d="M16 24c0-5 3.5-8 8-8s8 3.4 8 8-3.6 8-8 8-8-3.4-8-8z"/>
+      <path fill="none" d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M30 10c-9 1-15 8-15 16s7 14 15 14c-6-3-9-8-9-15s4-12 9-15z"/><path fill="url(#hatch)" stroke="none" d="M30 10c-9 1-15 8-15 16s7 14 15 14c-6-3-9-8-9-15s4-12 9-15z"/><path fill="url(#hatch2)" stroke="none" d="M30 10c-9 1-15 8-15 16s7 14 15 14c-6-3-9-8-9-15s4-12 9-15z"/>
+      <path fill="none" d="M28 8c-9 1-16 8-16 17s7 15 16 15c4 0 7-1 9-3-9 1-16-6-16-15 0-6 3-11 7-14z"/>
+      <path fill="none" d="M37 13v6M34 16h6M40 26v3M38.5 27.5h3"/>
+    </symbol>
+    <symbol id="i-trowel" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M21 30c-3-3-8-3-11 0-3 4-3 9-3 13 4 0 9 0 13-3 3-3 3-7 1-10z"/><path fill="url(#hatch)" stroke="none" d="M21 30c-3-3-8-3-11 0-3 4-3 9-3 13 4 0 9 0 13-3 3-3 3-7 1-10z"/><path fill="url(#hatch2)" stroke="none" d="M21 30c-3-3-8-3-11 0-3 4-3 9-3 13 4 0 9 0 13-3 3-3 3-7 1-10z"/>
+      <path fill="none" d="M31 6l11 11M37 12L20 28M20 28c-3-3-8-3-11 0-3 4-3 10-3 14 4 0 10 0 14-3 3-3 3-8 0-11z"/>
+    </symbol>
+    <symbol id="i-sparkle" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M22 8c1 8 4 12 12 13-8 1-11 5-12 13-1-8-4-12-12-13 8-1 11-5 12-13z"/><path fill="url(#hatch)" stroke="none" d="M22 8c1 8 4 12 12 13-8 1-11 5-12 13-1-8-4-12-12-13 8-1 11-5 12-13z"/><path fill="url(#hatch2)" stroke="none" d="M22 8c1 8 4 12 12 13-8 1-11 5-12 13-1-8-4-12-12-13 8-1 11-5 12-13z"/>
+      <path fill="none" d="M20 6c1 8 4 12 12 13-8 1-11 5-12 13-1-8-4-12-12-13 8-1 11-5 12-13zM37 30c.5 3 2 5 5 5.5-3 .5-4.5 2-5 5-.5-3-2-4.5-5-5 3-.5 4.5-2.5 5-5.5z"/>
+    </symbol>
+    <symbol id="i-ok" viewBox="0 0 48 48">
+      <path fill="none" d="M24 8c-9 0-16 7-16 16s7 16 16 16 16-7 16-16c0-8-6-15-14-16-3 0-6 1-8 3"/>
+    </symbol>
+    <symbol id="i-ng" viewBox="0 0 48 48">
+      <path fill="none" d="M11 11c8 8 17 18 26 26M37 10C28 19 19 28 11 37"/>
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M9 13h32v28H9z"/><path fill="url(#hatch)" stroke="none" d="M9 13h32v28H9z"/><path fill="url(#hatch2)" stroke="none" d="M9 13h32v28H9z"/>
+      <path fill="none" d="M6 11h36v29H6zM6 19h36M15 6v8M33 6v8M13 26h4M22 26h4M31 26h4M13 33h4M22 33h4"/>
+    </symbol>
+    <symbol id="i-slice" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M8 22c0 10 7 18 17 18s17-8 17-18z"/><path fill="url(#hatch)" stroke="none" d="M8 22c0 10 7 18 17 18s17-8 17-18z"/><path fill="url(#hatch2)" stroke="none" d="M8 22c0 10 7 18 17 18s17-8 17-18z"/>
+      <path fill="none" d="M6 21c0 11 8 19 18 19s18-8 18-19z"/>
+      <path fill="none" stroke="#f7fbe8" stroke-width="3" d="M11 23c1 7 6 12 13 12s12-5 13-12"/>
+      <path fill="none" d="M20 26l1 2M25 27v2M30 26l-1 2"/>
+    </symbol>
+    <symbol id="i-half" viewBox="0 0 48 48">
+      <path class="fill" stroke="none" d="M7 24c0-9.5 7.5-17 17-17s17 7.5 17 17-7.5 17-17 17S7 33.5 7 24z"/><path fill="url(#hatch)" stroke="none" d="M7 24c0-9.5 7.5-17 17-17s17 7.5 17 17-7.5 17-17 17S7 33.5 7 24z"/><path fill="url(#hatch2)" stroke="none" d="M7 24c0-9.5 7.5-17 17-17s17 7.5 17 17-7.5 17-17 17S7 33.5 7 24z"/>
+      <path fill="none" d="M5 24C5 13.5 13.5 5 24 5s19 8.5 19 19-8.5 19-19 19S5 34.5 5 24z"/>
+      <path fill="none" stroke-width="1.4" d="M8.5 24c0-8.6 7-15.5 15.5-15.5S39.5 15.4 39.5 24 32.6 39.5 24 39.5 8.5 32.6 8.5 24z"/>
+      <path fill="#fffbea" fill-opacity="0.85" stroke="none" d="M17 24c0-4 3-7 7-7s7 3 7 7-3 7-7 7-7-3-7-7z"/>
+      <path fill="none" stroke="#d9c08a" stroke-width="1.8" d="M21 20.5l1 1.5M26 20l-.5 1.8M28.5 24l-1.6.6M26 28l-.8-1.5M21.5 27.8l.8-1.5M19.5 23.5l1.7.4"/>
+    </symbol>
+  </svg>
+
+  <!-- ポートフォリオ用デモの案内 -->
+  <div class="demo-note">
+    ポートフォリオ用のデモです（販売ページのリデザイン案）。農園名・地名は架空に置き換えており、購入・寄付のボタンは動きません。
+    <a href="../../works/melon-shop.html">作品紹介へ戻る</a>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo"><svg class="icon"><use href="#i-melon"/></svg>みどりメロン農園</a>
+      <nav class="global-nav">
+        <a href="#product">商品</a>
+        <a href="#reason">おいしさの理由</a>
+        <a href="#guide">食べ頃</a>
+        <a href="#shipping">送料</a>
+        <a href="#furusato" class="nav-furusato">ふるさと納税</a>
+        <a href="#faq">よくある質問</a>
+      </nav>
+      <a href="#" data-demo-link class="header-cart">購入する</a>
+    </div>
+  </header>
+
+  <!-- ヒーロー -->
+  <section class="hero" style="background-image: url('https://baseec-img-mng.akamaized.net/images/item/origin/c26b2b28d4288290191be4cef5594e19.jpg');">
+    <div class="container hero-content">
+      <span class="hero-label">産地直送</span>
+      <h1>盆地の寒暖差が育てた、<br>とろける甘さの旭メロン</h1>
+      <p>果汁たっぷり、なめらかな果肉。<br>ご自宅用にも、大切な方への贈り物にも。</p>
+      <div class="hero-actions">
+        <a href="#product" class="btn btn-primary"><svg class="icon"><use href="#i-cart"/></svg> ショップで買う</a>
+        <a href="#furusato" class="btn btn-furusato"><svg class="icon"><use href="#i-hall"/></svg> ふるさと納税で申し込む</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ふるさと納税の告知バナー -->
+  <a href="#furusato" class="furusato-banner">
+    <div class="container furusato-banner-inner">
+      <span class="fb-label">ふるさと納税</span>
+      <span class="fb-text">
+        <strong>さとふるでも申し込めます！</strong>
+        <span class="fb-detail">赤肉・緑肉の2種類｜寄付金額 23,000円｜2027年発送分 先行予約受付中</span>
+      </span>
+      <span class="fb-arrow">詳しく見る →</span>
+    </div>
+  </a>
+
+  <!-- 安心ポイント -->
+  <div class="trust">
+    <div class="container">
+      <ul>
+        <li><strong><svg class="icon"><use href="#i-sprout"/></svg></strong>自家製ぼかし肥料</li>
+        <li><strong><svg class="icon"><use href="#i-gift"/></svg></strong>メロン専用箱でお届け</li>
+        <li><strong><svg class="icon"><use href="#i-truck"/></svg></strong>農園から産地直送</li>
+        <li><strong><svg class="icon"><use href="#i-card"/></svg></strong>各種お支払い対応</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 商品 -->
+  <section class="section" id="product">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">商品のご案内</h2>
+      <p class="section-sub">ITEM</p>
+
+      <div class="product">
+        <!-- 画像ギャラリー -->
+        <div class="gallery">
+          <div class="gallery-main">
+            <img id="main-image" src="https://baseec-img-mng.akamaized.net/images/item/origin/c26b2b28d4288290191be4cef5594e19.jpg" alt="旭メロン（ラブコールメロン）">
+          </div>
+          <div class="gallery-thumbs">
+            <button class="is-active" type="button" data-src="https://baseec-img-mng.akamaized.net/images/item/origin/c26b2b28d4288290191be4cef5594e19.jpg">
+              <img src="https://baseec-img-mng.akamaized.net/images/item/origin/c26b2b28d4288290191be4cef5594e19.jpg" alt="商品画像1">
+            </button>
+            <button type="button" data-src="https://baseec-img-mng.akamaized.net/images/item/origin/4a384c96b01baa9ff850710743bd8fad.jpg">
+              <img src="https://baseec-img-mng.akamaized.net/images/item/origin/4a384c96b01baa9ff850710743bd8fad.jpg" alt="商品画像2">
+            </button>
+            <button type="button" data-src="https://baseec-img-mng.akamaized.net/images/item/origin/64aba8cd3935e12a0b9c872687c84fed.jpg">
+              <img src="https://baseec-img-mng.akamaized.net/images/item/origin/64aba8cd3935e12a0b9c872687c84fed.jpg" alt="商品画像3">
+            </button>
+          </div>
+        </div>
+
+        <!-- 商品情報 -->
+        <div class="product-info">
+          <div class="badges">
+            <span class="badge">産地直送</span>
+            <span class="badge badge-gift">ギフトにおすすめ</span>
+          </div>
+          <h3 class="product-name">旭メロン（ラブコールメロン）2個入り</h3>
+          <p class="product-price">¥5,500 <small>（税込・送料別）</small></p>
+
+          <table class="spec">
+            <tr><th>内容量</th><td>2玉（合計 約3.5kg以上）</td></tr>
+            <tr><th>果肉</th><td>淡い黄緑色・なめらか</td></tr>
+            <tr><th>産地</th><td>〇〇県〇〇町</td></tr>
+            <tr><th>梱包</th><td>メロン専用箱</td></tr>
+            <tr><th>食べ頃</th><td>到着後、常温で約10日追熟</td></tr>
+          </table>
+
+          <a href="#" data-demo-link class="btn btn-primary btn-block"><svg class="icon"><use href="#i-cart"/></svg> カートに入れる（BASEで購入）</a>
+          <p class="buy-note">安心のBASE決済ページへ移動します</p>
+
+          <div class="sub-actions">
+            <a href="#shipping" class="btn btn-outline">送料を確認</a>
+            <a href="#" data-demo-link class="btn btn-outline">お問い合わせ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- おいしさの理由 -->
+  <section class="section section-alt" id="reason">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">おいしさの<span class="marker">3つの理由</span></h2>
+      <p class="section-sub">REASON</p>
+
+      <div class="reasons">
+        <!-- 理由1：寒暖差 -->
+        <article class="reason reveal">
+          <div class="reason-visual">
+            <img src="https://baseec-img-mng.akamaized.net/images/item/origin/64aba8cd3935e12a0b9c872687c84fed.jpg" alt="収穫したメロン">
+            <span class="reason-num">01</span>
+          </div>
+          <div class="reason-body">
+            <p class="reason-catch">CLIMATE</p>
+            <h3>盆地ならではの<br><span class="marker">寒暖差</span></h3>
+            <p>農園のある町は、昼と夜の気温差が大きい盆地。この環境がメロンの糖度をぐっと引き上げます。</p>
+            <!-- 昼夜の寒暖差の図解 -->
+            <div class="climate">
+              <div class="climate-item climate-day"><svg class="icon"><use href="#i-sun"/></svg>昼<br><b>あたたかい</b></div>
+              <div class="climate-arrow">⇄</div>
+              <div class="climate-item climate-night"><svg class="icon"><use href="#i-moon"/></svg>夜<br><b>ひんやり</b></div>
+              <div class="climate-arrow">→</div>
+              <div class="climate-item climate-sweet"><svg class="icon"><use href="#i-melon"/></svg>糖度<br><b>UP！</b></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 理由2：土づくり -->
+        <article class="reason reason-reverse reveal">
+          <div class="reason-visual">
+            <img src="https://baseec-img-mng.akamaized.net/images/item/origin/4a384c96b01baa9ff850710743bd8fad.jpg" alt="メロン栽培の様子">
+            <span class="reason-num">02</span>
+          </div>
+          <div class="reason-body">
+            <p class="reason-catch">SOIL</p>
+            <h3>自家製<span class="marker">ぼかし肥料</span>の<br>土づくり</h3>
+            <p>農園オリジナル配合のぼかし肥料で、じっくり土を育てています。甘さの土台はここから。</p>
+            <ul class="chips">
+              <li><svg class="icon"><use href="#i-sprout"/></svg> オリジナル配合</li>
+              <li><svg class="icon"><use href="#i-trowel"/></svg> 手間ひまかけた土</li>
+              <li><svg class="icon"><use href="#i-sparkle"/></svg> 深い甘さ</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 理由3：果肉 -->
+        <article class="reason reveal">
+          <div class="reason-visual">
+            <img src="https://baseec-img-mng.akamaized.net/images/item/origin/c26b2b28d4288290191be4cef5594e19.jpg" alt="旭メロンの果肉">
+            <span class="reason-num">03</span>
+          </div>
+          <div class="reason-body">
+            <p class="reason-catch">TASTE</p>
+            <h3>果汁たっぷり、<br><span class="marker">上品な甘さ</span></h3>
+            <p>淡い黄緑の果肉はなめらかでジューシー。後味すっきりの上品な甘さが自慢です。</p>
+            <!-- 味わいメーター -->
+            <dl class="meters">
+              <div><dt>果汁</dt><dd><span style="--v: 95%;"></span></dd></div>
+              <div><dt>甘さ</dt><dd><span style="--v: 85%;"></span></dd></div>
+              <div><dt>なめらかさ</dt><dd><span style="--v: 90%;"></span></dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 食べ頃ガイド -->
+  <section class="section" id="guide">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">届いてすぐは<span class="marker">まだ食べないで！</span></h2>
+      <p class="section-sub">HOW TO ENJOY</p>
+      <p class="guide-lead">ひと手間で、甘さがぐんと変わります。<br>いちばんおいしい瞬間までのスケジュールです。</p>
+
+      <!-- 追熟タイムライン -->
+      <ol class="timeline reveal">
+        <li>
+          <div class="tl-day">到着日</div>
+          <div class="tl-melon tl-melon-1"><svg class="icon"><use href="#i-melon"/></svg></div>
+          <h3>常温で保管</h3>
+          <p>冷蔵庫には入れず、直射日光の当たらない涼しい場所へ。</p>
+        </li>
+        <li>
+          <div class="tl-day">約10日</div>
+          <div class="tl-melon tl-melon-2"><svg class="icon"><use href="#i-melon"/></svg></div>
+          <h3>じっくり追熟</h3>
+          <p>おしり（ツルの反対側）が少しやわらかくなったら食べ頃のサイン。</p>
+        </li>
+        <li>
+          <div class="tl-day">食べる2〜3時間前</div>
+          <div class="tl-melon tl-melon-3"><svg class="icon"><use href="#i-melon"/></svg></div>
+          <h3>冷蔵庫で冷やす</h3>
+          <p>冷やしすぎると甘さを感じにくくなるので注意。</p>
+        </li>
+        <li class="tl-goal">
+          <div class="tl-day">食べ頃！</div>
+          <div class="tl-melon tl-melon-4"><svg class="icon"><use href="#i-slice"/></svg></div>
+          <h3>いただきます</h3>
+          <p>果汁あふれる、いちばんおいしい瞬間です。</p>
+        </li>
+      </ol>
+
+      <!-- OK・NGの比較 -->
+      <div class="okng reveal">
+        <div class="ok">
+          <p class="okng-label"><svg class="icon"><use href="#i-ok"/></svg> おいしくなる</p>
+          <ul>
+            <li>到着後は常温で追熟</li>
+            <li>おしりを押して食べ頃チェック</li>
+            <li>食べる2〜3時間前に冷やす</li>
+          </ul>
+        </div>
+        <div class="ng">
+          <p class="okng-label"><svg class="icon"><use href="#i-ng"/></svg> もったいない</p>
+          <ul>
+            <li>届いてすぐに切る</li>
+            <li>追熟前から冷蔵庫に入れる</li>
+            <li>冷やしすぎる</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 送料 -->
+  <section class="section section-alt" id="shipping">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">送料・お支払い</h2>
+      <p class="section-sub">SHIPPING</p>
+      <div class="shipping-wrap">
+        <!-- まとめ買いで送料無料の案内 -->
+        <div class="bulk">
+          <p class="bulk-lead"><svg class="icon"><use href="#i-gift"/></svg> <strong>3箱以上のまとめ買いで送料無料！</strong></p>
+          <p class="bulk-text">ご注文合計 ¥15,000以上で国内送料が無料になります。<br>ご家族・ご親戚へのおすそ分けや、贈り物とご自宅用を一緒にどうぞ。</p>
+          <div class="bulk-plans">
+            <div class="bulk-plan">
+              <span class="bulk-qty">1箱</span>
+              <span class="bulk-price">¥5,500</span>
+              <span class="bulk-ship">＋送料</span>
+            </div>
+            <div class="bulk-plan">
+              <span class="bulk-qty">2箱</span>
+              <span class="bulk-price">¥11,000</span>
+              <span class="bulk-ship">＋送料</span>
+            </div>
+            <div class="bulk-plan is-best">
+              <span class="bulk-tag">おすすめ</span>
+              <span class="bulk-qty">3箱</span>
+              <span class="bulk-price">¥16,500</span>
+              <span class="bulk-ship">送料無料</span>
+            </div>
+          </div>
+          <a href="#" data-demo-link class="btn btn-primary"><svg class="icon"><use href="#i-cart"/></svg> まとめて購入する</a>
+          <p class="bulk-note">※ 購入ページで数量を「3」にしてカートに入れてください。</p>
+        </div>
+
+        <h3 class="shipping-heading">1〜2箱でご注文の場合の送料</h3>
+        <table class="shipping-table">
+          <thead>
+            <tr><th>お届け地域</th><th style="text-align:right;">送料（宅急便）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>中国・九州</td><td>¥800</td></tr>
+            <tr><td>近畿・四国</td><td>¥1,000</td></tr>
+            <tr><td>信越・北陸・東海</td><td>¥1,200</td></tr>
+            <tr><td>関東</td><td>¥1,500</td></tr>
+            <tr><td>東北</td><td>¥1,700</td></tr>
+            <tr><td>沖縄</td><td>¥1,800</td></tr>
+            <tr><td>北海道</td><td>¥2,000</td></tr>
+          </tbody>
+        </table>
+        <p class="pay-note">※ d払い・au PAY・ソフトバンクまとめて支払いは手数料¥300、銀行振込は手数料¥360がかかります。<br>※ 詳細は購入ページでご確認ください。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ふるさと納税 -->
+  <section class="section" id="furusato">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">ふるさと納税でも選べます</h2>
+      <p class="section-sub">FURUSATO NOZEI</p>
+
+      <!-- ふるさと納税の説明 -->
+      <p class="furusato-lead">
+        ふるさと納税サイト「<strong>さとふる</strong>」から寄付すると、<br class="pc-only">お礼の品として当農園のメロンが届きます。<br>
+        <strong>赤肉と緑肉の2種類</strong>からお選びいただけます。
+      </p>
+      <p class="furusato-badge"><svg class="icon"><use href="#i-calendar"/></svg> 2027年発送分 先行予約受付中　｜　時間帯指定OK　｜　ワンストップ申請対応</p>
+
+      <!-- 品種の選択カード -->
+      <div class="furusato">
+        <a class="furusato-card" href="#" data-demo-link>
+          <svg class="icon flesh flesh-red" aria-hidden="true"><use href="#i-half"/></svg>
+          <span class="furusato-type">赤肉メロン・希少品種</span>
+          <h3>レノンハート</h3>
+          <p>皮のきわまでオレンジ色。<br>果肉が厚く、濃厚な甘さ。</p>
+          <p class="furusato-amount">寄付金額 <strong>23,000</strong>円</p>
+          <table class="furusato-spec">
+            <tr><th>内容量</th><td>2玉（約2.8kg以上）</td></tr>
+            <tr><th>お届け</th><td>2027年4月25日〜5月9日</td></tr>
+            <tr><th>申込締切</th><td class="deadline">2027年4月10日まで</td></tr>
+          </table>
+          <span class="furusato-btn">さとふるで申し込む →</span>
+        </a>
+        <a class="furusato-card" href="#" data-demo-link>
+          <svg class="icon flesh flesh-green" aria-hidden="true"><use href="#i-half"/></svg>
+          <span class="furusato-type">緑肉メロン・旭メロン</span>
+          <h3>ラブコール</h3>
+          <p>淡い黄緑の果肉。<br>果汁たっぷりで、なめらかな甘さ。</p>
+          <p class="furusato-amount">寄付金額 <strong>23,000</strong>円</p>
+          <table class="furusato-spec">
+            <tr><th>内容量</th><td>2玉（合計3.5kg以上）</td></tr>
+            <tr><th>お届け</th><td>2027年6月10日〜6月24日</td></tr>
+            <tr><th>申込締切</th><td class="deadline">2027年5月20日まで</td></tr>
+          </table>
+          <span class="furusato-btn">さとふるで申し込む →</span>
+        </a>
+      </div>
+
+      <!-- 申し込みの流れ -->
+      <div class="furusato-flow">
+        <h3>お申し込みの流れ</h3>
+        <ol>
+          <li><strong>さとふるで選ぶ</strong><span>上のボタンから、赤肉か緑肉を選んで寄付を申し込みます。</span></li>
+          <li><strong>メロンが届く</strong><span>収穫の時期に、メロン専用箱に入れて農園から届きます。</span></li>
+          <li><strong>税金の手続き</strong><span>さとふるアプリでのワンストップ申請、または確定申告で税金の控除が受けられます。</span></li>
+        </ol>
+        <p class="furusato-note">※ 2026年10月時点の情報です。最新の内容はさとふるの各ページでご確認ください。</p>
+      </div>
+
+      <!-- 通常購入との違い -->
+      <div class="furusato-compare">
+        <div>
+          <strong><svg class="icon"><use href="#i-cart"/></svg> このショップで買う</strong>
+          <span>すぐに注文したい方、贈り物として送りたい方に</span>
+        </div>
+        <div>
+          <strong><svg class="icon"><use href="#i-hall"/></svg> ふるさと納税で申し込む</strong>
+          <span>税金の控除を受けながら楽しみたい方に</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- よくある質問 -->
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <svg class="icon title-icon" aria-hidden="true"><use href="#i-melon"/></svg>
+      <h2 class="section-title">よくある質問</h2>
+      <p class="section-sub">FAQ</p>
+      <div class="faq">
+        <details>
+          <summary>贈り物として送れますか？</summary>
+          <p>はい。メロン専用箱でお届けするので、ギフトにもおすすめです。のし等のご希望はお問い合わせからご相談ください。</p>
+        </details>
+        <details>
+          <summary>届いてすぐ食べられますか？</summary>
+          <p>到着後、常温で10日ほど追熟させるとよりおいしく召し上がれます。上の「おいしい食べ方」をご覧ください。</p>
+        </details>
+        <details>
+          <summary>送料を安くする方法はありますか？</summary>
+          <p>ご注文合計が¥15,000以上（3箱以上）で国内送料が無料になります。</p>
+        </details>
+        <details>
+          <summary>どんな支払い方法が使えますか？</summary>
+          <p>BASEの決済に対応しています（クレジットカード、キャリア決済、銀行振込など）。詳しくは購入ページでご確認ください。</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 最後の購入導線 -->
+  <section class="section final-cta">
+    <div class="container">
+      <h2>盆地育ちの旭メロンを、ご自宅へ。</h2>
+      <p>2玉入り ¥5,500（税込・送料別）</p>
+      <a href="#" data-demo-link class="btn btn-primary"><svg class="icon"><use href="#i-cart"/></svg> 今すぐ購入する</a>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <strong><svg class="icon"><use href="#i-melon"/></svg> みどりメロン農園</strong><br>
+          〇〇県〇〇町
+        </div>
+        <ul class="footer-links">
+          <li><a href="#" data-demo-link>Instagram</a></li>
+          <li><a href="#" data-demo-link>お問い合わせ</a></li>
+          <li><a href="#" data-demo-link>プライバシーポリシー</a></li>
+          <li><a href="#" data-demo-link>特定商取引法に基づく表記</a></li>
+        </ul>
+      </div>
+      <p class="copyright">© みどりメロン農園</p>
+    </div>
+  </footer>
+
+  <!-- スマホ用固定購入バー -->
+  <div class="sticky-buy">
+    <div class="price">¥5,500<small>2玉入り・税込</small></div>
+    <a href="#" data-demo-link class="btn btn-primary"><svg class="icon"><use href="#i-cart"/></svg> 購入する</a>
+  </div>
+
+  <script>
+    // サムネイルをクリックしたらメイン画像を切り替える
+    const mainImage = document.getElementById('main-image');
+    document.querySelectorAll('.gallery-thumbs button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        mainImage.src = btn.dataset.src;
+        document.querySelectorAll('.gallery-thumbs button').forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+      });
+    });
+
+    // デモでは外部のショップ・寄付ページへ移動しない
+    document.querySelectorAll('[data-demo-link]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const note = document.querySelector('.demo-note');
+        note.classList.remove('is-flash');
+        void note.offsetWidth;
+        note.classList.add('is-flash');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // スクロールで画面に入った要素をふわっと表示する
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+    // スマホの固定購入バーは、ヒーローとふるさと納税バナーを過ぎてから表示する
+    const stickyBuy = document.querySelector('.sticky-buy');
+    const bannerObserver = new IntersectionObserver(([entry]) => {
+      stickyBuy.classList.toggle('is-shown', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+    });
+    bannerObserver.observe(document.querySelector('.furusato-banner'));
+  </script>
+</body>
+</html>

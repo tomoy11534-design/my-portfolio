@@ -25,6 +25,8 @@
   --color-voice-dark: #b13a5c;
   --color-invoice: #c08a1e;
   --color-invoice-dark: #8a5f0c;
+  --color-melon: #8fa61a;
+  --color-melon-dark: #5f700c;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -414,6 +416,13 @@ section {
     linear-gradient(135deg, #f8c6d3 0%, #e7829d 45%, #b13a5c 100%);
 }
 
+.work-card-cover--melon {
+  background-color: var(--color-melon);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #eef3b0 0%, #bccf45 45%, #5f700c 100%);
+}
+
 .work-card-cover--invoice {
   background-color: var(--color-invoice);
   background-image:
@@ -489,6 +498,11 @@ section {
   color: var(--color-voice-dark);
 }
 
+.work-card--melon .work-card-tag {
+  background: rgba(143, 166, 26, 0.14);
+  color: var(--color-melon-dark);
+}
+
 .work-card--invoice .work-card-tag {
   background: rgba(192, 138, 30, 0.14);
   color: var(--color-invoice-dark);
@@ -533,6 +547,10 @@ section {
 
 .work-card--voice .work-card-more {
   color: var(--color-voice);
+}
+
+.work-card--melon .work-card-more {
+  color: var(--color-melon);
 }
 
 .work-card--invoice .work-card-more {
@@ -705,6 +723,10 @@ section {
   background: linear-gradient(135deg, #ee93ab, #b13a5c);
 }
 
+.work-hero--melon {
+  background: linear-gradient(135deg, #b5c93a, #5f700c);
+}
+
 .work-hero--invoice {
   background: linear-gradient(135deg, #e2b545, #8a5f0c);
 }
@@ -839,6 +861,10 @@ section {
   background: linear-gradient(135deg, #ee93ab, #b13a5c);
 }
 
+.work-sidebar--melon::before {
+  background: linear-gradient(135deg, #b5c93a, #5f700c);
+}
+
 .work-sidebar--invoice::before {
   background: linear-gradient(135deg, #e2b545, #8a5f0c);
 }
@@ -889,6 +915,10 @@ section {
 
 .work-sidebar--voice .work-sidebar-label::before {
   background: var(--color-voice);
+}
+
+.work-sidebar--melon .work-sidebar-label::before {
+  background: var(--color-melon);
 }
 
 .work-sidebar--invoice .work-sidebar-label::before {

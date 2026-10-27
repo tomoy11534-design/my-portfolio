@@ -1,0 +1,1216 @@
+/* ===== カラー・基本設定 ===== */
+:root {
+  --green: #3f7d3a;
+  --green-dark: #2c5a28;
+  --green-light: #eef5e9;
+  --melon: #c9e3a5;
+  --accent: #e8743b;
+  --accent-dark: #c95d27;
+  --text: #2b2b2b;
+  --muted: #6b6b6b;
+  --line: #e4e4e4;
+  --bg: #fffdf8;
+  --radius: 14px;
+  --max: 1100px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.8;
+  font-size: 16px;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 253, 248, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  text-decoration: none;
+  color: var(--green-dark);
+  letter-spacing: 0.05em;
+}
+
+.logo { display: inline-flex; align-items: center; gap: 6px; }
+.logo .icon { width: 32px; height: 32px; }
+
+/* ===== 手書き風アイコン ===== */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.icon {
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  vertical-align: -0.35em;
+  /* 色鉛筆タッチ：線も塗りも淡い同系色でそろえる */
+  --icon-line: #a5cc62;
+  --icon-fill: #c8e384;
+  fill: var(--icon-fill);
+  stroke: var(--icon-line);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#rough);
+}
+
+/* モチーフごとの色（オレンジ系・青系・黄色系） */
+.icon:has(use[href="#i-gift"]),
+.icon:has(use[href="#i-cart"]) { --icon-line: #f2a273; --icon-fill: #ffcfaa; }
+.icon:has(use[href="#i-card"]),
+.icon:has(use[href="#i-moon"]) { --icon-line: #93a9dc; --icon-fill: #cad6f3; }
+.icon:has(use[href="#i-sun"]),
+.icon:has(use[href="#i-sparkle"]) { --icon-line: #f1b43c; --icon-fill: #ffe08a; }
+.icon:has(use[href="#i-trowel"]) { --icon-line: #c49a6c; --icon-fill: #e8cfae; }
+.icon:has(use[href="#i-ng"]) { --icon-line: #ec8a7f; }
+.icon:has(use[href="#i-calendar"]) { --icon-line: #f2a273; --icon-fill: #ffe3cc; }
+
+/* オレンジのボタン・枠の上では白い色鉛筆に */
+.btn-primary .icon.icon,
+.climate-sweet .icon.icon { --icon-line: #fff; --icon-fill: rgba(255, 255, 255, 0.45); }
+.okng-label .icon { stroke-width: 3; }
+.site-footer .icon { --icon-line: #a5cc62; --icon-fill: rgba(200, 227, 132, 0.55); }
+
+.global-nav {
+  display: flex;
+  gap: 24px;
+  font-size: 14px;
+}
+
+.global-nav a { text-decoration: none; }
+.global-nav a:hover { color: var(--green); }
+
+.header-cart {
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.header-cart:hover { background: var(--accent-dark); }
+
+/* ===== ヒーロー ===== */
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background: #2c5a28 center/cover no-repeat;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1));
+}
+
+.hero-content { position: relative; max-width: 560px; }
+
+.hero-label {
+  display: inline-block;
+  background: var(--melon);
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.4;
+  margin: 16px 0;
+}
+
+.hero p { margin: 0 0 28px; }
+
+/* ===== ボタン ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-dark); }
+
+.btn-outline {
+  border: 2px solid var(--green);
+  color: var(--green);
+  background: #fff;
+}
+
+.btn-block { width: 100%; }
+
+/* ふるさと納税ボタン（ヒーロー用・白地に緑） */
+.btn-furusato {
+  background: #fff;
+  color: var(--green-dark);
+}
+
+.btn-furusato:hover { background: var(--green-light); }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ナビのふるさと納税リンクを目立たせる */
+.global-nav .nav-furusato {
+  color: var(--green-dark);
+  font-weight: 700;
+  background: var(--green-light);
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+/* ===== ふるさと納税の告知バナー ===== */
+.furusato-banner {
+  display: block;
+  text-decoration: none;
+  background: var(--green);
+  color: #fff;
+  transition: background 0.15s;
+}
+
+.furusato-banner:hover { background: var(--green-dark); }
+
+.furusato-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.fb-label {
+  flex-shrink: 0;
+  background: #fff;
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 6px;
+}
+
+.fb-text { flex: 1; line-height: 1.5; }
+.fb-text strong { display: block; font-size: 17px; }
+.fb-detail { font-size: 13px; opacity: 0.9; }
+
+.fb-arrow {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 14px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+
+/* ===== 安心ポイント ===== */
+.trust {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+
+.trust ul {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.trust li strong {
+  display: block;
+  color: var(--green-dark);
+}
+
+.trust .icon {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 4px;
+}
+
+/* ===== セクション共通 ===== */
+.section { padding: 72px 0; }
+.section-alt { background: var(--green-light); }
+
+.section-title {
+  text-align: center;
+  font-size: clamp(22px, 3.5vw, 30px);
+  margin: 0 0 8px;
+}
+
+/* 見出しの上の小さなメロン */
+.title-icon {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 4px;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  margin: 0 0 40px;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+}
+
+/* ===== 商品エリア ===== */
+.product {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.gallery-main {
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: #f2f2f2;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.gallery-thumbs button {
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  background: none;
+}
+
+.gallery-thumbs button.is-active { border-color: var(--green); }
+
+.gallery-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info { position: sticky; top: 88px; }
+
+.badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.badge-gift { background: #fdeee5; color: var(--accent-dark); }
+
+.product-name {
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.5;
+  margin: 12px 0 8px;
+}
+
+.product-price {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--accent-dark);
+  margin: 0;
+}
+
+.product-price small {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.spec th, .spec td {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 4px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.spec th { width: 34%; color: var(--muted); font-weight: 400; }
+
+.buy-note {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.sub-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.sub-actions .btn { padding: 10px; font-size: 14px; }
+
+/* ===== おいしさの理由 ===== */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.feature-num {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.1em;
+}
+
+.feature h3 { margin: 6px 0 10px; font-size: 18px; }
+.feature p { margin: 0; font-size: 15px; color: #444; }
+
+/* ===== 強調マーカー ===== */
+.marker {
+  background: linear-gradient(transparent 60%, var(--melon) 60%);
+  padding: 0 2px;
+}
+
+/* ===== スクロール表示アニメーション ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ===== おいしさの3つの理由 ===== */
+.reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.reason {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+/* 2つ目は左右を入れ替えてジグザグに */
+.reason-reverse .reason-visual { order: 2; }
+
+.reason-visual {
+  position: relative;
+  border-radius: 24px;
+  overflow: visible;
+}
+
+.reason-visual img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(44, 90, 40, 0.18);
+}
+
+/* 写真に重なる大きな番号 */
+.reason-num {
+  position: absolute;
+  top: -36px;
+  left: -12px;
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 1;
+  /* イラストに合わせて淡い黄緑に */
+  color: #9cc85a;
+  font-family: Georgia, "Times New Roman", serif;
+  text-shadow: 4px 4px 0 #fff;
+}
+
+.reason-reverse .reason-num { left: auto; right: -12px; }
+
+.reason-catch {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--green);
+}
+
+.reason-body h3 {
+  font-size: clamp(24px, 3.4vw, 32px);
+  line-height: 1.5;
+  margin: 8px 0 16px;
+}
+
+.reason-body > p { margin: 0 0 20px; color: #444; }
+
+/* 寒暖差の図解 */
+.climate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.climate-item {
+  flex: 1;
+  text-align: center;
+  border-radius: 14px;
+  padding: 12px 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  background: #fff;
+}
+
+.climate-item .icon { display: block; width: 36px; height: 36px; margin: 0 auto 2px; }
+.climate-day { background: #fff4dc; }
+.climate-night { background: #e3e9f7; }
+.climate-sweet { background: var(--accent); color: #fff; }
+.climate-arrow { color: var(--muted); font-weight: 700; }
+
+/* 特徴チップ */
+.chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips li {
+  background: #fff;
+  border: 1px solid #cfe2c3;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 味わいメーター */
+.meters { margin: 0; display: grid; gap: 10px; }
+
+.meters div {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+  align-items: center;
+}
+
+.meters dt { font-size: 14px; font-weight: 700; }
+
+.meters dd {
+  margin: 0;
+  height: 12px;
+  background: #fff;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meters dd span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--melon), var(--green));
+  border-radius: 999px;
+  transition: width 1.2s ease 0.3s;
+}
+
+/* 画面に入ったらメーターが伸びる */
+.is-visible .meters dd span { width: var(--v); }
+
+@media (prefers-reduced-motion: reduce) {
+  .meters dd span { width: var(--v); transition: none; }
+}
+
+/* ===== おいしい食べ方 ===== */
+.guide-lead {
+  text-align: center;
+  margin: -16px 0 48px;
+  color: #444;
+}
+
+/* タイムライン */
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  position: relative;
+}
+
+/* メロンをつなぐ線 */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 82px;
+  left: 12%;
+  right: 12%;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, #b9d97a 0 10px, transparent 10px 18px);
+  border-radius: 2px;
+}
+
+.timeline li {
+  position: relative;
+  text-align: center;
+}
+
+.tl-day {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-dark);
+  background: var(--green-light);
+  padding: 2px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+/* 熟していくメロン（色が変化） */
+.tl-melon {
+  position: relative;
+  z-index: 1;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  /* 点線がイラストの後ろで途切れるよう背景色で塗る */
+  background: var(--bg);
+}
+
+.tl-melon .icon { width: 100%; height: 100%; vertical-align: top; }
+
+/* 熟していくメロン（色鉛筆の色が変化） */
+.tl-melon-1 .icon { --icon-line: #86b84f; --icon-fill: #a9d16a; }
+.tl-melon-2 .icon { --icon-line: #b5c95a; --icon-fill: #d5e38a; }
+.tl-melon-3 .icon { --icon-line: #8fbfd0; --icon-fill: #c3e2ea; }
+/* 食べ頃は切った断面 */
+.tl-melon-4 .icon { --icon-line: #a5cc62; --icon-fill: #e3f1b4; }
+.tl-melon-4 { transform: scale(1.15); }
+
+.timeline h3 { margin: 0 0 6px; font-size: 17px; }
+.timeline p { margin: 0; font-size: 14px; color: #555; }
+
+.tl-goal .tl-day { background: var(--accent); color: #fff; }
+.tl-goal h3 { color: var(--accent-dark); }
+
+/* OK・NG */
+.okng {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 760px;
+  margin: 56px auto 0;
+}
+
+.okng > div {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+
+.ok { background: var(--green-light); border: 2px solid #b9d8a8; }
+.ng { background: #fdf0ef; border: 2px solid #f0c4bf; }
+
+.okng-label { margin: 0 0 8px; font-weight: 700; font-size: 17px; }
+.ok .okng-label { color: var(--green-dark); }
+.ng .okng-label { color: #c0453a; }
+
+.okng ul { margin: 0; padding-left: 1.2em; font-size: 15px; }
+.okng li { margin: 4px 0; }
+
+/* ===== 食べ頃ガイド（旧） ===== */
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  counter-reset: step;
+}
+
+.steps li {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 24px 24px;
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: "STEP " counter(step);
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 999px;
+}
+
+.steps h3 { margin: 0 0 8px; font-size: 17px; }
+.steps p { margin: 0; font-size: 15px; color: #444; }
+
+/* ===== 送料表 ===== */
+.shipping-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* まとめ買い案内 */
+.bulk {
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.bulk-lead {
+  font-size: clamp(18px, 3vw, 22px);
+  color: var(--accent-dark);
+  margin: 0 0 8px;
+}
+
+.bulk-text {
+  font-size: 14px;
+  color: #444;
+  margin: 0 0 20px;
+}
+
+.bulk-plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.bulk-plan {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 6px 12px;
+  background: var(--bg);
+}
+
+.bulk-plan.is-best {
+  border: 2px solid var(--accent);
+  background: #fdeee5;
+}
+
+.bulk-tag {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.bulk-qty { font-weight: 700; font-size: 18px; }
+.bulk-price { font-size: 15px; }
+.bulk-ship { font-size: 13px; color: var(--muted); }
+.is-best .bulk-ship { color: var(--accent-dark); font-weight: 700; }
+
+.bulk-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 10px 0 0;
+}
+
+.shipping-heading {
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+
+.shipping-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.shipping-table th, .shipping-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.shipping-table thead th {
+  background: var(--green);
+  color: #fff;
+  text-align: left;
+}
+
+.shipping-table td:last-child { text-align: right; font-weight: 700; }
+
+.pay-note {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* ===== ふるさと納税 ===== */
+.furusato {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.furusato-lead {
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+/* 品種カード */
+.furusato-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 28px 20px 24px;
+  border: 2px solid var(--line);
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.furusato-card:hover { border-color: var(--green); transform: translateY(-2px); }
+
+/* 果肉の色を表す丸（メロンの断面風） */
+.flesh {
+  width: 84px;
+  height: 84px;
+  margin-bottom: 10px;
+}
+
+/* 皮は黄緑、果肉の色だけ変える */
+.flesh-red { --icon-line: #9cc35e; --icon-fill: #f7a96a; }
+.flesh-green { --icon-line: #9cc35e; --icon-fill: #cfe58f; }
+
+.furusato-type {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.furusato-card h3 { margin: 2px 0 8px; font-size: 22px; }
+.furusato-card p { margin: 0 0 16px; color: #444; font-size: 14px; }
+
+.furusato-badge {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green-dark);
+  background: var(--green-light);
+  border-radius: 999px;
+  padding: 6px 16px;
+  max-width: 720px;
+  margin: -16px auto 28px;
+}
+
+/* 寄付金額 */
+.furusato-card .furusato-amount {
+  font-size: 14px;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+
+.furusato-amount strong {
+  font-size: 28px;
+  color: var(--accent-dark);
+}
+
+/* 内容量・お届け時期の表 */
+.furusato-spec {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.furusato-spec th, .furusato-spec td {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.furusato-spec th { color: var(--muted); font-weight: 400; width: 32%; }
+.furusato-spec .deadline { color: var(--accent-dark); font-weight: 700; }
+
+.furusato-btn {
+  margin-top: auto;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  width: 100%;
+}
+
+.furusato-card:hover .furusato-btn { background: var(--green-dark); }
+
+/* 申し込みの流れ */
+.furusato-flow {
+  max-width: 720px;
+  margin: 32px auto 0;
+  background: var(--green-light);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.furusato-flow h3 { margin: 0 0 12px; font-size: 17px; text-align: center; }
+
+.furusato-flow ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: flow;
+}
+
+.furusato-flow li {
+  counter-increment: flow;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  column-gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed #c9dcc0;
+}
+
+.furusato-flow li:last-child { border-bottom: none; }
+
+.furusato-flow li::before {
+  content: counter(flow);
+  grid-row: span 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.furusato-flow li span { font-size: 14px; color: #444; }
+
+.furusato-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+/* 通常購入との違い */
+.furusato-compare {
+  max-width: 720px;
+  margin: 20px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.furusato-compare div {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+  background: #fff;
+}
+
+.furusato-compare strong { display: block; margin-bottom: 4px; }
+.furusato-compare span { color: var(--muted); }
+
+/* ===== よくある質問 ===== */
+.faq { max-width: 760px; margin: 0 auto; }
+
+.faq details {
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+}
+
+.faq summary {
+  cursor: pointer;
+  padding: 16px 20px;
+  font-weight: 700;
+  list-style: none;
+  position: relative;
+  padding-right: 48px;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: var(--green);
+}
+
+.faq details[open] summary::after { content: "−"; }
+
+.faq details p {
+  margin: 0;
+  padding: 0 20px 18px;
+  color: #444;
+}
+
+/* ===== 最後の購入導線 ===== */
+.final-cta {
+  text-align: center;
+  background: var(--green-dark);
+  color: #fff;
+}
+
+.final-cta h2 { margin: 0 0 12px; font-size: clamp(22px, 3.5vw, 30px); }
+.final-cta p { margin: 0 0 28px; }
+
+/* ===== フッター ===== */
+.site-footer {
+  background: #1f2a1d;
+  color: #cfd8cc;
+  font-size: 14px;
+  padding: 40px 0 100px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { color: #fff; }
+
+.copyright { margin-top: 24px; font-size: 12px; color: #8a9687; }
+
+/* ===== スマホ用固定購入バー ===== */
+.sticky-buy {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  background: #fff;
+  border-top: 1px solid var(--line);
+  padding: 10px 16px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  align-items: center;
+  gap: 12px;
+}
+
+.sticky-buy .price {
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
+
+.sticky-buy .price small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; line-height: 1.2; }
+
+.sticky-buy .btn { flex: 1; padding: 12px; }
+
+/* ===== タブレット ===== */
+@media (max-width: 900px) {
+  .product { grid-template-columns: 1fr; gap: 28px; }
+  .product-info { position: static; }
+  .features, .steps { grid-template-columns: 1fr; }
+  .steps { gap: 28px; }
+
+  /* 理由は写真→文章の縦並びに */
+  .reason { grid-template-columns: 1fr; gap: 28px; }
+  .reason-reverse .reason-visual { order: 0; }
+  .reason-reverse .reason-num { right: auto; left: -4px; }
+  .reason-num { font-size: 72px; top: -28px; left: -4px; }
+
+  /* タイムラインは縦向きに */
+  .timeline { grid-template-columns: 1fr; gap: 24px; }
+  .timeline::before {
+    top: 40px;
+    bottom: 40px;
+    left: 39px;
+    right: auto;
+    width: 4px;
+    height: auto;
+    background: repeating-linear-gradient(180deg, #b9d97a 0 10px, transparent 10px 18px);
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 16px;
+    text-align: left;
+    align-items: start;
+  }
+  .tl-melon { grid-row: 1 / span 3; grid-column: 1; margin: 0; }
+  .tl-day, .timeline h3, .timeline p { grid-column: 2; justify-self: start; }
+  .tl-day { margin-bottom: 4px; }
+}
+
+@media (max-width: 640px) {
+  .okng { grid-template-columns: 1fr; }
+
+  /* ヒーローのボタンは縦並びで押しやすく */
+  .hero-actions .btn { width: 100%; }
+
+  /* 告知バナーはラベルと矢印を上下に */
+  .furusato-banner-inner { flex-wrap: wrap; gap: 8px 12px; }
+  .fb-text { flex-basis: 100%; order: 2; }
+  .fb-arrow { order: 3; padding: 4px 14px; font-size: 13px; }
+  .climate { gap: 4px; }
+  .climate-item { font-size: 12px; padding: 10px 2px; }
+}
+
+/* ===== スマホ ===== */
+@media (max-width: 640px) {
+  .global-nav { display: none; }
+  .header-cart { padding: 6px 14px; font-size: 13px; }
+  .hero { min-height: 60vh; }
+  .trust ul { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 56px 0; }
+  .furusato { grid-template-columns: 1fr; }
+  .furusato-compare { grid-template-columns: 1fr; }
+  .pc-only { display: none; }
+  .gallery-thumbs button { width: 64px; height: 64px; }
+  .sticky-buy {
+    display: flex;
+    transform: translateY(110%);
+    transition: transform 0.3s ease;
+  }
+  .sticky-buy.is-shown { transform: none; }
+}
+
+/* ===== ポートフォリオ用デモの案内 ===== */
+.demo-note {
+  padding: 8px 16px;
+  background: #fff4d6;
+  color: #5b4a12;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+.demo-note a {
+  margin-left: 8px;
+  font-weight: 700;
+}
+
+/* デモ用リンクを押したときに案内を目立たせる */
+.demo-note.is-flash {
+  animation: demo-flash 1.2s ease;
+}
+@keyframes demo-flash {
+  0%, 60% { background: #ffd877; }
+  100% { background: #fff4d6; }
+}
