@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ネイルカルテ | Portfolio</title>
+  <meta name="description" content="ネイルサロン向けに、お客さんごとのデザイン写真・色番・メモを記録して、名前や色番、来店月ですぐに探せるスマホ用Webアプリ。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--nail">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>ネイルカルテ</h1>
+        <p class="work-hero-lead">
+          ネイルサロン向けの、お客さんごとのデザイン記録アプリです。
+          施術したネイルの写真・使った色番・メモをスマホで残し、「前回と同じ色で」と言われたときにすぐ見返せるようにしました。
+        </p>
+        <ul class="tag-list">
+          <li>スマホ用Webアプリ</li>
+          <li>顧客カルテ</li>
+          <li>依頼を受けて制作</li>
+        </ul>
+        <a href="../demos/nail-karte/" class="button button-ghost work-hero-link" target="_blank" rel="noopener">デモを見る（サンプルは架空） ↗</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>制作の背景</h2>
+            <p>
+              ネイリストの方からの依頼で制作しました。お話を聞くと、前回のデザインはスマホの写真ライブラリを日付でさかのぼって探しているものの、
+              写真を消してしまっていたり、毎回全員を撮っているわけではなかったりして、記録そのものが残っていないことがあるそうです。
+              色番やおおまかなデザインは紙のカルテに手書きで残していても、見返して分からなかったり、書き忘れていたりすることもあるとのことでした。
+            </p>
+            <p>
+              お客さんから「あの時のあの色で！」と頼まれることもあるため、「名前と日付で検索して写真を見られたら便利」という声をいただきました。
+              また、お客さん自身にとっても、自分のデザインの歴史を写真で見返せたら楽しいのではないか、というお話もありました。
+              パソコンを使うサロンではカルテを電子化しているところもありますが、依頼主の方は仕事のすべてをスマホでこなしていて、難しい操作は苦手とのことでした。
+              そこで、スマホだけで完結し、施術のたびに写真を撮る流れを自然につくれて、名前・日付・色番からすぐに前のデザインを探せる記録アプリを提案しました。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              紙のカルテやスマホのアルバムに散らばりがちな、お客さんごとのデザイン写真と色番を1か所にまとめるアプリです。
+              お客さんを選んで写真を撮り、色番を入れて保存するだけで記録が残り、過去のデザインは新しい順に並びます。
+              アプリのインストールは不要で、URLを開いて「ホーム画面に追加」すれば、アイコンからすぐ使えます。
+              スマホに慣れていない方でも使えるよう、ホーム画面への追加から記録・検索までを番号つきで説明した使い方ページも用意しました。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>写真を撮ってそのまま記録</h3>
+                <p>お客さんの画面から「写真を撮って記録する」を押すとカメラが開く。アルバムの写真や紙のカルテの写真も一緒に残せる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>前回の色番をタップで入力</h3>
+                <p>そのお客さんの前回の色番と、よく使う色番を候補に表示。同じ色ならタップするだけで入力できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>名前・色番・来店月で探せる</h3>
+                <p>名前の一部やふりがな、色番で検索。全角半角やカタカナ・ひらがなの違いも吸収する。来店した月からも探せる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>ハンドとフットを分けて管理</h3>
+                <p>記録ごとにHAND / FOOTを選べ、タブで切り替えて表示。色番の候補もハンド・フットそれぞれの前回から出す。</p>
+              </div>
+              <div class="feature-card">
+                <h3>来店カレンダー</h3>
+                <p>方眼紙のカレンダーに来店した月を色で囲んで表示。月を押すと、その月の記録までスクロールする。</p>
+              </div>
+              <div class="feature-card">
+                <h3>サーバーなしで動く</h3>
+                <p>写真と記録は端末のブラウザ（IndexedDB）に保存。写真は保存前に縮小して容量を抑えている。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              依頼主の方がスマホの操作に慣れていないことを前提に、インストールやログインをなくし、ボタンの言葉も「お客さんを追加」「写真を撮って記録する」のように、押すと何が起きるかが分かる話し言葉にしました。
+              施術の合間に片手で使うことを想定して、よく使うボタンは画面の下にまとめ、文字とボタンは大きめにしました。
+              記録の削除は2回押しで確定するようにして、うっかり消してしまうのを防いでいます。
+              最初に練習用のサンプル（爪の絵をプログラムで描いたもの）を入れておき、触りながら使い方を覚えられるようにしました。
+              見た目は生成りの方眼紙をベースに、くすみカラーの帯でカードを分け、サロンの落ち着いた雰囲気に合わせています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--nail">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>IndexedDB</li>
+            <li>Canvas（写真の縮小・サンプル描画）</li>
+            <li>スマホ対応</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">企画・UI設計・デザイン・実装・使い方ページの作成を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="melon-shop.html">← 前の作品：メロン販売ページ</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- ホーム画面に追加したときの表示 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ネイルカルテ">
+<meta name="theme-color" content="#ecebe8">
+<!-- 検索エンジンに載せない -->
+<meta name="robots" content="noindex, nofollow">
+<title>ネイルカルテ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;400;500&family=Zen+Maru+Gothic:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@400&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ポートフォリオ用デモの案内 -->
+<div style="padding:8px 16px;background:#3a3532;color:#fff;font-size:12px;line-height:1.6;text-align:center;font-family:system-ui,sans-serif">
+  ポートフォリオ用のデモです。入っているお客さんと記録はすべて架空のサンプルで、追加した記録はこの端末のブラウザにだけ保存されます。
+  <a href="../../works/nail-karte.html" style="color:#f3c9b5">作品紹介へ戻る</a>
+</div>
+
+<!-- 画面はすべて app.js が描画する -->
+<div id="app" class="app"></div>
+
+<!-- 写真の拡大表示 -->
+<div id="viewer" class="viewer" hidden>
+  <img id="viewer-img" alt="記録写真の拡大">
+  <button id="viewer-close" class="viewer-close" type="button">閉じる</button>
+</div>
+
+<!-- お客さん追加シート -->
+<div id="sheet" class="sheet-wrap" hidden>
+  <form id="sheet-form" class="sheet" autocomplete="off">
+    <h2 id="sheet-title" class="sheet-title">お客さんを追加</h2>
+    <label class="field">
+      <span class="field-label">お名前</span>
+      <input id="new-name" class="input" type="text" required placeholder="例：山本 さくら">
+    </label>
+    <label class="field">
+      <span class="field-label">ふりがな（任意・検索に使います）</span>
+      <input id="new-kana" class="input" type="text" placeholder="例：やまもと さくら">
+    </label>
+    <div class="sheet-actions">
+      <button id="sheet-cancel" class="btn btn-ghost" type="button">やめる</button>
+      <button id="sheet-submit" class="btn btn-primary" type="submit">追加する</button>
+    </div>
+  </form>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
