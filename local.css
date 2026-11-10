@@ -34,6 +34,8 @@ body {
   font-size: 17px;
   line-height: 1.9;
   letter-spacing: 0.03em;
+  /* 対応しているブラウザでは、日本語を文節の区切りで折り返す */
+  word-break: auto-phrase;
 }
 
 .wrap {
