@@ -46,6 +46,11 @@ b {
   font-weight: 700;
 }
 
+/* 言葉の途中で改行させず、区切りのいいところで折り返す */
+.nobr {
+  display: inline-block;
+}
+
 /* ===== 最初の画面 ===== */
 .hero {
   padding: 56px 0 48px;
