@@ -294,8 +294,15 @@ b {
   line-height: 1.6;
 }
 
-.can-list li span {
+.can-list .can-icon {
+  flex: none;
   font-size: 1.4rem;
+}
+
+/* 文字はひとまとまりにして、太字の部分で列が分かれないようにする */
+.can-list .can-text {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ===== 進め方 ===== */
