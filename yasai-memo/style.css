@@ -50,19 +50,21 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.6;
   -webkit-text-size-adjust: 100%;
 }
 
 button, input, textarea { font: inherit; color: inherit; }
+/* 入力欄は 16px より小さいと iPhone で画面が勝手に拡大されるので、16px にしておく */
+input, textarea { font-size: 16px; }
 button { cursor: pointer; }
 
 /* ===== ヘッダー ===== */
 .app-header {
   padding: calc(12px + env(safe-area-inset-top)) 16px 8px;
 }
-.app-title { margin: 0; font-size: 20px; }
+.app-title { margin: 0; font-size: 18px; }
 
 /* 設定ページからアプリに戻るボタン */
 .back-link {
@@ -74,7 +76,7 @@ button { cursor: pointer; }
   background: var(--color-surface);
   color: var(--color-accent-strong);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 13px;
   text-decoration: none;
 }
 .back-bottom { text-align: center; margin: 8px 0 24px; }
@@ -102,7 +104,7 @@ button { cursor: pointer; }
   border: none;
   background: var(--color-accent);
   color: #fff;
-  font-size: 38px;
+  font-size: 33px;
   box-shadow: 0 4px 14px rgb(0 0 0 / 0.15);
   transition: transform 0.15s, background 0.15s;
 }
@@ -115,14 +117,14 @@ button { cursor: pointer; }
   0%, 100% { box-shadow: 0 0 0 0 rgb(224 55 59 / 0.45); }
   50% { box-shadow: 0 0 0 14px rgb(224 55 59 / 0); }
 }
-.mic-hint { margin: 8px 0 0; color: var(--color-muted); font-size: 15px; }
-.mic-hint small { font-size: 13px; }
+.mic-hint { margin: 8px 0 0; color: var(--color-muted); font-size: 13px; }
+.mic-hint small { font-size: 12px; }
 
 /* ===== 入力欄 ===== */
 .field-label {
   display: block;
   margin: 14px 0 6px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--color-muted);
 }
@@ -152,7 +154,7 @@ button { cursor: pointer; }
   border: 1px solid var(--color-border);
   background: var(--color-surface);
 }
-.chip-small { padding: 4px 12px; font-size: 15px; }
+.chip-small { padding: 4px 12px; font-size: 13px; }
 .chip[aria-pressed="true"] {
   background: var(--color-accent);
   border-color: var(--color-accent);
@@ -174,7 +176,7 @@ button { cursor: pointer; }
   background: var(--color-accent);
   color: #fff;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
 }
 .save-button:disabled { opacity: 0.4; cursor: default; }
 .sub-button {
@@ -196,8 +198,8 @@ button { cursor: pointer; }
 /* ===== 履歴 ===== */
 .history { margin-bottom: 20px; }
 .history-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-.history-title { margin: 0; font-size: 19px; }
-.history-count { color: var(--color-muted); font-size: 14px; }
+.history-title { margin: 0; font-size: 17px; }
+.history-count { color: var(--color-muted); font-size: 12px; }
 
 /* 月ごとのかたまり（押すと開け閉めできる） */
 .month-group { margin-bottom: 10px; }
@@ -217,13 +219,13 @@ button { cursor: pointer; }
 /* 開いているかどうかを矢印で見せる */
 .month-heading::before { content: '▶'; font-size: 12px; color: var(--color-muted); }
 .month-group[open] > .month-heading::before { content: '▼'; }
-.month-label { font-size: 18px; font-weight: 700; }
-.month-info { color: var(--color-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
-.month-unpaid { color: var(--color-danger); font-size: 14px; font-weight: 700; }
+.month-label { font-size: 16px; font-weight: 700; }
+.month-info { color: var(--color-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.month-unpaid { color: var(--color-danger); font-size: 12px; font-weight: 700; }
 
 .day-heading {
   margin: 18px 0 8px;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--color-muted);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 4px;
@@ -239,7 +241,7 @@ button { cursor: pointer; }
 }
 .item.is-done { border-left-color: var(--color-border); opacity: 0.65; }
 .item-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
-.item-time { color: var(--color-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+.item-time { color: var(--color-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .item-name {
   border: none;
   background: none;
@@ -252,7 +254,7 @@ button { cursor: pointer; }
 .badge {
   padding: 1px 8px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 .badge-1 { background: var(--color-rice-soft); color: var(--color-rice); }
@@ -265,7 +267,7 @@ button { cursor: pointer; }
   border-radius: 999px;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
-  font-size: 15px;
+  font-size: 13px;
 }
 .done-button[aria-pressed="true"] {
   background: var(--color-accent-soft);
@@ -277,7 +279,7 @@ button { cursor: pointer; }
 
 /* ===== バックアップ ===== */
 .backup summary { cursor: pointer; font-weight: 700; }
-.backup-note { color: var(--color-muted); font-size: 14px; }
+.backup-note { color: var(--color-muted); font-size: 12px; }
 .backup-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* ===== 金額・お金 ===== */
@@ -310,11 +312,11 @@ button { cursor: pointer; }
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
-.summary-label { margin: 0; font-size: 13px; color: var(--color-muted); font-weight: 700; }
-.summary-value { margin: 0; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.summary-label { margin: 0; font-size: 12px; color: var(--color-muted); font-weight: 700; }
+.summary-value { margin: 0; font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .summary-value.is-unpaid { color: var(--color-danger); }
 .summary-people { margin-top: 10px; }
-.summary-people .chip { font-size: 14px; }
+.summary-people .chip { font-size: 12px; }
 
 /* ===== 履歴の金額 ===== */
 .item-price { margin-left: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -324,7 +326,7 @@ button { cursor: pointer; }
   border: 1px solid var(--color-danger);
   background: var(--color-surface);
   color: var(--color-danger);
-  font-size: 15px;
+  font-size: 13px;
 }
 .pay-button[aria-pressed="true"] {
   background: var(--color-accent-soft);
@@ -354,7 +356,7 @@ button { cursor: pointer; }
   background: var(--color-bg);
 }
 .kind-input:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; }
-.kind-note { margin: 10px 0 0; font-size: 13px; color: var(--color-muted); }
+.kind-note { margin: 10px 0 0; font-size: 12px; color: var(--color-muted); }
 .kind-close { margin-top: 10px; }
 
 /* ===== バックアップのお知らせ ===== */
@@ -368,14 +370,14 @@ button { cursor: pointer; }
 .backup-reminder[hidden] { display: none; }
 .backup-reminder-text { margin: 0 0 10px; font-weight: 700; }
 .backup-reminder-actions { display: flex; gap: 8px; align-items: center; }
-.backup-now { flex: 1 1 auto; padding: 10px; font-size: 16px; }
+.backup-now { flex: 1 1 auto; padding: 10px; font-size: 14px; }
 
 /* ===== おねがい ===== */
 .request { border-color: var(--color-rice); }
-.request-title { margin: 0 0 6px; font-size: 17px; }
+.request-title { margin: 0 0 6px; font-size: 15px; }
 .request-text { margin: 0; }
 .request-list { margin: 8px 0; padding-left: 1.4em; }
-.request-small { margin: 0; font-size: 13px; color: var(--color-muted); }
+.request-small { margin: 0; font-size: 12px; color: var(--color-muted); }
 
 /* ===== スプレッドシート連携 ===== */
 .sync summary { cursor: pointer; font-weight: 700; }
@@ -386,10 +388,10 @@ button { cursor: pointer; }
 .request-small + .request-small { margin-top: 6px; }
 
 /* ===== 設定のしかたのページ ===== */
-.guide h2 { margin: 0 0 8px; font-size: 18px; }
+.guide h2 { margin: 0 0 8px; font-size: 16px; }
 .guide p { margin: 0 0 8px; }
 .guide p:last-child { margin-bottom: 0; }
-.guide-lead { font-size: 17px; }
+.guide-lead { font-size: 15px; }
 .guide-points, .guide-settings { margin: 8px 0; padding-left: 1.4em; }
 .guide-settings { background: var(--color-bg); border-radius: 12px; padding: 10px 12px 10px 2em; }
 .guide-steps { list-style: none; counter-reset: step; margin: 0; padding: 0; }
@@ -408,7 +410,7 @@ button { cursor: pointer; }
   display: grid;
   place-items: center;
 }
-.guide code { overflow-wrap: anywhere; background: var(--color-bg); padding: 1px 4px; border-radius: 4px; font-size: 14px; }
+.guide code { overflow-wrap: anywhere; background: var(--color-bg); padding: 1px 4px; border-radius: 4px; font-size: 12px; }
 .code-box { margin: 10px 0; }
 .copy-button { width: 100%; margin-bottom: 8px; }
 .code-text {
@@ -429,13 +431,13 @@ button { cursor: pointer; }
   background: var(--color-rice-soft);
   border-radius: 8px;
 }
-.guide-note { color: var(--color-danger); font-weight: 700; font-size: 15px; }
+.guide-note { color: var(--color-danger); font-weight: 700; font-size: 13px; }
 
 /* ===== 設定のしかた：分かりやすくするための見た目 ===== */
-.guide-heading { margin: 0 0 8px; font-size: 18px; }
+.guide-heading { margin: 0 0 8px; font-size: 16px; }
 .guide-check { list-style: none; margin: 0 0 10px; padding: 0; }
 .guide-check li { padding: 4px 0; }
-.guide-help { font-size: 15px; color: var(--color-muted); }
+.guide-help { font-size: 13px; color: var(--color-muted); }
 
 /* 押すボタンの名前をボタンの形で見せる */
 .press {
@@ -471,20 +473,20 @@ kbd {
   background: var(--color-accent);
   color: #fff !important;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   text-decoration: none;
 }
-.guide-tip { font-size: 15px; color: var(--color-muted); }
+.guide-tip { font-size: 13px; color: var(--color-muted); }
 .guide-sample { background: var(--color-bg); border-radius: 8px; padding: 8px; }
-.guide-done { font-size: 18px; font-weight: 700; color: var(--color-accent-strong); }
-.guide-important { color: var(--color-danger); font-size: 18px; }
+.guide-done { font-size: 16px; font-weight: 700; color: var(--color-accent-strong); }
+.guide-important { color: var(--color-danger); font-size: 16px; }
 
-.guide-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 15px; }
+.guide-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 13px; }
 .guide-table th, .guide-table td { padding: 8px; border: 1px solid var(--color-border); text-align: left; vertical-align: top; }
 .guide-table th { background: var(--color-bg); width: 45%; font-weight: 700; }
 
-.code-details summary { cursor: pointer; font-size: 14px; color: var(--color-muted); margin-bottom: 6px; }
+.code-details summary { cursor: pointer; font-size: 12px; color: var(--color-muted); margin-bottom: 6px; }
 
 /* 進み具合 */
 .guide-progress {
@@ -498,7 +500,7 @@ kbd {
 }
 .guide-progress-bar { height: 10px; border-radius: 999px; background: var(--color-border); overflow: hidden; }
 .guide-progress-bar span { display: block; height: 100%; width: 0; background: var(--color-accent); transition: width 0.3s; }
-#progress-text { margin: 4px 0 0; font-size: 14px; font-weight: 700; text-align: center; }
+#progress-text { margin: 4px 0 0; font-size: 12px; font-weight: 700; text-align: center; }
 
 /* 「できた」ボタン */
 .step-done {
