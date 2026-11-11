@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <header class="app-header">
@@ -36,6 +36,16 @@
 
       <span class="field-label">なにを</span>
       <div class="chip-row" id="kind-chips" role="group" aria-label="種類"></div>
+      <!-- 種類を追加・整理する欄（「＋ 追加」を押すと出る） -->
+      <div class="kind-editor" id="kind-editor" hidden>
+        <div class="kind-add-row">
+          <input class="kind-input" id="kind-input" autocomplete="off" placeholder="例：卵、もち、漬物">
+          <button class="sub-button" id="kind-add" type="button">追加</button>
+        </div>
+        <p class="kind-note">いらない種類は × で消せます（今までの記録はそのまま残ります）</p>
+        <div class="chip-row" id="kind-remove-list"></div>
+        <button class="sub-button kind-close" id="kind-close" type="button">閉じる</button>
+      </div>
 
       <label class="field-label" for="text-input">内容</label>
       <textarea class="text-input" id="text-input" rows="3" placeholder="話した内容がここに出ます。手で書いたり直したりもできます。"></textarea>
@@ -90,6 +100,6 @@
     </details>
   </main>
 
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

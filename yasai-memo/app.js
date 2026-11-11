@@ -112,8 +112,88 @@ function renderPaidToggle() {
 }
 
 // ===== 入力欄 =====
+// ===== 種類（なにを）の追加・整理 =====
+const KINDS_KEY = 'kome-yasai-memo-kinds-v1';
+const kindEditor = $('kind-editor');
+const kindInput = $('kind-input');
+const kindRemoveList = $('kind-remove-list');
+let kindList = loadKinds();
+
+function loadKinds() {
+  try {
+    const list = JSON.parse(localStorage.getItem(KINDS_KEY));
+    if (Array.isArray(list) && list.length) return list.filter((k) => typeof k === 'string' && k.trim());
+  } catch { /* 読めなければはじめの種類を使う */ }
+  return [...KINDS];
+}
+
+function saveKinds() {
+  try { localStorage.setItem(KINDS_KEY, JSON.stringify(kindList)); } catch { /* 保存できなくても画面はそのまま使う */ }
+}
+
+// 今の一覧に加えて、直している記録にだけある種類も出す
+function getShownKinds() {
+  return [...kindList, ...[...selectedKinds].filter((k) => !kindList.includes(k))];
+}
+
+function addKind() {
+  const kind = kindInput.value.trim().replace(/\s+/g, ' ');
+  if (!kind) return;
+  if (!kindList.includes(kind)) {
+    kindList.push(kind);
+    saveKinds();
+  }
+  selectedKinds.add(kind);
+  kindInput.value = '';
+  renderKindChips();
+  renderKindEditor();
+  showStatus(`「${kind}」を追加しました`);
+}
+
+function removeKind(kind) {
+  kindList = kindList.filter((k) => k !== kind);
+  selectedKinds.delete(kind);
+  saveKinds();
+  renderKindChips();
+  renderKindEditor();
+}
+
+function renderKindEditor() {
+  kindRemoveList.replaceChildren(...kindList.map((kind) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'chip chip-small';
+    button.textContent = `${kind} ×`;
+    button.setAttribute('aria-label', `${kind}を消す`);
+    button.addEventListener('click', () => removeKind(kind));
+    return button;
+  }));
+}
+
+function toggleKindEditor(open) {
+  kindEditor.hidden = !open;
+  renderKindChips();
+  if (open) {
+    renderKindEditor();
+    kindInput.focus();
+  }
+}
+
+// 種類ごとの色（お米・野菜以外は同じ色）
+function badgeClass(kind) {
+  if (kind === 'お米') return 'badge badge-1';
+  if (kind === '野菜') return 'badge badge-2';
+  return 'badge badge-3';
+}
+
 function renderKindChips() {
-  kindChips.replaceChildren(...KINDS.map((kind) => {
+  const addButton = document.createElement('button');
+  addButton.type = 'button';
+  addButton.className = 'chip chip-add';
+  addButton.textContent = kindEditor.hidden ? '＋ 追加' : '閉じる';
+  addButton.addEventListener('click', () => toggleKindEditor(kindEditor.hidden));
+
+  kindChips.replaceChildren(...getShownKinds().map((kind) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'chip';
@@ -125,7 +205,7 @@ function renderKindChips() {
       renderKindChips();
     });
     return button;
-  }));
+  }), addButton);
 }
 
 // よく頼む人を、回数の多い順に並べる
@@ -178,6 +258,10 @@ function autoFill() {
   }
   if (RICE_WORDS.test(text)) selectedKinds.add('お米');
   if (VEGETABLE_WORDS.test(text)) selectedKinds.add('野菜');
+  // 自分で追加した種類の名前が出てきたら、それも選ぶ
+  kindList.forEach((kind) => {
+    if (!KINDS.includes(kind) && text.includes(kind)) selectedKinds.add(kind);
+  });
   if (!priceInput.value.trim()) {
     const price = findPrice(text);
     if (price !== null) priceInput.value = String(price);
@@ -208,7 +292,7 @@ function saveRecord() {
   const name = nameInput.value.trim();
   const text = textInput.value.trim();
   if (!name && !text) return;
-  const kinds = KINDS.filter((k) => selectedKinds.has(k));
+  const kinds = getShownKinds().filter((k) => selectedKinds.has(k));
   const price = toNumber(priceInput.value);
   const paid = formPaid;
 
@@ -432,7 +516,7 @@ function renderItem(record, date) {
   }
   (record.kinds || []).forEach((kind) => {
     const badge = document.createElement('span');
-    badge.className = 'badge badge-' + (KINDS.indexOf(kind) + 1);
+    badge.className = badgeClass(kind);
     badge.textContent = kind;
     top.append(badge);
   });
@@ -611,6 +695,12 @@ $('import-file').addEventListener('change', async (event) => {
     const added = list.filter((r) => r && r.id && r.createdAt && !ids.has(r.id));
     records = [...records, ...added].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     saveRecords();
+    // 戻した記録にある種類を「なにを」にも足す
+    added.forEach((r) => (r.kinds || []).forEach((k) => {
+      if (typeof k === 'string' && k && !kindList.includes(k)) kindList.push(k);
+    }));
+    saveKinds();
+    renderKindChips();
     renderAll();
     showStatus(`${added.length}件を戻しました`);
   } catch {
@@ -621,6 +711,15 @@ $('import-file').addEventListener('change', async (event) => {
 // ===== はじめの設定 =====
 nameInput.addEventListener('input', updateSaveState);
 textInput.addEventListener('input', updateSaveState);
+$('kind-add').addEventListener('click', addKind);
+$('kind-close').addEventListener('click', () => toggleKindEditor(false));
+kindInput.addEventListener('keydown', (event) => {
+  // 変換の確定中の Enter では追加しない
+  if (event.key === 'Enter' && !event.isComposing) {
+    event.preventDefault();
+    addKind();
+  }
+});
 paidToggle.addEventListener('click', () => {
   formPaid = !formPaid;
   renderPaidToggle();
