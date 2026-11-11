@@ -393,3 +393,105 @@ button { cursor: pointer; }
   border-radius: 8px;
 }
 .guide-note { color: var(--color-danger); font-weight: 700; font-size: 15px; }
+
+/* ===== 設定のしかた：分かりやすくするための見た目 ===== */
+.guide-heading { margin: 0 0 8px; font-size: 18px; }
+.guide-check { list-style: none; margin: 0 0 10px; padding: 0; }
+.guide-check li { padding: 4px 0; }
+.guide-help { font-size: 15px; color: var(--color-muted); }
+
+/* 押すボタンの名前をボタンの形で見せる */
+.press {
+  display: inline-block;
+  padding: 0 8px;
+  margin: 1px 0;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 3px;
+  border-radius: 8px;
+  background: var(--color-surface);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.press-blue { background: #1a73e8; border-color: #1559b3; color: #fff; }
+kbd {
+  display: inline-block;
+  min-width: 1.8em;
+  padding: 0 6px;
+  border: 1px solid var(--color-border);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  background: var(--color-surface);
+  font-family: inherit;
+  font-weight: 700;
+  text-align: center;
+}
+
+.guide-big-link {
+  display: block;
+  margin: 8px 0 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--color-accent);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+}
+.guide-tip { font-size: 15px; color: var(--color-muted); }
+.guide-sample { background: var(--color-bg); border-radius: 8px; padding: 8px; }
+.guide-done { font-size: 18px; font-weight: 700; color: var(--color-accent-strong); }
+.guide-important { color: var(--color-danger); font-size: 18px; }
+
+.guide-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 15px; }
+.guide-table th, .guide-table td { padding: 8px; border: 1px solid var(--color-border); text-align: left; vertical-align: top; }
+.guide-table th { background: var(--color-bg); width: 45%; font-weight: 700; }
+
+.code-details summary { cursor: pointer; font-size: 14px; color: var(--color-muted); margin-bottom: 6px; }
+
+/* 進み具合 */
+.guide-progress {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0 -16px 16px;
+  padding: 10px 16px;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+.guide-progress-bar { height: 10px; border-radius: 999px; background: var(--color-border); overflow: hidden; }
+.guide-progress-bar span { display: block; height: 100%; width: 0; background: var(--color-accent); transition: width 0.3s; }
+#progress-text { margin: 4px 0 0; font-size: 14px; font-weight: 700; text-align: center; }
+
+/* 「できた」ボタン */
+.step-done {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px dashed var(--color-border);
+  background: transparent;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+.step-done[aria-pressed="true"] {
+  border-style: solid;
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+.guide-steps > li { scroll-margin-top: 70px; }
+.guide-steps > li.is-done::before { content: "✓"; }
+
+/* うまくいかないとき */
+.guide-faq { margin: 0; }
+.guide-faq dt { font-weight: 700; margin-top: 12px; }
+.guide-faq dt::before { content: "Q. "; color: var(--color-accent-strong); }
+.guide-faq dt:first-child { margin-top: 0; }
+.guide-faq dd { margin: 4px 0 0; padding-left: 1.6em; }
+
+/* 長いボタン名やアドレスが画面からはみ出さないように折り返す */
+.press { white-space: normal; }
+.guide .card { overflow-wrap: anywhere; min-width: 0; }
+.guide-sample code { word-break: break-all; }

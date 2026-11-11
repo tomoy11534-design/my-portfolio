@@ -7,95 +7,161 @@
   <meta name="description" content="お米・野菜メモの記録を、Googleスプレッドシートに自動で残すための設定のしかた">
   <meta name="theme-color" content="#4f8a3c">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <header class="app-header">
-    <h1 class="app-title">📊 スプレッドシートに自動で残す設定</h1>
+    <h1 class="app-title">📊 記録を表に自動で残す設定</h1>
   </header>
 
   <main class="app-main guide">
+    <!-- はじめに -->
     <section class="card">
-      <p class="guide-lead">記録するたびに、Googleスプレッドシートにも自動で書き込まれるようにする設定です。<strong>はじめに一度だけ</strong>やれば、あとは何もしなくて大丈夫です。</p>
-      <ul class="guide-points">
-        <li>かかる時間：15分くらい</li>
-        <li>使うもの：<strong>パソコン</strong>（スマホでは難しいです）と、Googleアカウント</li>
-        <li>わからなくなったら、途中でやめても大丈夫です。<a href="https://lin.ee/pacoQd7" target="_blank" rel="noopener">LINEでご相談ください</a>。</li>
-      </ul>
+      <p class="guide-lead">アプリで記録するたびに、<strong>Googleの表（スプレッドシート）</strong>にも自動で書き込まれるようにします。</p>
+      <p>スプレッドシートは、Googleの「Excel（エクセル）」のようなものです。</p>
+      <p><strong>一度だけ</strong>設定すれば、あとは何もしなくて大丈夫です。</p>
     </section>
 
-    <ol class="guide-steps">
+    <section class="card">
+      <h2 class="guide-heading">はじめる前に用意するもの</h2>
+      <ul class="guide-check">
+        <li>💻 <strong>パソコン</strong>（スマホではやりにくいです）</li>
+        <li>✉️ <strong>Googleアカウント</strong>（Gmail のアドレスとパスワード）</li>
+        <li>📱 お米・野菜メモが入ったスマホ</li>
+        <li>⏱ 時間：<strong>15分くらい</strong></li>
+      </ul>
+      <p class="guide-help">わからなくなったら、途中でやめても大丈夫です。<a href="https://lin.ee/pacoQd7" target="_blank" rel="noopener">LINEで聞いてください</a>。</p>
+    </section>
+
+    <!-- 進み具合 -->
+    <div class="guide-progress" aria-live="polite">
+      <div class="guide-progress-bar"><span id="progress-fill"></span></div>
+      <p id="progress-text">0 / 10 できました</p>
+    </div>
+
+    <ol class="guide-steps" id="guide-steps">
       <li class="card">
-        <h2>新しいスプレッドシートを作る</h2>
-        <p>パソコンで Google にログインした状態で、<a href="https://sheets.new" target="_blank" rel="noopener">sheets.new</a> を開きます。空のスプレッドシートができます。</p>
-        <p>左上の「無題のスプレッドシート」を押して、<strong>「販売メモの記録」</strong>などわかりやすい名前に変えます。</p>
+        <h2>表（スプレッドシート）を作る</h2>
+        <p>下のボタンを<strong>パソコンで</strong>押します。</p>
+        <a class="guide-big-link" href="https://sheets.new" target="_blank" rel="noopener">新しい表を作る ↗</a>
+        <p>白い表の画面が開いたら、このステップはできました。</p>
+        <p class="guide-tip">💡 Googleにログインしていないときは、先にログインの画面が出ます。</p>
+      </li>
+
+      <li class="card">
+        <h2>表に名前を付ける</h2>
+        <p>左上の <span class="press">無題のスプレッドシート</span> を押します。</p>
+        <p><strong>販売メモの記録</strong> と入れて、キーボードの <kbd>Enter</kbd> を押します。</p>
       </li>
 
       <li class="card">
         <h2>「Apps Script」を開く</h2>
-        <p>上のメニューの <strong>「拡張機能」→「Apps Script」</strong> を押します。新しい画面が開きます。</p>
+        <p>上のメニューの <span class="press">拡張機能</span> を押します。</p>
+        <p>出てきた中の <span class="press">Apps Script</span> を押します。</p>
+        <p>新しい画面が開いて、<code>function myFunction()</code> という英語の文字が見えたら、できました。</p>
+      </li>
+
+      <li class="card">
+        <h2>はじめからある文字を消す</h2>
+        <p>英語の文字が書いてあるところを、一度クリックします。</p>
+        <p>キーボードで <kbd>Ctrl</kbd> ＋ <kbd>A</kbd> を押して全部選び、<kbd>Delete</kbd> を押して消します。</p>
+        <p class="guide-tip">💡 Mac のときは <kbd>⌘</kbd> ＋ <kbd>A</kbd> です。</p>
       </li>
 
       <li class="card">
         <h2>プログラムを貼り付ける</h2>
-        <p>最初から書いてある <code>function myFunction() {…}</code> を<strong>全部消して</strong>、下の「コピーする」ボタンでコピーしたものを貼り付けます。</p>
+        <p>このページの下のボタンを押してコピーします。</p>
         <div class="code-box">
-          <button class="save-button copy-button" id="copy-button" type="button" disabled>コピーする</button>
-          <textarea class="code-text" id="code-text" readonly rows="8" aria-label="貼り付けるプログラム">読み込んでいます…</textarea>
+          <button class="save-button copy-button" id="copy-button" type="button" disabled>プログラムをコピーする</button>
+          <details class="code-details">
+            <summary>中身を見る（見なくても大丈夫です）</summary>
+            <textarea class="code-text" id="code-text" readonly rows="8" aria-label="貼り付けるプログラム">読み込んでいます…</textarea>
+          </details>
         </div>
-        <p>貼り付けたら、上の <strong>💾（保存）</strong> ボタンを押します。</p>
+        <p>さっきの画面に戻って、文字を消したところで <kbd>Ctrl</kbd> ＋ <kbd>V</kbd> を押して貼り付けます。</p>
+        <p>上にある <span class="press">💾</span>（保存）を押します。</p>
+        <p class="guide-tip">💡 Mac のときは <kbd>⌘</kbd> ＋ <kbd>V</kbd> です。</p>
       </li>
 
       <li class="card">
-        <h2>「デプロイ」する</h2>
-        <p>右上の青い <strong>「デプロイ」→「新しいデプロイ」</strong> を押します。</p>
-        <p>「種類の選択」の横の ⚙ を押して <strong>「ウェブアプリ」</strong> を選び、次のようにします。</p>
-        <ul class="guide-settings">
-          <li>説明：<strong>販売メモ</strong>（なんでも大丈夫です）</li>
-          <li>次のユーザーとして実行：<strong>自分</strong></li>
-          <li>アクセスできるユーザー：<strong>全員</strong></li>
-        </ul>
-        <p>最後に <strong>「デプロイ」</strong> を押します。</p>
+        <h2>「デプロイ」を始める</h2>
+        <p>右上の青いボタン <span class="press press-blue">デプロイ</span> を押します。</p>
+        <p>出てきた中の <span class="press">新しいデプロイ</span> を押します。</p>
+        <p class="guide-tip">💡 「デプロイ」は「使えるようにする」という意味です。</p>
       </li>
 
       <li class="card">
-        <h2>使ってよいか聞かれたら「許可」する</h2>
-        <p><strong>「アクセスを承認」</strong> を押して、自分の Googleアカウントを選びます。</p>
+        <h2>「ウェブアプリ」にして、「全員」を選ぶ</h2>
+        <p>左上の「種類の選択」の横にある <span class="press">⚙</span> を押して、<span class="press">ウェブアプリ</span> を選びます。</p>
+        <p>右側の3か所を、このとおりにします。</p>
+        <table class="guide-table">
+          <tr><th>説明</th><td><strong>販売メモ</strong>（なんでも大丈夫）</td></tr>
+          <tr><th>次のユーザーとして実行</th><td><strong>自分</strong>（はじめからこうなっています）</td></tr>
+          <tr><th>アクセスできるユーザー</th><td><strong class="guide-important">全員</strong> ← ここを変えます</td></tr>
+        </table>
+        <p>右下の <span class="press press-blue">デプロイ</span> を押します。</p>
+      </li>
+
+      <li class="card">
+        <h2>「許可」する</h2>
+        <p><span class="press">アクセスを承認</span> を押して、自分のGoogleアカウントを選びます。</p>
         <div class="guide-warning">
-          <p><strong>「このアプリは Google で確認されていません」</strong> と出ます。</p>
-          <p>自分で作ったプログラムなので、そのまま進んで大丈夫です。左下の <strong>「詳細」</strong> → <strong>「（プロジェクトの名前）（安全ではないページ）に移動」</strong> を押します。</p>
+          <p>⚠ <strong>「このアプリは Google で確認されていません」</strong>と出ます。</p>
+          <p>びっくりしますが、<strong>自分で作ったものなので大丈夫</strong>です。</p>
+          <p>左下の小さい <span class="press">詳細</span> を押して、いちばん下の <span class="press">（名前）（安全ではないページ）に移動</span> を押します。</p>
         </div>
-        <p>次の画面で <strong>「許可」</strong>（または「すべて選択」→「続行」）を押します。</p>
+        <p>最後に <span class="press press-blue">許可</span> を押します。</p>
+        <p class="guide-tip">💡 「すべて選択」と出たら、そこにチェックを入れてから <span class="press press-blue">続行</span> を押します。</p>
       </li>
 
       <li class="card">
         <h2>出てきたアドレスをスマホに送る</h2>
-        <p>「ウェブアプリ」の下に <code>https://script.google.com/macros/s/…/exec</code> というアドレスが出ます。<strong>「コピー」</strong> を押します。</p>
-        <p>そのアドレスを、<strong>自分宛てのLINE（Keepメモ）やメール</strong>でスマホに送ります。</p>
-        <p class="guide-note">このアドレスは鍵のようなものです。ほかの人には教えないでください。</p>
+        <p>少し待つと、<strong>ウェブアプリ</strong>の「URL」のところにアドレスが出ます。</p>
+        <p class="guide-sample"><code>https://script.google.com/macros/s/……/exec</code></p>
+        <p>横の <span class="press">コピー</span> を押します。</p>
+        <p>そのアドレスを、<strong>自分宛てのLINE（Keepメモ）</strong>かメールに貼って送ります。</p>
+        <p class="guide-note">🔑 このアドレスは家の鍵のようなものです。ほかの人には教えないでください。</p>
       </li>
 
       <li class="card">
-        <h2>スマホのアプリに貼って「つなぐ」</h2>
-        <p>スマホで「お米・野菜メモ」を開き、下のほうの <strong>「📊 スプレッドシートに自動で残す」</strong> を押します。</p>
-        <p>送ったアドレスを貼り付けて <strong>「つなぐ」</strong> を押します。「つながりました」と出たら完了です。</p>
-        <p>今までの記録もまとめて送られます。スプレッドシートを開くと、<strong>「販売記録」</strong>というシートに記録が並んでいます。</p>
+        <h2>スマホのアプリに貼る</h2>
+        <p>ここからは<strong>スマホ</strong>です。</p>
+        <p>LINEに送ったアドレスを長押しして、コピーします。</p>
+        <p>お米・野菜メモを開いて、いちばん下のほうの <span class="press">📊 スプレッドシートに自動で残す</span> を押します。</p>
+        <p>アドレスを貼り付けて、<span class="press">つなぐ</span> を押します。</p>
+        <p class="guide-done">🎉 「つながりました」と出たら、すべて終わりです！</p>
+        <p>パソコンで表を開くと、<strong>「販売記録」</strong>というページに今までの記録が並んでいます。</p>
       </li>
     </ol>
 
+    <!-- うまくいかないとき -->
     <section class="card">
-      <h2 class="request-title">知っておいてほしいこと</h2>
+      <h2 class="guide-heading">うまくいかないとき</h2>
+      <dl class="guide-faq">
+        <dt>「つながりませんでした」と出る</dt>
+        <dd>7番の「アクセスできるユーザー」が<strong>全員</strong>になっているか確かめてください。違っていたら、もう一度6番から「新しいデプロイ」をやり直して、新しく出たアドレスを貼ります。</dd>
+        <dt>「アドレスが違うようです」と出る</dt>
+        <dd>アドレスの一部しかコピーできていないかもしれません。<code>https://</code> で始まり <code>/exec</code> で終わるものを全部貼ってください。</dd>
+        <dt>「拡張機能」が見つからない</dt>
+        <dd>画面のいちばん上の「ファイル」「編集」「表示」…と並んでいるところにあります。画面が狭いと隠れていることがあるので、ブラウザを大きくしてみてください。</dd>
+        <dt>それでもうまくいかない</dt>
+        <dd>どの番号で止まったかを書いて、<a href="https://lin.ee/pacoQd7" target="_blank" rel="noopener">LINEで送ってください</a>。画面の写真があると助かります。</dd>
+      </dl>
+    </section>
+
+    <section class="card">
+      <h2 class="guide-heading">知っておいてほしいこと</h2>
       <ul class="guide-points">
-        <li>記録は、ご自分の Googleアカウントのスプレッドシートに入ります。共有しない限り、ほかの人には見えません。</li>
-        <li>このプログラムは書き込むだけで、読み出す機能はありません。アドレスを知られても、シートの中身は見られません。</li>
-        <li>電波がないときに記録した分は、つながったときに送られます。</li>
-        <li>アプリで直したり消したりすると、スプレッドシートも同じように変わります。スプレッドシートで直した内容は、アプリには戻りません。</li>
+        <li>記録は、<strong>自分のGoogleアカウントの表</strong>に入ります。自分で共有しない限り、ほかの人には見えません。</li>
+        <li>このプログラムは書き込むだけです。アドレスを知られても、表の中身は見られません。</li>
+        <li>電波がないときの記録は、電波が戻ったときに送られます。</li>
+        <li>アプリで直したり消したりすると、表も同じように変わります。<strong>表のほうで直しても、アプリには戻りません。</strong></li>
       </ul>
     </section>
   </main>
 
   <script>
-    // 貼り付けるプログラムを読み込んで、コピーできるようにする
+    // ===== 貼り付けるプログラムを読み込んで、コピーできるようにする =====
     const codeText = document.getElementById('code-text');
     const copyButton = document.getElementById('copy-button');
 
@@ -109,7 +175,8 @@
         copyButton.disabled = false;
       })
       .catch(() => {
-        codeText.value = '読み込めませんでした。ページを開き直すか、LINEでご相談ください。';
+        codeText.value = '読み込めませんでした。ページを開き直すか、LINEで聞いてください。';
+        copyButton.textContent = '読み込めませんでした';
       });
 
     copyButton.addEventListener('click', async () => {
@@ -117,12 +184,50 @@
         await navigator.clipboard.writeText(codeText.value);
       } catch {
         // 使えないブラウザでは、選んだ状態にしてコピーする
+        codeText.closest('details').open = true;
         codeText.select();
         document.execCommand('copy');
       }
-      copyButton.textContent = '✓ コピーしました';
-      setTimeout(() => { copyButton.textContent = 'コピーする'; }, 2500);
+      copyButton.textContent = '✓ コピーしました。さっきの画面に貼り付けてください';
+      setTimeout(() => { copyButton.textContent = 'プログラムをコピーする'; }, 4000);
     });
+
+    // ===== 「できた」のチェックと進み具合 =====
+    const PROGRESS_KEY = 'kome-yasai-memo-setup-progress';
+    const steps = [...document.querySelectorAll('#guide-steps > li')];
+    let doneSteps = [];
+    try { doneSteps = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || []; } catch { doneSteps = []; }
+
+    function renderProgress() {
+      const count = steps.filter((_, i) => doneSteps.includes(i)).length;
+      document.getElementById('progress-fill').style.width = `${(count / steps.length) * 100}%`;
+      document.getElementById('progress-text').textContent = count === steps.length
+        ? `🎉 ${steps.length} / ${steps.length} ぜんぶできました！`
+        : `${count} / ${steps.length} できました`;
+    }
+
+    steps.forEach((step, i) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'step-done';
+      const update = () => {
+        const done = doneSteps.includes(i);
+        button.setAttribute('aria-pressed', String(done));
+        button.textContent = done ? '✓ できた' : 'できたら押す';
+        step.classList.toggle('is-done', done);
+      };
+      button.addEventListener('click', () => {
+        doneSteps = doneSteps.includes(i) ? doneSteps.filter((n) => n !== i) : [...doneSteps, i];
+        try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(doneSteps)); } catch { /* 保存できなくても続ける */ }
+        update();
+        renderProgress();
+        // できたら、次のステップが見えるところまで動かす
+        if (doneSteps.includes(i) && steps[i + 1]) steps[i + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      update();
+      step.append(button);
+    });
+    renderProgress();
   </script>
 </body>
 </html>
