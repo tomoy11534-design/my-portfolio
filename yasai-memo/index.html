@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
   <header class="app-header">
@@ -113,7 +113,9 @@
     <details class="card sync" id="sync-card">
       <summary>📊 スプレッドシートに自動で残す</summary>
       <p class="backup-note">つなぐと、記録するたびに Googleスプレッドシートにも自動で書き込みます。はじめに一度だけ、パソコンでの設定が必要です。</p>
-      <p class="backup-note"><a href="sheets-setup.html" target="_blank" rel="noopener">→ 設定のしかたを見る</a></p>
+      <p class="backup-note"><a href="sheets-copy.html" target="_blank" rel="noopener">→ 設定のしかたを見る</a></p>
+      <!-- 見本の表をコピーするボタン（sheets-config.js にアドレスがあるときだけ出す） -->
+      <p class="backup-note" id="sync-template" hidden><a id="sync-template-link" href="#" target="_blank" rel="noopener">→ 用意してある表をコピーする（パソコンで開くと進めやすいです）</a></p>
       <div id="sync-off">
         <label class="field-label" for="sync-url">設定の最後に出てきたアドレス</label>
         <input class="search-input" id="sync-url" type="url" inputmode="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec">
@@ -146,6 +148,7 @@
     </section>
   </main>
 
-  <script src="app.js?v=7"></script>
+  <script src="sheets-config.js?v=2"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>

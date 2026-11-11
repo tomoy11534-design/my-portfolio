@@ -46,6 +46,8 @@ let selectedKinds = new Set();
 let formPaid = false;     // 入力欄の「お金もらった」
 let editingId = null;     // 直している記録のID（新しく書くときは null）
 let statusFilter = 'all';
+// 履歴の月ごとのかたまりを、自分で開けたか閉じたか（画面を描き直しても戻らないように）
+const monthOpenState = new Map();
 let statusTimer = null;
 
 // ===== 保存と読み込み =====
@@ -479,21 +481,77 @@ function renderHistory() {
     return;
   }
 
-  const fragment = document.createDocumentFragment();
-  let lastDay = '';
+  // 月ごとにまとめる（記録は新しい順に並んでいる）
+  const months = [];
   list.forEach((record) => {
     const date = new Date(record.createdAt);
-    const day = formatDate(date);
-    if (day !== lastDay) {
-      const heading = document.createElement('h3');
-      heading.className = 'day-heading';
-      heading.textContent = date.getFullYear() === new Date().getFullYear() ? day : `${date.getFullYear()}年${day}`;
-      fragment.append(heading);
-      lastDay = day;
+    const key = monthKey(date);
+    let month = months[months.length - 1];
+    if (!month || month.key !== key) {
+      month = { key, date, records: [] };
+      months.push(month);
     }
-    fragment.append(renderItem(record, date));
+    month.records.push(record);
+  });
+
+  // さがしているときや、しぼりこんでいるときは見落とさないように全部開く
+  const isFiltering = Boolean(query) || statusFilter !== 'all';
+  const nowKey = monthKey(new Date());
+  const thisYear = new Date().getFullYear();
+
+  const fragment = document.createDocumentFragment();
+  months.forEach((month, index) => {
+    const details = document.createElement('details');
+    details.className = 'month-group';
+    // 今月（今月の記録がなければ一番新しい月）だけ開いておく。自分で開け閉めした月はそれを覚えておく
+    const defaultOpen = month.key === nowKey || (index === 0 && months[0].key !== nowKey);
+    details.open = isFiltering || (monthOpenState.has(month.key) ? monthOpenState.get(month.key) : defaultOpen);
+    details.addEventListener('toggle', () => {
+      if (!isFiltering) monthOpenState.set(month.key, details.open);
+    });
+
+    const summary = document.createElement('summary');
+    summary.className = 'month-heading';
+    const label = document.createElement('span');
+    label.className = 'month-label';
+    const m = month.date.getMonth() + 1;
+    label.textContent = month.date.getFullYear() === thisYear ? `${m}月` : `${month.date.getFullYear()}年${m}月`;
+    const monthTotal = month.records.reduce((sum, r) => sum + (r.price || 0), 0);
+    const monthUnpaid = month.records.reduce((sum, r) => sum + (r.paid ? 0 : r.price || 0), 0);
+    const info = document.createElement('span');
+    info.className = 'month-info';
+    info.textContent = `${month.records.length}件・合計 ${formatYen(monthTotal)}`;
+    summary.append(label, info);
+    if (monthUnpaid) {
+      const unpaidBadge = document.createElement('span');
+      unpaidBadge.className = 'month-unpaid';
+      unpaidBadge.textContent = `お金まだ ${formatYen(monthUnpaid)}`;
+      summary.append(unpaidBadge);
+    }
+    details.append(summary);
+
+    // 月の中は今までどおり日ごとに見出しを付ける
+    let lastDay = '';
+    month.records.forEach((record) => {
+      const date = new Date(record.createdAt);
+      const day = formatDate(date);
+      if (day !== lastDay) {
+        const heading = document.createElement('h3');
+        heading.className = 'day-heading';
+        heading.textContent = day;
+        details.append(heading);
+        lastDay = day;
+      }
+      details.append(renderItem(record, date));
+    });
+    fragment.append(details);
   });
   historyList.replaceChildren(fragment);
+}
+
+// 月を見分けるための文字（例: 2026-11）
+function monthKey(date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}`;
 }
 
 function renderItem(record, date) {
@@ -920,6 +978,12 @@ function disconnectSync() {
 }
 
 $('sync-connect').addEventListener('click', connectSync);
+
+// 見本の表のアドレスが用意してあれば、コピーするリンクを出す
+if (typeof SHEETS_TEMPLATE_COPY_URL === 'string' && SHEETS_TEMPLATE_COPY_URL) {
+  $('sync-template-link').href = SHEETS_TEMPLATE_COPY_URL;
+  $('sync-template').hidden = false;
+}
 $('sync-now').addEventListener('click', () => {
   syncError = '';
   scheduleSync(0);

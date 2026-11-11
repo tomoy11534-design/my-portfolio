@@ -1,6 +1,6 @@
 // オフラインでも開けるように画面のファイルを保存しておく
-const CACHE_NAME = 'kome-yasai-memo-v8';
-const APP_FILES = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon.svg'];
+const CACHE_NAME = 'kome-yasai-memo-v10';
+const APP_FILES = ['./', 'index.html', 'style.css', 'app.js', 'sheets-config.js', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_FILES)));
