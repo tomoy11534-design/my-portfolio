@@ -319,3 +319,16 @@ button { cursor: pointer; }
 .kind-input:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; }
 .kind-note { margin: 10px 0 0; font-size: 13px; color: var(--color-muted); }
 .kind-close { margin-top: 10px; }
+
+/* ===== バックアップのお知らせ ===== */
+.backup-reminder {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 2px solid var(--color-rice);
+  border-radius: var(--radius);
+  background: var(--color-rice-soft);
+}
+.backup-reminder[hidden] { display: none; }
+.backup-reminder-text { margin: 0 0 10px; font-weight: 700; }
+.backup-reminder-actions { display: flex; gap: 8px; align-items: center; }
+.backup-now { flex: 1 1 auto; padding: 10px; font-size: 16px; }

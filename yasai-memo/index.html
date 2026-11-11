@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="app-header">
@@ -20,6 +20,15 @@
   </header>
 
   <main class="app-main">
+    <!-- バックアップのお知らせ（前回の保存から7日たつと出る） -->
+    <section class="backup-reminder" id="backup-reminder" role="status" hidden>
+      <p class="backup-reminder-text" id="backup-reminder-text"></p>
+      <div class="backup-reminder-actions">
+        <button class="save-button backup-now" id="backup-now" type="button">今すぐ保存</button>
+        <button class="sub-button" id="backup-later" type="button">あとで</button>
+      </div>
+    </section>
+
     <!-- 記録する欄 -->
     <section class="card form-card" id="form-card">
       <div class="mic-area">
@@ -90,7 +99,8 @@
     <!-- バックアップ -->
     <details class="card backup">
       <summary>💾 データのバックアップ</summary>
-      <p class="backup-note">記録はこのスマホの中だけに保存されます。機種変更やブラウザのデータ削除に備えて、ときどき保存してください。</p>
+      <p class="backup-note">記録はこのスマホの中だけに保存されます。機種変更やブラウザのデータ削除に備えて、ときどき保存してください（7日たつとお知らせします）。保存したファイルはGoogleドライブや自分宛てのLINEにも入れておくと安心です。</p>
+      <p class="backup-note" id="last-backup"></p>
       <div class="backup-actions">
         <button class="sub-button" id="export-json" type="button">バックアップを保存</button>
         <button class="sub-button" id="import-json" type="button">バックアップから戻す</button>
@@ -100,6 +110,6 @@
     </details>
   </main>
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

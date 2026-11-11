@@ -666,8 +666,80 @@ function todayStamp() {
   return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
 }
 
-$('export-json').addEventListener('click', () => {
+// ===== バックアップのお知らせ =====
+const BACKUP_KEY = 'kome-yasai-memo-last-backup';
+const SNOOZE_KEY = 'kome-yasai-memo-backup-snooze';
+const BACKUP_INTERVAL_DAYS = 7;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function readTime(key) {
+  try {
+    const t = Date.parse(localStorage.getItem(key) || '');
+    return Number.isFinite(t) ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeTime(key, time) {
+  try { localStorage.setItem(key, new Date(time).toISOString()); } catch { /* 保存できなくても続ける */ }
+}
+
+// 記録がいちばん最後に増えたり変わったりした時刻
+function latestChangeTime() {
+  let latest = 0;
+  records.forEach((r) => {
+    [r.createdAt, r.updatedAt, r.doneAt, r.paidAt].forEach((v) => {
+      const t = Date.parse(v || '');
+      if (Number.isFinite(t) && t > latest) latest = t;
+    });
+  });
+  return latest;
+}
+
+function renderBackupReminder() {
+  const now = Date.now();
+  const last = readTime(BACKUP_KEY);
+  const snooze = readTime(SNOOZE_KEY);
+
+  // バックアップの画面に前回の保存日を出す
+  $('last-backup').textContent = last
+    ? `前回の保存：${formatDate(new Date(last))}`
+    : 'まだ一度も保存していません';
+
+  let message = '';
+  if (records.length && latestChangeTime() > (last || 0)) {
+    if (last) {
+      const days = Math.floor((now - last) / DAY_MS);
+      if (days >= BACKUP_INTERVAL_DAYS) message = `前回のバックアップから${days}日たちました。`;
+    } else {
+      // 一度も保存していないときは、いちばん古い記録から7日たったら知らせる
+      const first = Math.min(...records.map((r) => Date.parse(r.createdAt) || now));
+      if (now - first >= BACKUP_INTERVAL_DAYS * DAY_MS) message = 'まだ一度もバックアップしていません。';
+    }
+  }
+  const show = !!message && !(snooze && snooze > now);
+  $('backup-reminder-text').textContent = `💾 ${message}記録が消えたときのために、保存しておきましょう。`;
+  $('backup-reminder').hidden = !show;
+}
+
+function saveBackup() {
   download(`kome-yasai-memo-${todayStamp()}.json`, JSON.stringify(records, null, 2), 'application/json');
+  writeTime(BACKUP_KEY, Date.now());
+  renderBackupReminder();
+  showStatus('バックアップを保存しました。Googleドライブなどにも入れておくと安心です');
+}
+
+$('export-json').addEventListener('click', saveBackup);
+$('backup-now').addEventListener('click', saveBackup);
+$('backup-later').addEventListener('click', () => {
+  // 「あとで」を押したら、次の日までお知らせを出さない
+  writeTime(SNOOZE_KEY, Date.now() + DAY_MS);
+  renderBackupReminder();
+});
+// アプリを開きっぱなしで日がたったときのために、画面に戻ったら確かめる
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') renderBackupReminder();
 });
 
 $('export-csv').addEventListener('click', () => {
@@ -732,6 +804,7 @@ searchInput.addEventListener('input', renderHistory);
 renderKindChips();
 renderFilterChips();
 renderAll();
+renderBackupReminder();
 setupSpeech();
 
 // ブラウザが勝手に記録を消さないようお願いしておく
