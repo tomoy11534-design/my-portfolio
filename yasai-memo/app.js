@@ -303,6 +303,9 @@ function saveRecord() {
     records.unshift({ id: makeId(), createdAt: new Date().toISOString(), name, text, kinds, price, paid, done: false });
   }
   if (!saveRecords()) return;
+  // スプレッドシートと連携していれば、そちらにも送る
+  const saved = editingId ? records.find((r) => r.id === editingId) : records[0];
+  if (saved) queueSync('upsert', saved);
   showStatus(editingId ? '直しました' : '記録しました ✓');
   resetForm();
   renderAll();
@@ -343,6 +346,7 @@ function deleteEditing() {
   deleteButton.dataset.confirm = '';
   deleteButton.textContent = 'この記録を消す';
   saveRecords();
+  queueSync('delete', editingId);
   showStatus('消しました');
   resetForm();
   renderAll();
@@ -354,6 +358,7 @@ function toggleDone(id) {
   record.done = !record.done;
   record.doneAt = record.done ? new Date().toISOString() : null;
   saveRecords();
+  queueSync('upsert', record);
   renderHistory();
 }
 
@@ -363,6 +368,7 @@ function togglePaid(id) {
   record.paid = !record.paid;
   record.paidAt = record.paid ? new Date().toISOString() : null;
   saveRecords();
+  queueSync('upsert', record);
   renderSummary();
   renderHistory();
 }
@@ -739,8 +745,193 @@ $('backup-later').addEventListener('click', () => {
 });
 // アプリを開きっぱなしで日がたったときのために、画面に戻ったら確かめる
 document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') renderBackupReminder();
+  if (document.visibilityState === 'visible') {
+    renderBackupReminder();
+    scheduleSync(0);
+  }
 });
+
+// ===== スプレッドシートと連携（自動で残す） =====
+// 記録するたびに、Googleスプレッドシートにも書き込む。
+// 送れなかった分はスマホの中にためておき、電波がつながったら送る。
+const SYNC_URL_KEY = 'kome-yasai-memo-sync-url';
+const SYNC_QUEUE_KEY = 'kome-yasai-memo-sync-queue';
+const SYNC_LAST_KEY = 'kome-yasai-memo-sync-last';
+// 設定で出てくるアドレスの形（https://script.google.com/macros/s/…/exec）
+const SYNC_URL_PATTERN = /^https:\/\/script\.google\.com\/(?:a\/macros\/[^/]+|macros)\/s\/[\w-]+\/exec$/;
+const SYNC_BATCH_SIZE = 200;
+
+let syncUrl = readText(SYNC_URL_KEY);
+let syncQueue = loadSyncQueue();
+let syncSeq = syncQueue.reduce((max, op) => Math.max(max, op.seq || 0), 0);
+let syncBusy = false;
+let syncTimer = null;
+let syncError = '';
+
+function readText(key) {
+  try { return localStorage.getItem(key) || ''; } catch { return ''; }
+}
+
+function writeText(key, value) {
+  try {
+    if (value) localStorage.setItem(key, value);
+    else localStorage.removeItem(key);
+  } catch { /* 保存できなくても続ける */ }
+}
+
+function loadSyncQueue() {
+  try {
+    const list = JSON.parse(localStorage.getItem(SYNC_QUEUE_KEY));
+    return Array.isArray(list) ? list : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveSyncQueue() {
+  writeText(SYNC_QUEUE_KEY, syncQueue.length ? JSON.stringify(syncQueue) : '');
+}
+
+// 送る予定に入れる（同じ記録の古い予定は新しいものに置きかえる）
+function queueSync(type, recordOrId) {
+  if (!syncUrl) return;
+  const id = type === 'delete' ? recordOrId : recordOrId.id;
+  syncQueue = syncQueue.filter((op) => op.id !== id);
+  const op = { seq: ++syncSeq, type, id };
+  if (type === 'upsert') op.record = { ...recordOrId };
+  syncQueue.push(op);
+  saveSyncQueue();
+  scheduleSync();
+  renderSyncStatus();
+}
+
+// 続けて押したときにまとめて送れるよう、少し待ってから送る
+function scheduleSync(delay = 1500) {
+  if (!syncUrl) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(flushSync, delay);
+}
+
+async function flushSync() {
+  if (!syncUrl || syncBusy || !syncQueue.length) return;
+  if (navigator.onLine === false) {
+    syncError = '電波がないので、つながったら送ります。';
+    renderSyncStatus();
+    return;
+  }
+  syncBusy = true;
+  const batch = syncQueue.slice(0, SYNC_BATCH_SIZE);
+  try {
+    // 余計な確認の通信が起きないよう、ふつうの文字として送る
+    const response = await fetch(syncUrl, {
+      method: 'POST',
+      body: JSON.stringify({ ops: batch.map(({ type, id, record }) => ({ type, id, record })) }),
+    });
+    const data = await response.json();
+    if (!data.ok) throw new Error(data.error || '');
+    const sent = new Set(batch.map((op) => op.seq));
+    syncQueue = syncQueue.filter((op) => !sent.has(op.seq));
+    saveSyncQueue();
+    writeTime(SYNC_LAST_KEY, Date.now());
+    syncError = '';
+  } catch {
+    syncError = 'スプレッドシートに送れませんでした。あとでもう一度送ります。';
+  } finally {
+    syncBusy = false;
+    renderSyncStatus();
+  }
+  if (syncError) scheduleSync(60 * 1000);
+  else if (syncQueue.length) scheduleSync(300);
+}
+
+function setSyncMessage(message, isError = false) {
+  const el = $('sync-message');
+  el.textContent = message;
+  el.classList.toggle('is-error', isError);
+}
+
+function renderSyncStatus() {
+  $('sync-off').hidden = !!syncUrl;
+  $('sync-on').hidden = !syncUrl;
+  if (!syncUrl) return;
+  const last = readTime(SYNC_LAST_KEY);
+  const lines = [];
+  if (syncQueue.length) lines.push(`まだ送っていない記録：${syncQueue.length}件`);
+  else lines.push('✓ すべてスプレッドシートに送りました');
+  if (last) lines.push(`最後に送った日時：${formatDate(new Date(last))} ${formatTime(new Date(last))}`);
+  if (syncError) lines.push(syncError);
+  $('sync-state').textContent = lines.join('\n');
+  $('sync-state').classList.toggle('is-error', !!syncError);
+}
+
+// 今までの記録を古い順にすべて送る（同じ記録は上書きされるので、何回送っても増えない）
+function queueAllRecords() {
+  [...records].reverse().forEach((r) => queueSync('upsert', r));
+  scheduleSync(0);
+}
+
+async function connectSync() {
+  const url = $('sync-url').value.trim();
+  if (!SYNC_URL_PATTERN.test(url)) {
+    setSyncMessage('アドレスが違うようです。「https://script.google.com/macros/s/…/exec」の形のものを、全部そのまま貼ってください。', true);
+    return;
+  }
+  setSyncMessage('つないでいます…');
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    if (!data.ok || data.app !== 'yasai-memo') throw new Error();
+  } catch {
+    setSyncMessage('つながりませんでした。設定のしかたの「アクセスできるユーザー：全員」になっているか確かめてください。', true);
+    return;
+  }
+  syncUrl = url;
+  writeText(SYNC_URL_KEY, url);
+  $('sync-url').value = '';
+  syncError = '';
+  queueAllRecords();
+  renderSyncStatus();
+  setSyncMessage(records.length ? `つながりました。今までの記録 ${records.length}件を送ります。` : 'つながりました。これから記録したものが自動で送られます。');
+}
+
+function disconnectSync() {
+  const button = $('sync-disconnect');
+  // 押し間違いを防ぐため、2回押したらやめる
+  if (button.dataset.confirm !== '1') {
+    button.dataset.confirm = '1';
+    button.textContent = 'もう一度押すとやめます';
+    setTimeout(() => {
+      button.dataset.confirm = '';
+      button.textContent = '連携をやめる';
+    }, 3000);
+    return;
+  }
+  button.dataset.confirm = '';
+  button.textContent = '連携をやめる';
+  clearTimeout(syncTimer);
+  syncUrl = '';
+  syncQueue = [];
+  syncError = '';
+  writeText(SYNC_URL_KEY, '');
+  saveSyncQueue();
+  writeText(SYNC_LAST_KEY, '');
+  renderSyncStatus();
+  setSyncMessage('連携をやめました。スプレッドシートに送った記録はそのまま残っています。');
+}
+
+$('sync-connect').addEventListener('click', connectSync);
+$('sync-now').addEventListener('click', () => {
+  syncError = '';
+  scheduleSync(0);
+  setSyncMessage('送っています…');
+  setTimeout(() => setSyncMessage(''), 3000);
+});
+$('sync-resend').addEventListener('click', () => {
+  queueAllRecords();
+  setSyncMessage(`今までの記録 ${records.length}件を送り直します。`);
+});
+$('sync-disconnect').addEventListener('click', disconnectSync);
+window.addEventListener('online', () => scheduleSync(0));
 
 $('export-csv').addEventListener('click', () => {
   const quote = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -767,6 +958,7 @@ $('import-file').addEventListener('change', async (event) => {
     const added = list.filter((r) => r && r.id && r.createdAt && !ids.has(r.id));
     records = [...records, ...added].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     saveRecords();
+    added.forEach((r) => queueSync('upsert', r));
     // 戻した記録にある種類を「なにを」にも足す
     added.forEach((r) => (r.kinds || []).forEach((k) => {
       if (typeof k === 'string' && k && !kindList.includes(k)) kindList.push(k);
@@ -805,6 +997,8 @@ renderKindChips();
 renderFilterChips();
 renderAll();
 renderBackupReminder();
+renderSyncStatus();
+scheduleSync(0);
 setupSpeech();
 
 // ブラウザが勝手に記録を消さないようお願いしておく

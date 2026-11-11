@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <header class="app-header">
@@ -109,6 +109,29 @@
       <input type="file" id="import-file" accept="application/json,.json" hidden>
     </details>
 
+    <!-- スプレッドシートと連携（自動で残す） -->
+    <details class="card sync" id="sync-card">
+      <summary>📊 スプレッドシートに自動で残す</summary>
+      <p class="backup-note">つなぐと、記録するたびに Googleスプレッドシートにも自動で書き込みます。はじめに一度だけ、パソコンでの設定が必要です。</p>
+      <p class="backup-note"><a href="sheets-setup.html" target="_blank" rel="noopener">→ 設定のしかたを見る</a></p>
+      <div id="sync-off">
+        <label class="field-label" for="sync-url">設定の最後に出てきたアドレス</label>
+        <input class="search-input" id="sync-url" type="url" inputmode="url" autocomplete="off" placeholder="https://script.google.com/macros/s/…/exec">
+        <div class="backup-actions sync-actions">
+          <button class="sub-button" id="sync-connect" type="button">つなぐ</button>
+        </div>
+      </div>
+      <div id="sync-on" hidden>
+        <p class="sync-state" id="sync-state"></p>
+        <div class="backup-actions">
+          <button class="sub-button" id="sync-now" type="button">今すぐ送る</button>
+          <button class="sub-button" id="sync-resend" type="button">ぜんぶ送り直す</button>
+          <button class="danger-button" id="sync-disconnect" type="button">連携をやめる</button>
+        </div>
+      </div>
+      <p class="status" id="sync-message" aria-live="polite"></p>
+    </details>
+
     <!-- おねがい（いつも見えるように一番下に置く） -->
     <section class="card request">
       <h2 class="request-title">🙏 おねがい</h2>
@@ -119,9 +142,10 @@
         <li>自分宛てのメール</li>
       </ul>
       <p class="request-small">保存したファイルの場所：Android は「ファイル」アプリの「ダウンロード」、iPhone は「ファイル」アプリ</p>
+      <p class="request-small">スプレッドシートに自動で残したくなったら、上の「📊 スプレッドシートに自動で残す」を見るか、<a href="https://lin.ee/pacoQd7" target="_blank" rel="noopener">LINEでご相談ください</a>。</p>
     </section>
   </main>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
