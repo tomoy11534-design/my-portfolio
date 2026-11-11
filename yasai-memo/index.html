@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>お米・野菜メモ</title>
+  <meta name="description" content="お米や野菜の注文・要望を、話すだけで記録して履歴をすぐ見られるメモ">
+  <meta name="theme-color" content="#4f8a3c">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="野菜メモ">
+  <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">🌾 お米・野菜メモ</h1>
+  </header>
+
+  <main class="app-main">
+    <!-- 記録する欄 -->
+    <section class="card form-card" id="form-card">
+      <div class="mic-area">
+        <button class="mic-button" id="mic-button" type="button" aria-pressed="false" aria-label="話して記録する">
+          <span aria-hidden="true">🎤</span>
+        </button>
+        <p class="mic-hint" id="mic-hint">タップして話す<br><small>例：「田中さん、お米10キロ5000円、もらった」</small></p>
+      </div>
+
+      <label class="field-label" for="name-input">だれから</label>
+      <input class="name-input" id="name-input" list="name-list" autocomplete="off" placeholder="名前（話すと自動で入ります）">
+      <datalist id="name-list"></datalist>
+      <div class="chip-row" id="recent-names" aria-label="よく頼む人"></div>
+
+      <span class="field-label">なにを</span>
+      <div class="chip-row" id="kind-chips" role="group" aria-label="種類"></div>
+
+      <label class="field-label" for="text-input">内容</label>
+      <textarea class="text-input" id="text-input" rows="3" placeholder="話した内容がここに出ます。手で書いたり直したりもできます。"></textarea>
+
+      <!-- 金額とお金をもらったかどうか -->
+      <div class="money-row">
+        <div class="money-field">
+          <label class="field-label" for="price-input">金額</label>
+          <div class="price-wrap">
+            <input class="price-input" id="price-input" inputmode="numeric" autocomplete="off" placeholder="話すと自動で入ります">
+            <span class="price-unit">円</span>
+          </div>
+        </div>
+        <div class="money-field">
+          <span class="field-label">お金</span>
+          <button class="chip paid-toggle" id="paid-toggle" type="button" aria-pressed="false">まだ</button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="save-button" id="save-button" type="button" disabled>記録する</button>
+        <button class="sub-button" id="cancel-edit" type="button" hidden>やめる</button>
+        <button class="danger-button" id="delete-button" type="button" hidden>この記録を消す</button>
+      </div>
+      <p class="status" id="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 履歴 -->
+    <section class="history">
+      <!-- 今月の売上と、まだお金をもらっていない分 -->
+      <div class="summary card" id="summary"></div>
+
+      <div class="history-head">
+        <h2 class="history-title" id="history-title">履歴</h2>
+        <span class="history-count" id="history-count"></span>
+      </div>
+      <input class="search-input" id="search-input" type="search" placeholder="🔍 名前や品物でさがす（例：田中、玉ねぎ）">
+      <div class="chip-row" id="filter-chips" role="group" aria-label="しぼりこみ"></div>
+      <div id="history-list"></div>
+    </section>
+
+    <!-- バックアップ -->
+    <details class="card backup">
+      <summary>💾 データのバックアップ</summary>
+      <p class="backup-note">記録はこのスマホの中だけに保存されます。機種変更やブラウザのデータ削除に備えて、ときどき保存してください。</p>
+      <div class="backup-actions">
+        <button class="sub-button" id="export-json" type="button">バックアップを保存</button>
+        <button class="sub-button" id="import-json" type="button">バックアップから戻す</button>
+        <button class="sub-button" id="export-csv" type="button">表（CSV）で保存</button>
+      </div>
+      <input type="file" id="import-file" accept="application/json,.json" hidden>
+    </details>
+  </main>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>
