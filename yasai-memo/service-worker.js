@@ -1,5 +1,5 @@
 // オフラインでも開けるように画面のファイルを保存しておく
-const CACHE_NAME = 'kome-yasai-memo-v4';
+const CACHE_NAME = 'kome-yasai-memo-v5';
 const APP_FILES = ['./', 'index.html', 'style.css', 'app.js', 'manifest.json', 'icon.svg'];
 
 self.addEventListener('install', (event) => {

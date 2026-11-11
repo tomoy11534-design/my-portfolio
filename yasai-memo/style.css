@@ -332,3 +332,10 @@ button { cursor: pointer; }
 .backup-reminder-text { margin: 0 0 10px; font-weight: 700; }
 .backup-reminder-actions { display: flex; gap: 8px; align-items: center; }
 .backup-now { flex: 1 1 auto; padding: 10px; font-size: 16px; }
+
+/* ===== おねがい ===== */
+.request { border-color: var(--color-rice); }
+.request-title { margin: 0 0 6px; font-size: 17px; }
+.request-text { margin: 0; }
+.request-list { margin: 8px 0; padding-left: 1.4em; }
+.request-small { margin: 0; font-size: 13px; color: var(--color-muted); }
