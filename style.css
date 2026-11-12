@@ -775,6 +775,10 @@ section {
   background: linear-gradient(135deg, #5fbf98, #1f6650);
 }
 
+.work-hero--cw {
+  background: linear-gradient(135deg, #f0a46a, #b95f26);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -921,6 +925,10 @@ section {
   background: linear-gradient(135deg, #5fbf98, #1f6650);
 }
 
+.work-sidebar--cw::before {
+  background: linear-gradient(135deg, #f0a46a, #b95f26);
+}
+
 .work-sidebar-label {
   display: flex;
   align-items: center;
@@ -1012,6 +1020,171 @@ section {
 }
 
 /* ==========================================================
+   クラウドワークス向けページ（crowdworks.html）
+   ========================================================== */
+/* 料金表などの広い中身が、スマホで段の幅を押し広げないようにする */
+.work-content > * {
+  min-width: 0;
+}
+
+.cw-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+/* 実績カード：困りごと → 作ったもの の順に並べる */
+.cw-case-list {
+  display: grid;
+  gap: 16px;
+}
+
+.cw-case {
+  display: block;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  transition: border-color 0.2s;
+}
+
+.cw-case:hover {
+  border-color: var(--color-primary);
+}
+
+.cw-case-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 0 0 4px;
+}
+
+.cw-case h3 {
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+}
+
+.work-section .cw-case p {
+  font-size: 0.9rem;
+  margin: 0 0 8px;
+}
+
+.cw-case-key {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  padding: 1px 10px;
+  margin-right: 8px;
+}
+
+.cw-case-more {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.work-section .cw-note {
+  font-size: 0.88rem;
+  margin-top: 16px;
+}
+
+.cw-note a {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* 料金表：狭い画面では表だけ横にスクロールさせる */
+.cw-table-wrap {
+  overflow-x: auto;
+}
+
+.cw-price {
+  width: 100%;
+  min-width: 420px;
+  border-collapse: collapse;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+}
+
+.cw-price th,
+.cw-price td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: top;
+}
+
+.cw-price th {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+.cw-price td:nth-child(2) {
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.cw-price td:nth-child(3) {
+  white-space: nowrap;
+  color: var(--color-ink-soft);
+}
+
+.cw-price small {
+  color: var(--color-ink-soft);
+}
+
+/* 依頼の流れ：番号つきの手順 */
+.cw-flow {
+  list-style: none;
+  counter-reset: cw-step;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.cw-flow li {
+  counter-increment: cw-step;
+  position: relative;
+  padding: 16px 20px 16px 60px;
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+}
+
+.cw-flow li::before {
+  content: counter(cw-step);
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+}
+
+.cw-flow strong {
+  display: block;
+  color: var(--color-ink);
+  margin-bottom: 2px;
+}
+
+/* ==========================================================
    レスポンシブ対応
    ========================================================== */
 @media (max-width: 860px) {
@@ -1045,6 +1218,11 @@ section {
 }
 
 @media (max-width: 680px) {
+  /* スマホでは見出しの改行をなくして、自然な位置で折り返す */
+  .cw-br {
+    display: none;
+  }
+
   .nav-list {
     position: absolute;
     top: var(--header-height);
