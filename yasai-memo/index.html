@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
   <header class="app-header">
@@ -42,6 +42,13 @@
       <input class="name-input" id="name-input" list="name-list" autocomplete="off" placeholder="名前（話すと自動で入ります）">
       <datalist id="name-list"></datalist>
       <div class="chip-row" id="recent-names" aria-label="よく頼む人"></div>
+      <!-- 名前の整理（間違えた名前を直す・ボタンに出さない） -->
+      <button class="link-button" id="name-manage-toggle" type="button" hidden>名前の整理</button>
+      <div class="kind-editor" id="name-editor" hidden>
+        <p class="kind-note">「直す」で名前を直すと、その名前の記録がまとめて直ります。「出さない」にすると、記録は残したまま、上のボタンにだけ出なくなります。</p>
+        <div class="name-rows" id="name-rows"></div>
+        <button class="sub-button kind-close" id="name-editor-close" type="button">閉じる</button>
+      </div>
 
       <!-- 注文をどこから受けたか -->
       <span class="field-label">受付方法</span>
@@ -183,6 +190,6 @@
   </main>
 
   <script src="sheets-config.js?v=2"></script>
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>

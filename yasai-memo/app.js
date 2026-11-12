@@ -78,6 +78,7 @@ let priceAuto = false;    // 金額を商品から自動で入れたかどうか
 let scannedText = '';     // 商品を読み取ったときの内容の文
 let statusFilter = 'all';
 let channelFilter = 'all';
+let hiddenNames = new Set(); // 「よく頼む人」に出さない名前（はじめの設定で読み込む）
 // 履歴の月ごとのかたまりを、自分で開けたか閉じたか（画面を描き直しても戻らないように）
 const monthOpenState = new Map();
 let statusTimer = null;
@@ -527,7 +528,8 @@ function getFrequentNames() {
 }
 
 function renderNameHelpers() {
-  const names = getFrequentNames();
+  // 「出さない」にした名前は、ボタンと候補に出さない（記録はそのまま）
+  const names = getFrequentNames().filter((name) => !hiddenNames.has(name));
   nameList.replaceChildren(...names.map((name) => {
     const option = document.createElement('option');
     option.value = name;
@@ -544,6 +546,133 @@ function renderNameHelpers() {
     });
     return button;
   }));
+  // 記録に名前が1つでもあれば「名前の整理」を出す
+  $('name-manage-toggle').hidden = !getFrequentNames().length;
+  if (!$('name-editor').hidden) renderNameEditor();
+}
+
+// ===== 名前の整理（間違えた名前を直す・ボタンに出さない） =====
+const HIDDEN_NAMES_KEY = 'kome-yasai-memo-hidden-names-v1';
+let renamingName = null; // 今「直す」を開いている名前
+
+function loadHiddenNames() {
+  try {
+    const list = JSON.parse(localStorage.getItem(HIDDEN_NAMES_KEY));
+    if (Array.isArray(list)) return new Set(list.filter((n) => typeof n === 'string'));
+  } catch { /* 読めなければ空にする */ }
+  return new Set();
+}
+
+function saveHiddenNames() {
+  try { localStorage.setItem(HIDDEN_NAMES_KEY, JSON.stringify([...hiddenNames])); } catch { /* 保存できなくても続ける */ }
+}
+
+function toggleNameEditor(open) {
+  $('name-editor').hidden = !open;
+  $('name-manage-toggle').textContent = open ? '名前の整理を閉じる' : '名前の整理';
+  renamingName = null;
+  if (open) renderNameEditor();
+}
+
+function renderNameEditor() {
+  const counts = new Map();
+  records.forEach((r) => {
+    if (r.name) counts.set(r.name, (counts.get(r.name) || 0) + 1);
+  });
+  // 名前の読み順（あいうえお順）に並べる
+  const names = [...counts.keys()].sort((a, b) => a.localeCompare(b, 'ja'));
+  $('name-rows').replaceChildren(...names.map((name) => {
+    const row = document.createElement('div');
+    row.className = 'name-row' + (hiddenNames.has(name) ? ' is-hidden' : '');
+
+    if (renamingName === name) {
+      // 直す欄
+      const input = document.createElement('input');
+      input.className = 'kind-input';
+      input.value = name;
+      input.setAttribute('aria-label', `${name}の新しい名前`);
+      const save = document.createElement('button');
+      save.type = 'button';
+      save.className = 'sub-button';
+      save.textContent = '保存';
+      save.addEventListener('click', () => renameName(name, input.value));
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && !event.isComposing) {
+          event.preventDefault();
+          renameName(name, input.value);
+        }
+      });
+      const cancel = document.createElement('button');
+      cancel.type = 'button';
+      cancel.className = 'sub-button';
+      cancel.textContent = 'やめる';
+      cancel.addEventListener('click', () => {
+        renamingName = null;
+        renderNameEditor();
+      });
+      row.append(input, save, cancel);
+      setTimeout(() => input.focus(), 0);
+      return row;
+    }
+
+    const label = document.createElement('span');
+    label.className = 'name-row-label';
+    label.textContent = `${name}（${counts.get(name)}件）${hiddenNames.has(name) ? '・出さない' : ''}`;
+    const edit = document.createElement('button');
+    edit.type = 'button';
+    edit.className = 'sub-button';
+    edit.textContent = '直す';
+    edit.addEventListener('click', () => {
+      renamingName = name;
+      renderNameEditor();
+    });
+    const hide = document.createElement('button');
+    hide.type = 'button';
+    hide.className = 'sub-button';
+    hide.textContent = hiddenNames.has(name) ? '出す' : '出さない';
+    hide.addEventListener('click', () => {
+      if (hiddenNames.has(name)) hiddenNames.delete(name);
+      else hiddenNames.add(name);
+      saveHiddenNames();
+      renderNameHelpers();
+      renderNameEditor();
+    });
+    row.append(label, edit, hide);
+    return row;
+  }));
+}
+
+// 名前を直す（同じ名前の記録をまとめて直す。直した先の名前がもうあれば1人にまとまる）
+function renameName(oldName, value) {
+  const newName = value.trim().replace(/\s+/g, ' ');
+  if (!newName) {
+    showStatus('名前を入れてください', true);
+    return;
+  }
+  renamingName = null;
+  if (newName === oldName) {
+    renderNameEditor();
+    return;
+  }
+  const merged = records.some((r) => r.name === newName);
+  const now = new Date().toISOString();
+  let count = 0;
+  records.forEach((r) => {
+    if (r.name !== oldName) return;
+    r.name = newName;
+    r.updatedAt = now;
+    queueSync('upsert', r);
+    count += 1;
+  });
+  if (!saveRecords()) return;
+  // 前の名前の「出さない」は外す
+  if (hiddenNames.delete(oldName)) saveHiddenNames();
+  // 入力欄や検索に前の名前が入っていたら、新しい名前にする
+  if (nameInput.value.trim() === oldName) nameInput.value = newName;
+  if (searchInput.value.trim() === oldName) searchInput.value = newName;
+  renderAll();
+  renderNameEditor();
+  showStatus(merged ? `「${oldName}」を「${newName}」にまとめました（${count}件）` : `「${oldName}」を「${newName}」に直しました（${count}件）`);
 }
 
 function updateSaveState() {
@@ -1510,6 +1639,9 @@ cancelEditButton.addEventListener('click', resetForm);
 deleteButton.addEventListener('click', deleteEditing);
 searchInput.addEventListener('input', renderHistory);
 
+hiddenNames = loadHiddenNames();
+$('name-manage-toggle').addEventListener('click', () => toggleNameEditor($('name-editor').hidden));
+$('name-editor-close').addEventListener('click', () => toggleNameEditor(false));
 renderKindChips();
 renderChannelChips();
 renderStatusChips();
