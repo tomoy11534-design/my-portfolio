@@ -22,12 +22,10 @@ const CHANNEL_WORDS = [
 // 注文の状況（押すたびに「完了」まで進む。キャンセルは入力欄で選ぶ）
 const ORDER_STATUSES = ['受付', '確認中', '準備中', '完了', 'キャンセル'];
 const ACTIVE_STATUSES = ['受付', '確認中', '準備中'];
-// はじめに登録しておく商品（ホームページのメロン。お米・野菜は農家さんが足す）
+// はじめに登録しておく商品（請求書で使っているお米。ほかのお米・野菜は農家さんが足す）
+// メロンはホームページの管理画面で見るので、販売メモでは扱わない
 const DEFAULT_PRODUCTS = [
-  { name: 'あさひメロン（ラブコール）', unit: '箱', price: 5000 },
-  { name: '赤肉メロン（レノンハート）', unit: '箱', price: 5000 },
-  { name: '食べ比べセット', unit: '箱', price: 5000 },
-  { name: 'アンデスメロン', unit: '箱', price: 5000 },
+  { name: 'くまさんの輝き10kg', unit: '袋', price: 4500 },
 ];
 // 話した内容に金額（「5000円」など）があれば読み取る
 const PRICE_PATTERN = /(\d[\d,]*)\s*円/g;
@@ -205,9 +203,13 @@ function renderStatusChips() {
   }, false);
 }
 
-// 「あさひメロン（ラブコール）」→「あさひメロン」（話した言葉と合わせるため）
+// 「〇〇（説明）」→「〇〇」（話した言葉と合わせるため）
 function productShortName(name) {
-  return name.replace(/（[^）]*）|\([^)]*\)/g, '').trim();
+  return name
+    .replace(/（[^）]*）|\([^)]*\)/g, '')
+    // 「くまさんの輝き10kg」→「くまさんの輝き」（重さは言わないことが多いため）
+    .replace(/\s*\d+(?:\.\d+)?\s*(?:kg|ｋｇ|キロ|g|グラム)$/i, '')
+    .trim();
 }
 
 function itemLabel(item) {
@@ -344,7 +346,7 @@ function updateAutoPrice() {
   }
 }
 
-// 話した内容から登録済みの商品と数を読み取る（例：「あさひメロン2箱」）
+// 話した内容から登録済みの商品と数を読み取る（例：「くまさんの輝き2袋」）
 function findItemsInText(text) {
   const t = toHalfWidth(text);
   const found = [];
@@ -354,7 +356,8 @@ function findItemsInText(text) {
       const at = t.indexOf(key);
       if (at < 0) continue;
       const after = t.slice(at + key.length, at + key.length + 8);
-      const m = after.match(/^\s*(?:を|が)?\s*(\d+)/);
+      // 「10キロ」のような重さは数に数えない（例：「くまさんの輝き10キロ2袋」→ 2）
+      const m = after.match(/^\s*(?:\d+\s*(?:kg|キロ|g|グラム)\s*)?(?:を|が)?\s*(\d+)(?![\d.]|\s*(?:kg|キロ|g|グラム))/i);
       found.push({ product, qty: m ? Math.max(1, Number(m[1])) : 1 });
       break;
     }
@@ -1141,7 +1144,7 @@ function stopListening() {
 function finishListening() {
   clearTimeout(silenceTimer);
   micButton.setAttribute('aria-pressed', 'false');
-  micHint.innerHTML = 'タップして話す<br><small>例：「田中さん、電話で、あさひメロン2箱、15日に渡す」</small>';
+  micHint.innerHTML = 'タップして話す<br><small>例：「田中さん、電話で、くまさんの輝き2袋、15日に渡す」</small>';
   autoFill();
 }
 
