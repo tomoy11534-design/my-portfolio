@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お米・野菜の販売メモ | Portfolio</title>
+  <meta name="description" content="農家さんが手書きで管理していたお米・野菜の販売記録を、話すだけで残せるようにしたスマホ用Webアプリ。誰に何をいくらで渡したか、お金をもらったかをすぐ確かめられる。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--yasai">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>お米・野菜の販売メモ</h1>
+        <p class="work-hero-lead">
+          農家さんが手書きでつけていた、お米・野菜の販売の記録をスマホに置きかえるアプリです。
+          「田中さん、お米30キロ、5000円、もらった」のように話すだけで、名前・品物・金額・お金をもらったかが自動で入り、だれにお金をもらっていないかもすぐ分かります。
+        </p>
+        <ul class="tag-list">
+          <li>スマホ用Webアプリ</li>
+          <li>音声入力</li>
+          <li>農家さんの依頼で制作・運用中</li>
+        </ul>
+        <a href="../yasai-memo/" class="button button-ghost work-hero-link" target="_blank" rel="noopener">アプリを開く（記録は開いた人のスマホの中だけに残ります） ↗</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>制作の背景</h2>
+            <p>
+              農家さんは、お米や野菜を知り合いのお客さんに直接売っていて、だれに何をいくらで渡したか、お金をもらったかを手書きで記録していました。
+              畑や作業の合間に紙とペンを出して書くのは手間で、あとから「あの人にお金をもらったかな」と確かめるのにも時間がかかります。
+              そこで、スマホに話しかけるだけで記録でき、お金をまだもらっていない人がひと目で分かるアプリを作りました。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>概要</h2>
+            <p>
+              マイクのボタンを押して話すと、話した内容から名前・品物の種類・金額・お金をもらったかを読み取って、入力欄に入れます。
+              確かめて「記録する」を押せば保存され、履歴は新しい順に並びます。画面の上には今月の売上とお金まだの合計が出て、お金まだの人を押すとその人の履歴だけを見られます。
+              アプリのインストールやログインは不要で、URLを開いてホーム画面に追加すれば、アイコンからすぐ使えます。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>話すだけで記録</h3>
+                <p>話した内容から、これまでに記録した名前・品物の種類・「〇〇円」の金額・「もらった」などの言葉を読み取り、空いている欄に自動で入れる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>お金まだの管理</h3>
+                <p>記録ごとに「渡した」「お金もらった」を切りかえられる。お金まだの人は金額の多い順に並び、押すとその人の履歴にしぼれる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>よく頼む人・品物をタップで</h3>
+                <p>よく頼む人を回数の多い順にボタンで表示。品物の種類（お米・野菜など）は、卵やもちのように自分で追加・削除できる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>履歴の検索と今月のまとめ</h3>
+                <p>名前や品物で検索して、表示している分の合計とお金まだの分を表示。今月の売上も画面の上でいつでも確かめられる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>バックアップのお知らせ</h3>
+                <p>前回のバックアップから7日たつとお知らせを出す。保存したファイルから戻したり、表（CSV）で書き出してExcelで開いたりもできる。</p>
+              </div>
+              <div class="feature-card">
+                <h3>スプレッドシートに自動で残す</h3>
+                <p>設定すると、記録するたびにGoogleスプレッドシートにも書きこむ。電波がないときは送る予定をためておき、つながったら送る。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              お客さんの名前や金額が入る記録なので、サーバーには送らず、農家さんのスマホの中だけに保存するようにしました。
+              そのぶん、スマホをなくすと記録も消えてしまうため、7日ごとのバックアップのお知らせと、保存したファイルをGoogleドライブやLINEのKeepメモにも送ってもらう「おねがい」を画面の一番下に載せています。
+              さらに自動で残したい人向けに、農家さん自身のGoogleアカウントで設定できるスプレッドシート連携と、手順を細かく分けた設定ページを用意しました。
+              音声入力は、AndroidのChromeで文字が二重に入ってしまう問題があったため、1回ずつ聞き取って自動で続ける方式にしています。
+              記録の削除やスプレッドシート連携の解除は2回押しで確定するようにし、うっかり消してしまうのを防いでいます。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--yasai">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>Web Speech API</li>
+            <li>PWA (Service Worker)</li>
+            <li>localStorage</li>
+            <li>Google Apps Script</li>
+            <li>Google スプレッドシート</li>
+            <li>GitHub Pages</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">聞き取り・UI設計・デザイン・実装・設定のしかたページの作成・公開を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="nail-karte.html">← 前の作品：ネイルカルテ</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>

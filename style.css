@@ -29,6 +29,8 @@
   --color-melon-dark: #5f700c;
   --color-nail: #c0704f;
   --color-nail-dark: #8f4a2e;
+  --color-yasai: #2f8f6f;
+  --color-yasai-dark: #1f6650;
   --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
@@ -439,6 +441,13 @@ section {
     linear-gradient(135deg, #f6d98a 0%, #dfa93a 45%, #8a5f0c 100%);
 }
 
+.work-card-cover--yasai {
+  background-color: var(--color-yasai);
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #cdeedd 0%, #5fbf98 45%, #1f6650 100%);
+}
+
 .work-card-icon-tile {
   position: relative;
   z-index: 1;
@@ -522,6 +531,11 @@ section {
   color: var(--color-invoice-dark);
 }
 
+.work-card--yasai .work-card-tag {
+  background: rgba(47, 143, 111, 0.14);
+  color: var(--color-yasai-dark);
+}
+
 .work-card h3 {
   font-size: 1.1rem;
   margin-bottom: 10px;
@@ -573,6 +587,10 @@ section {
 
 .work-card--invoice .work-card-more {
   color: var(--color-invoice);
+}
+
+.work-card--yasai .work-card-more {
+  color: var(--color-yasai);
 }
 
 .tag-list {
@@ -753,6 +771,10 @@ section {
   background: linear-gradient(135deg, #e2b545, #8a5f0c);
 }
 
+.work-hero--yasai {
+  background: linear-gradient(135deg, #5fbf98, #1f6650);
+}
+
 .work-back {
   display: inline-flex;
   align-items: center;
@@ -893,6 +915,10 @@ section {
 
 .work-sidebar--invoice::before {
   background: linear-gradient(135deg, #e2b545, #8a5f0c);
+}
+
+.work-sidebar--yasai::before {
+  background: linear-gradient(135deg, #5fbf98, #1f6650);
 }
 
 .work-sidebar-label {
