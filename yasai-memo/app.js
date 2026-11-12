@@ -5,8 +5,29 @@ const STORAGE_KEY = 'kome-yasai-memo-v1';
 const KINDS = ['お米', '野菜', 'その他'];
 const STATUS_FILTERS = [
   { key: 'all', label: 'すべて' },
-  { key: 'todo', label: 'まだ渡してない' },
+  { key: 'todo', label: '対応中' },
   { key: 'unpaid', label: 'お金まだ' },
+  { key: 'cancel', label: 'キャンセル' },
+];
+// ===== 注文 =====
+// 受付方法（どこから注文を受けたか）
+const CHANNELS = ['LINE', '電話', '直接', 'HP'];
+// 話した内容から受付方法を読み取るための言葉
+const CHANNEL_WORDS = [
+  ['LINE', /LINE|ライン/i],
+  ['電話', /電話|でんわ/],
+  ['HP', /ホームページ|HP|サイトから/i],
+  ['直接', /直接|会って|取りに来/],
+];
+// 注文の状況（押すたびに「完了」まで進む。キャンセルは入力欄で選ぶ）
+const ORDER_STATUSES = ['受付', '確認中', '準備中', '完了', 'キャンセル'];
+const ACTIVE_STATUSES = ['受付', '確認中', '準備中'];
+// はじめに登録しておく商品（ホームページのメロン。お米・野菜は農家さんが足す）
+const DEFAULT_PRODUCTS = [
+  { name: 'あさひメロン（ラブコール）', unit: '箱', price: 5000 },
+  { name: '赤肉メロン（レノンハート）', unit: '箱', price: 5000 },
+  { name: '食べ比べセット', unit: '箱', price: 5000 },
+  { name: 'アンデスメロン', unit: '箱', price: 5000 },
 ];
 // 話した内容に金額（「5000円」など）があれば読み取る
 const PRICE_PATTERN = /(\d[\d,]*)\s*円/g;
@@ -40,12 +61,25 @@ const priceInput = $('price-input');
 const paidToggle = $('paid-toggle');
 const summaryCard = $('summary');
 
+const channelChips = $('channel-chips');
+const statusChips = $('status-chips');
+const deliveryInput = $('delivery-input');
+const productChips = $('product-chips');
+const orderItemsBox = $('order-items');
+const productEditor = $('product-editor');
+
 // ===== 状態 =====
 let records = loadRecords();
 let selectedKinds = new Set();
 let formPaid = false;     // 入力欄の「お金もらった」
 let editingId = null;     // 直している記録のID（新しく書くときは null）
+let formChannel = '';     // 入力欄の受付方法
+let formStatus = '受付';  // 入力欄の注文の状況
+let formItems = [];       // 入力欄の商品と数量 { name, unit, price, qty }
+let priceAuto = false;    // 金額を商品から自動で入れたかどうか（手で直したら false）
+let scannedText = '';     // 商品を読み取ったときの内容の文
 let statusFilter = 'all';
+let channelFilter = 'all';
 // 履歴の月ごとのかたまりを、自分で開けたか閉じたか（画面を描き直しても戻らないように）
 const monthOpenState = new Map();
 let statusTimer = null;
@@ -56,15 +90,26 @@ function loadRecords() {
     const raw = localStorage.getItem(STORAGE_KEY);
     const list = raw ? JSON.parse(raw) : [];
     if (!Array.isArray(list)) return [];
-    // 金額の機能を付ける前の記録は、「渡した」ものはお金も済んだことにする
-    list.forEach((r) => {
-      if (r.paid === undefined) r.paid = !!r.done;
-      if (r.price === undefined) r.price = null;
-    });
+    list.forEach(normalizeRecord);
     return list;
   } catch {
     return [];
   }
+}
+
+// 前の版で作った記録にも、新しい項目を足しておく（中身は変えない）
+function normalizeRecord(r) {
+  // 金額の機能を付ける前の記録は、「渡した」ものはお金も済んだことにする
+  if (r.paid === undefined) r.paid = !!r.done;
+  if (r.price === undefined) r.price = null;
+  // 注文の機能を付ける前の記録は、「渡した」なら完了、それ以外は受付にする
+  if (!ORDER_STATUSES.includes(r.status)) r.status = r.done ? '完了' : '受付';
+  if (!CHANNELS.includes(r.channel)) r.channel = '';
+  if (!Array.isArray(r.items)) r.items = [];
+  if (typeof r.deliveryDate !== 'string') r.deliveryDate = '';
+  // 「渡した」は「完了」と同じ意味にそろえる（スプレッドシートやCSVで使う）
+  r.done = r.status === '完了';
+  return r;
 }
 
 function saveRecords() {
@@ -82,10 +127,14 @@ function makeId() {
 }
 
 // ===== 金額 =====
+// 全角の数字を半角にする
+function toHalfWidth(text) {
+  return String(text ?? '').replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xFEE0));
+}
+
 // 全角数字やカンマが入っていても数字にする（読めなければ null）
 function toNumber(value) {
-  const s = String(value ?? '')
-    .replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
+  const s = toHalfWidth(value)
     .replace(/[,，円\s]/g, '');
   if (!s) return null;
   const n = Number(s);
@@ -111,6 +160,261 @@ function findPrice(text) {
 function renderPaidToggle() {
   paidToggle.setAttribute('aria-pressed', String(formPaid));
   paidToggle.textContent = formPaid ? '✓ もらった' : 'まだ';
+}
+
+// ===== 注文の入力（受付方法・状況・商品・受け渡し日） =====
+const PRODUCTS_KEY = 'kome-yasai-memo-products-v1';
+let productList = loadProducts();
+
+function loadProducts() {
+  try {
+    const list = JSON.parse(localStorage.getItem(PRODUCTS_KEY));
+    if (Array.isArray(list)) return list.filter((p) => p && typeof p.name === 'string' && p.name.trim());
+  } catch { /* 読めなければはじめの商品を使う */ }
+  return DEFAULT_PRODUCTS.map((p) => ({ ...p }));
+}
+
+function saveProducts() {
+  try { localStorage.setItem(PRODUCTS_KEY, JSON.stringify(productList)); } catch { /* 保存できなくても画面はそのまま使う */ }
+}
+
+// ボタンを並べる（押すと選ぶ。もう一度押すと外せるかどうかは allowEmpty で決める）
+function renderChoiceChips(container, options, current, onPick, allowEmpty) {
+  container.replaceChildren(...options.map((option) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'chip chip-small';
+    button.textContent = option;
+    button.setAttribute('aria-pressed', String(current === option));
+    button.addEventListener('click', () => onPick(allowEmpty && current === option ? '' : option));
+    return button;
+  }));
+}
+
+function renderChannelChips() {
+  renderChoiceChips(channelChips, CHANNELS, formChannel, (value) => {
+    formChannel = value;
+    renderChannelChips();
+  }, true);
+}
+
+function renderStatusChips() {
+  renderChoiceChips(statusChips, ORDER_STATUSES, formStatus, (value) => {
+    formStatus = value;
+    renderStatusChips();
+  }, false);
+}
+
+// 「あさひメロン（ラブコール）」→「あさひメロン」（話した言葉と合わせるため）
+function productShortName(name) {
+  return name.replace(/（[^）]*）|\([^)]*\)/g, '').trim();
+}
+
+function itemLabel(item) {
+  return `${item.name} ${item.qty}${item.unit || '個'}`;
+}
+
+function renderProductChips() {
+  const addButton = document.createElement('button');
+  addButton.type = 'button';
+  addButton.className = 'chip chip-small chip-add';
+  addButton.textContent = productEditor.hidden ? '＋ 商品を登録' : '閉じる';
+  addButton.addEventListener('click', () => toggleProductEditor(productEditor.hidden));
+
+  productChips.replaceChildren(...productList.map((product) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'chip chip-small';
+    button.textContent = product.price != null
+      ? `${product.name} ${formatYen(product.price)}/${product.unit || '個'}`
+      : product.name;
+    button.addEventListener('click', () => addItem(product, 1));
+    return button;
+  }), addButton);
+}
+
+function toggleProductEditor(open) {
+  productEditor.hidden = !open;
+  renderProductChips();
+  if (open) {
+    renderProductEditor();
+    $('product-name').focus();
+  }
+}
+
+function renderProductEditor() {
+  $('product-remove-list').replaceChildren(...productList.map((product) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'chip chip-small';
+    button.textContent = `${product.name} ×`;
+    button.setAttribute('aria-label', `${product.name}を消す`);
+    button.addEventListener('click', () => {
+      productList = productList.filter((p) => p !== product);
+      saveProducts();
+      renderProductChips();
+      renderProductEditor();
+    });
+    return button;
+  }));
+}
+
+function addProduct() {
+  const name = $('product-name').value.trim().replace(/\s+/g, ' ');
+  if (!name) {
+    showStatus('商品名を入れてください', true);
+    return;
+  }
+  const unit = $('product-unit').value.trim();
+  const price = toNumber($('product-price').value);
+  const same = productList.find((p) => p.name === name);
+  // 同じ名前があれば、単位と単価を新しいものにする
+  if (same) Object.assign(same, { unit, price });
+  else productList.push({ name, unit, price });
+  saveProducts();
+  ['product-name', 'product-unit', 'product-price'].forEach((id) => { $(id).value = ''; });
+  renderProductChips();
+  renderProductEditor();
+  showStatus(`「${name}」を登録しました`);
+}
+
+// 商品を注文に足す（同じ商品なら数を増やす）
+function addItem(product, qty) {
+  const same = formItems.find((i) => i.name === product.name);
+  if (same) same.qty += qty;
+  else formItems.push({ name: product.name, unit: product.unit || '', price: product.price ?? null, qty });
+  renderOrderItems();
+  updateAutoPrice();
+  updateSaveState();
+}
+
+function changeItemQty(index, diff) {
+  const item = formItems[index];
+  if (!item) return;
+  item.qty += diff;
+  if (item.qty <= 0) formItems.splice(index, 1);
+  renderOrderItems();
+  updateAutoPrice();
+  updateSaveState();
+}
+
+function renderOrderItems() {
+  orderItemsBox.replaceChildren(...formItems.map((item, index) => {
+    const row = document.createElement('div');
+    row.className = 'order-item';
+    const name = document.createElement('span');
+    name.className = 'order-item-name';
+    name.textContent = item.name;
+    const minus = document.createElement('button');
+    minus.type = 'button';
+    minus.className = 'qty-button';
+    minus.textContent = '−';
+    minus.setAttribute('aria-label', `${item.name}を1つ減らす`);
+    minus.addEventListener('click', () => changeItemQty(index, -1));
+    const qty = document.createElement('span');
+    qty.className = 'order-item-qty';
+    qty.textContent = `${item.qty}${item.unit || '個'}`;
+    const plus = document.createElement('button');
+    plus.type = 'button';
+    plus.className = 'qty-button';
+    plus.textContent = '＋';
+    plus.setAttribute('aria-label', `${item.name}を1つ増やす`);
+    plus.addEventListener('click', () => changeItemQty(index, 1));
+    const sub = document.createElement('span');
+    sub.className = 'order-item-sub';
+    sub.textContent = item.price != null ? formatYen(item.price * item.qty) : '';
+    row.append(name, minus, qty, plus, sub);
+    return row;
+  }));
+}
+
+// 商品の単価から金額を計算して入れる（手で入れた金額や、話した「〇〇円」は上書きしない）
+function updateAutoPrice() {
+  const priced = formItems.filter((i) => i.price != null);
+  if (!priced.length) {
+    if (priceAuto) {
+      priceInput.value = '';
+      priceAuto = false;
+    }
+    return;
+  }
+  if (priceAuto || !priceInput.value.trim()) {
+    priceInput.value = String(priced.reduce((sum, i) => sum + i.price * i.qty, 0));
+    priceAuto = true;
+  }
+}
+
+// 話した内容から登録済みの商品と数を読み取る（例：「あさひメロン2箱」）
+function findItemsInText(text) {
+  const t = toHalfWidth(text);
+  const found = [];
+  productList.forEach((product) => {
+    const keys = [product.name, productShortName(product.name)].filter(Boolean);
+    for (const key of keys) {
+      const at = t.indexOf(key);
+      if (at < 0) continue;
+      const after = t.slice(at + key.length, at + key.length + 8);
+      const m = after.match(/^\s*(?:を|が)?\s*(\d+)/);
+      found.push({ product, qty: m ? Math.max(1, Number(m[1])) : 1 });
+      break;
+    }
+  });
+  return found;
+}
+
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+// 日付を入力欄の形（2026-11-15）にする
+function toDateValue(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
+function todayValue() {
+  return toDateValue(new Date());
+}
+
+// 話した内容から受け渡し日を読み取る（「明日」「15日に」「11月20日」など）
+function findDeliveryDate(text) {
+  const t = toHalfWidth(text);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let date = null;
+  let m = t.match(/(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+  if (m) {
+    date = new Date(today.getFullYear(), Number(m[1]) - 1, Number(m[2]));
+    // 1か月以上前の日付なら、来年のこと
+    if (date < addDays(today, -30)) date.setFullYear(date.getFullYear() + 1);
+  } else if ((m = t.match(/(\d{1,2})\s*日\s*(?:に|の|まで|ごろ|頃)/))) {
+    date = new Date(today.getFullYear(), today.getMonth(), Number(m[1]));
+    // もう過ぎた日なら、来月のこと
+    if (date < today) date.setMonth(date.getMonth() + 1);
+  } else if (/明後日|あさって/.test(t)) {
+    date = addDays(today, 2);
+  } else if (/明日|あした/.test(t)) {
+    date = addDays(today, 1);
+  } else if (/今日|きょう/.test(t) && /渡|届|取りに|受け取|配達|発送/.test(t)) {
+    date = today;
+  }
+  return date ? toDateValue(date) : '';
+}
+
+// 「2026-11-15」→「11/15（日）」
+function formatShortDate(value) {
+  const [y, mo, d] = value.split('-').map(Number);
+  const date = new Date(y, mo - 1, d);
+  return `${mo}/${d}（${WEEKDAYS[date.getDay()]}）`;
+}
+
+// 今日から何日後か（過ぎていればマイナス）
+function daysFromToday(value) {
+  const [y, mo, d] = value.split('-').map(Number);
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((new Date(y, mo - 1, d) - today) / DAY_MS);
 }
 
 // ===== 入力欄 =====
@@ -240,7 +544,7 @@ function renderNameHelpers() {
 }
 
 function updateSaveState() {
-  saveButton.disabled = !textInput.value.trim() && !nameInput.value.trim();
+  saveButton.disabled = !textInput.value.trim() && !nameInput.value.trim() && !formItems.length;
 }
 
 // 話した内容から名前と種類を読み取って、空いている欄に入れる
@@ -264,11 +568,26 @@ function autoFill() {
   kindList.forEach((kind) => {
     if (!KINDS.includes(kind) && text.includes(kind)) selectedKinds.add(kind);
   });
-  if (!priceInput.value.trim()) {
-    const price = findPrice(text);
-    if (price !== null) priceInput.value = String(price);
+  // 話した「〇〇円」は、商品から計算した金額より優先する
+  const spokenPrice = findPrice(text);
+  if (spokenPrice !== null && (!priceInput.value.trim() || priceAuto)) {
+    priceInput.value = String(spokenPrice);
+    priceAuto = false;
   }
   if (PAID_WORDS.test(text)) formPaid = true;
+  // 受付方法・商品・受け渡し日も、話した内容から読み取る（入っていれば変えない）
+  if (!formChannel) {
+    const hit = CHANNEL_WORDS.find(([, words]) => words.test(text));
+    if (hit) formChannel = hit[0];
+  }
+  if (text !== scannedText) {
+    scannedText = text;
+    findItemsInText(text).forEach(({ product, qty }) => {
+      if (!formItems.some((i) => i.name === product.name)) addItem(product, qty);
+    });
+  }
+  if (!deliveryInput.value) deliveryInput.value = findDeliveryDate(text);
+  renderChannelChips();
   renderPaidToggle();
   renderKindChips();
   updateSaveState();
@@ -279,10 +598,19 @@ function resetForm() {
   nameInput.value = '';
   textInput.value = '';
   priceInput.value = '';
+  priceAuto = false;
   formPaid = false;
   renderPaidToggle();
   selectedKinds = new Set();
   renderKindChips();
+  formChannel = '';
+  formStatus = '受付';
+  formItems = [];
+  scannedText = '';
+  deliveryInput.value = '';
+  renderChannelChips();
+  renderStatusChips();
+  renderOrderItems();
   saveButton.textContent = '記録する';
   cancelEditButton.hidden = true;
   deleteButton.hidden = true;
@@ -293,16 +621,27 @@ function saveRecord() {
   autoFill();
   const name = nameInput.value.trim();
   const text = textInput.value.trim();
-  if (!name && !text) return;
+  if (!name && !text && !formItems.length) return;
   const kinds = getShownKinds().filter((k) => selectedKinds.has(k));
   const price = toNumber(priceInput.value);
   const paid = formPaid;
+  const now = new Date().toISOString();
+  const order = {
+    channel: formChannel,
+    status: formStatus,
+    done: formStatus === '完了',
+    items: formItems.map((i) => ({ ...i })),
+    deliveryDate: deliveryInput.value || '',
+  };
 
   if (editingId) {
     const record = records.find((r) => r.id === editingId);
-    if (record) Object.assign(record, { name, text, kinds, price, paid, updatedAt: new Date().toISOString() });
+    if (record) {
+      Object.assign(record, { name, text, kinds, price, paid, ...order, updatedAt: now });
+      record.doneAt = record.done ? record.doneAt || now : null;
+    }
   } else {
-    records.unshift({ id: makeId(), createdAt: new Date().toISOString(), name, text, kinds, price, paid, done: false });
+    records.unshift({ id: makeId(), createdAt: now, name, text, kinds, price, paid, ...order, doneAt: order.done ? now : null });
   }
   if (!saveRecords()) return;
   // スプレッドシートと連携していれば、そちらにも送る
@@ -321,10 +660,19 @@ function startEdit(id) {
   nameInput.value = record.name || '';
   textInput.value = record.text || '';
   priceInput.value = record.price != null ? String(record.price) : '';
+  priceAuto = false;
   formPaid = !!record.paid;
   renderPaidToggle();
   selectedKinds = new Set(record.kinds || []);
   renderKindChips();
+  formChannel = record.channel || '';
+  formStatus = record.status || '受付';
+  formItems = (record.items || []).map((i) => ({ ...i }));
+  scannedText = textInput.value;
+  deliveryInput.value = record.deliveryDate || '';
+  renderChannelChips();
+  renderStatusChips();
+  renderOrderItems();
   saveButton.textContent = '直した内容で保存';
   cancelEditButton.hidden = false;
   deleteButton.hidden = false;
@@ -354,13 +702,18 @@ function deleteEditing() {
   renderAll();
 }
 
-function toggleDone(id) {
+// 注文の状況を次に進める（受付 → 確認中 → 準備中 → 完了 → 受付に戻る。キャンセルは受付に戻す）
+function advanceStatus(id) {
   const record = records.find((r) => r.id === id);
   if (!record) return;
-  record.done = !record.done;
+  const flow = ['受付', '確認中', '準備中', '完了'];
+  const at = flow.indexOf(record.status);
+  record.status = at < 0 ? '受付' : flow[(at + 1) % flow.length];
+  record.done = record.status === '完了';
   record.doneAt = record.done ? new Date().toISOString() : null;
   saveRecords();
   queueSync('upsert', record);
+  renderUpcoming();
   renderHistory();
 }
 
@@ -381,6 +734,8 @@ function renderSummary() {
   let monthTotal = 0;
   const unpaidByName = new Map();
   records.forEach((r) => {
+    // キャンセルした注文は売上にも「お金まだ」にも入れない
+    if (r.status === 'キャンセル') return;
     const d = new Date(r.createdAt);
     if (d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth()) monthTotal += r.price || 0;
     if (!r.paid && r.price) {
@@ -440,6 +795,48 @@ function renderFilterChips() {
     });
     return button;
   }));
+  // 受付方法でもしぼりこめるようにする
+  const channelOptions = [{ key: 'all', label: '受付方法：すべて' }, ...CHANNELS.map((c) => ({ key: c, label: c }))];
+  $('channel-filter-chips').replaceChildren(...channelOptions.map(({ key, label }) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'chip chip-small';
+    button.textContent = label;
+    button.setAttribute('aria-pressed', String(channelFilter === key));
+    button.addEventListener('click', () => {
+      channelFilter = key;
+      renderFilterChips();
+      renderHistory();
+    });
+    return button;
+  }));
+}
+
+// ===== 今日・明日の受け渡し =====
+// 受け渡し日が明日までで、まだ終わっていない注文（過ぎているものも）を出す
+function renderUpcoming() {
+  const box = $('upcoming');
+  const list = records
+    .filter((r) => r.deliveryDate && ACTIVE_STATUSES.includes(r.status) && daysFromToday(r.deliveryDate) <= 1)
+    .sort((a, b) => a.deliveryDate.localeCompare(b.deliveryDate));
+  box.hidden = !list.length;
+  if (!list.length) return;
+  const title = document.createElement('p');
+  title.className = 'upcoming-title';
+  title.textContent = `📅 今日・明日の受け渡し（${list.length}件）`;
+  const rows = list.map((r) => {
+    const days = daysFromToday(r.deliveryDate);
+    const row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'upcoming-row' + (days < 0 ? ' is-late' : '');
+    const when = days < 0 ? `${formatShortDate(r.deliveryDate)} 過ぎています` : days === 0 ? '今日' : '明日';
+    const goods = (r.items || []).map(itemLabel).join('、') || r.text || '';
+    row.textContent = `${when}　${r.name || '（名前なし）'}　${goods}　[${r.status}]`;
+    // 押すと、その注文を直す画面にする
+    row.addEventListener('click', () => startEdit(r.id));
+    return row;
+  });
+  box.replaceChildren(title, ...rows);
 }
 
 const WEEKDAYS = ['日', '月', '火', '水', '木', '金', '土'];
@@ -454,11 +851,15 @@ function getFilteredRecords() {
   // 空白で区切った言葉がすべて含まれるものを出す
   const words = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
   return records.filter((r) => {
-    if (statusFilter === 'todo' && r.done) return false;
-    if (statusFilter === 'unpaid' && r.paid) return false;
-    const haystack = `${r.name} ${r.text} ${(r.kinds || []).join(' ')}`.toLowerCase();
+    if (statusFilter === 'todo' && !ACTIVE_STATUSES.includes(r.status)) return false;
+    if (statusFilter === 'unpaid' && (r.paid || r.status === 'キャンセル')) return false;
+    if (statusFilter === 'cancel' && r.status !== 'キャンセル') return false;
+    if (channelFilter !== 'all' && r.channel !== channelFilter) return false;
+    const goods = (r.items || []).map((i) => i.name).join(' ');
+    const haystack = `${r.name} ${r.text} ${(r.kinds || []).join(' ')} ${goods} ${r.channel} ${r.status}`.toLowerCase();
     return words.every((w) => haystack.includes(w));
-  });
+  // 月ごとにまとめるので、いつも新しい順に並べておく
+  }).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
 }
 
 function renderHistory() {
@@ -467,8 +868,9 @@ function renderHistory() {
   const isPerson = query && records.some((r) => r.name === query);
   historyTitle.textContent = isPerson ? `${query}さんの履歴` : '履歴';
   // 表示している分の合計とお金まだの分
-  const total = list.reduce((sum, r) => sum + (r.price || 0), 0);
-  const unpaid = list.reduce((sum, r) => sum + (r.paid ? 0 : r.price || 0), 0);
+  // キャンセルした注文は合計に入れない
+  const total = list.reduce((sum, r) => sum + recordAmount(r), 0);
+  const unpaid = list.reduce((sum, r) => sum + (r.paid ? 0 : recordAmount(r)), 0);
   historyCount.textContent = list.length
     ? `${list.length}件・合計 ${formatYen(total)}${unpaid ? `（お金まだ ${formatYen(unpaid)}）` : ''}`
     : '';
@@ -495,7 +897,7 @@ function renderHistory() {
   });
 
   // さがしているときや、しぼりこんでいるときは見落とさないように全部開く
-  const isFiltering = Boolean(query) || statusFilter !== 'all';
+  const isFiltering = Boolean(query) || statusFilter !== 'all' || channelFilter !== 'all';
   const nowKey = monthKey(new Date());
   const thisYear = new Date().getFullYear();
 
@@ -516,8 +918,8 @@ function renderHistory() {
     label.className = 'month-label';
     const m = month.date.getMonth() + 1;
     label.textContent = month.date.getFullYear() === thisYear ? `${m}月` : `${month.date.getFullYear()}年${m}月`;
-    const monthTotal = month.records.reduce((sum, r) => sum + (r.price || 0), 0);
-    const monthUnpaid = month.records.reduce((sum, r) => sum + (r.paid ? 0 : r.price || 0), 0);
+    const monthTotal = month.records.reduce((sum, r) => sum + recordAmount(r), 0);
+    const monthUnpaid = month.records.reduce((sum, r) => sum + (r.paid ? 0 : recordAmount(r)), 0);
     const info = document.createElement('span');
     info.className = 'month-info';
     info.textContent = `${month.records.length}件・合計 ${formatYen(monthTotal)}`;
@@ -549,6 +951,11 @@ function renderHistory() {
   historyList.replaceChildren(fragment);
 }
 
+// 合計に入れる金額（キャンセルした注文は 0）
+function recordAmount(r) {
+  return r.status === 'キャンセル' ? 0 : r.price || 0;
+}
+
 // 月を見分けるための文字（例: 2026-11）
 function monthKey(date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}`;
@@ -556,8 +963,9 @@ function monthKey(date) {
 
 function renderItem(record, date) {
   const item = document.createElement('article');
-  // 渡してお金ももらったら、薄く表示する
-  item.className = 'item' + (record.done && record.paid ? ' is-done' : '');
+  // 完了してお金ももらった注文と、キャンセルした注文は薄く表示する
+  const isCancel = record.status === 'キャンセル';
+  item.className = 'item' + (isCancel ? ' is-done is-cancel' : record.done && record.paid ? ' is-done' : '');
 
   const top = document.createElement('div');
   top.className = 'item-top';
@@ -578,6 +986,12 @@ function renderItem(record, date) {
     });
     top.append(name);
   }
+  if (record.channel) {
+    const channel = document.createElement('span');
+    channel.className = 'badge badge-channel';
+    channel.textContent = record.channel;
+    top.append(channel);
+  }
   (record.kinds || []).forEach((kind) => {
     const badge = document.createElement('span');
     badge.className = badgeClass(kind);
@@ -591,18 +1005,41 @@ function renderItem(record, date) {
     top.append(price);
   }
 
-  const text = document.createElement('p');
-  text.className = 'item-text';
-  text.textContent = record.text || '（内容なし）';
+  const body = [];
+  // 商品と数量
+  if (record.items && record.items.length) {
+    const goods = document.createElement('p');
+    goods.className = 'item-goods';
+    goods.textContent = record.items.map(itemLabel).join('、');
+    body.push(goods);
+  }
+  // 受け渡し日（まだ終わっていなくて日が過ぎていれば赤くする）
+  if (record.deliveryDate) {
+    const days = daysFromToday(record.deliveryDate);
+    const delivery = document.createElement('p');
+    const late = days < 0 && ACTIVE_STATUSES.includes(record.status);
+    delivery.className = 'item-delivery' + (late ? ' is-late' : '');
+    const near = days === 0 ? '（今日）' : days === 1 ? '（明日）' : late ? '（過ぎています）' : '';
+    delivery.textContent = `📅 受け渡し ${formatShortDate(record.deliveryDate)}${near}`;
+    body.push(delivery);
+  }
+  if (record.text || !body.length) {
+    const text = document.createElement('p');
+    text.className = 'item-text';
+    text.textContent = record.text || '（内容なし）';
+    body.push(text);
+  }
 
   const actions = document.createElement('div');
   actions.className = 'item-actions';
+  // 注文の状況（押すと次に進む）
   const done = document.createElement('button');
   done.type = 'button';
-  done.className = 'done-button';
+  done.className = 'done-button status-' + ORDER_STATUSES.indexOf(record.status);
   done.setAttribute('aria-pressed', String(!!record.done));
-  done.textContent = record.done ? '✓ 渡した' : 'まだ渡してない';
-  done.addEventListener('click', () => toggleDone(record.id));
+  done.textContent = record.done ? '✓ 完了' : record.status;
+  done.setAttribute('aria-label', `状況：${record.status}（押すと次に進みます）`);
+  done.addEventListener('click', () => advanceStatus(record.id));
   const pay = document.createElement('button');
   pay.type = 'button';
   pay.className = 'pay-button';
@@ -616,12 +1053,13 @@ function renderItem(record, date) {
   edit.addEventListener('click', () => startEdit(record.id));
   actions.append(done, pay, edit);
 
-  item.append(top, text, actions);
+  item.append(top, ...body, actions);
   return item;
 }
 
 function renderAll() {
   renderNameHelpers();
+  renderUpcoming();
   renderSummary();
   renderHistory();
 }
@@ -703,7 +1141,7 @@ function stopListening() {
 function finishListening() {
   clearTimeout(silenceTimer);
   micButton.setAttribute('aria-pressed', 'false');
-  micHint.innerHTML = 'タップして話す<br><small>例：「田中さん、お米10キロ5000円、もらった」</small>';
+  micHint.innerHTML = 'タップして話す<br><small>例：「田中さん、電話で、あさひメロン2箱、15日に渡す」</small>';
   autoFill();
 }
 
@@ -999,11 +1437,12 @@ window.addEventListener('online', () => scheduleSync(0));
 
 $('export-csv').addEventListener('click', () => {
   const quote = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const rows = [['日時', '名前', '種類', '内容', '金額', '渡した', 'お金'].map(quote).join(',')];
+  const rows = [['日時', '名前', '種類', '内容', '金額', '渡した', 'お金', '受付方法', '受け渡し日', '状況', '商品'].map(quote).join(',')];
   records.forEach((r) => {
     const d = new Date(r.createdAt);
     const when = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${formatTime(d)}`;
-    rows.push([when, r.name, (r.kinds || []).join('・'), r.text, r.price ?? '', r.done ? '済' : '', r.paid ? '済' : 'まだ'].map(quote).join(','));
+    rows.push([when, r.name, (r.kinds || []).join('・'), r.text, r.price ?? '', r.done ? '済' : '', r.paid ? '済' : 'まだ',
+      r.channel, r.deliveryDate, r.status, (r.items || []).map(itemLabel).join('、')].map(quote).join(','));
   });
   // Excel で文字化けしないよう先頭に BOM を付ける
   download(`kome-yasai-memo-${todayStamp()}.csv`, '﻿' + rows.join('\r\n'), 'text/csv');
@@ -1019,7 +1458,7 @@ $('import-file').addEventListener('change', async (event) => {
     if (!Array.isArray(list)) throw new Error('形式が違います');
     // 今ある記録は残し、まだないものだけ足す
     const ids = new Set(records.map((r) => r.id));
-    const added = list.filter((r) => r && r.id && r.createdAt && !ids.has(r.id));
+    const added = list.filter((r) => r && r.id && r.createdAt && !ids.has(r.id)).map(normalizeRecord);
     records = [...records, ...added].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     saveRecords();
     added.forEach((r) => queueSync('upsert', r));
@@ -1048,6 +1487,17 @@ kindInput.addEventListener('keydown', (event) => {
     addKind();
   }
 });
+$('product-add').addEventListener('click', addProduct);
+$('product-close').addEventListener('click', () => toggleProductEditor(false));
+$('product-price').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && !event.isComposing) {
+    event.preventDefault();
+    addProduct();
+  }
+});
+$('delivery-clear').addEventListener('click', () => { deliveryInput.value = ''; });
+// 金額を手で直したら、商品からの自動計算で上書きしない
+priceInput.addEventListener('input', () => { priceAuto = false; });
 paidToggle.addEventListener('click', () => {
   formPaid = !formPaid;
   renderPaidToggle();
@@ -1058,6 +1508,10 @@ deleteButton.addEventListener('click', deleteEditing);
 searchInput.addEventListener('input', renderHistory);
 
 renderKindChips();
+renderChannelChips();
+renderStatusChips();
+renderProductChips();
+renderOrderItems();
 renderFilterChips();
 renderAll();
 renderBackupReminder();

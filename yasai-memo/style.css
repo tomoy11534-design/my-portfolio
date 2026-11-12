@@ -534,3 +534,69 @@ kbd {
 .press { white-space: normal; }
 .guide .card { overflow-wrap: anywhere; min-width: 0; }
 .guide-sample code { word-break: break-all; }
+
+/* ===== 注文（受付方法・商品・受け渡し日・状況） ===== */
+.product-add-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.product-add-row .product-name { flex: 1 1 100%; }
+.product-add-row .product-small { flex: 1 1 0; }
+.product-add { margin-top: 8px; }
+.order-items:empty { display: none; }
+.order-items {
+  margin-top: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--color-border);
+  font-size: 14px;
+}
+.order-item:first-child { border-top: none; }
+.order-item-name { flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.order-item-qty { min-width: 3.2em; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+.order-item-sub { min-width: 5.5em; text-align: right; color: var(--color-muted); font-variant-numeric: tabular-nums; }
+.qty-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-weight: 700;
+  line-height: 1;
+}
+.delivery-row { display: flex; gap: 8px; align-items: center; }
+.delivery-row .delivery-input { flex: 1 1 auto; }
+
+/* 履歴の注文の表示 */
+.badge-channel { background: var(--color-accent-soft); color: var(--color-accent-strong); }
+.item-goods { margin: 4px 0 0; font-weight: 700; overflow-wrap: anywhere; }
+.item-delivery { margin: 2px 0 0; font-size: 13px; color: var(--color-muted); }
+.item-delivery.is-late { color: var(--color-danger); font-weight: 700; }
+.item-goods + .item-text, .item-delivery + .item-text { margin-top: 2px; }
+.item-actions { margin-top: 8px; }
+/* 状況ごとに色を変える（受付・確認中・準備中） */
+.done-button.status-0 { border-color: var(--color-rice); color: var(--color-rice); font-weight: 700; }
+.done-button.status-1 { border-color: var(--color-other); color: var(--color-other); font-weight: 700; }
+.done-button.status-2 { border-color: var(--color-veg); color: var(--color-veg); font-weight: 700; }
+.item.is-cancel .item-goods, .item.is-cancel .item-price { text-decoration: line-through; }
+
+/* 今日・明日の受け渡し */
+.upcoming { padding: 12px 14px; border-color: var(--color-rice); }
+.upcoming[hidden] { display: none; }
+.upcoming-title { margin: 0 0 6px; font-weight: 700; }
+.upcoming-row {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg);
+  text-align: left;
+  font-size: 14px;
+}
+.upcoming-row.is-late { border-color: var(--color-danger); color: var(--color-danger); font-weight: 700; }

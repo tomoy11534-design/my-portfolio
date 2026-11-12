@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="野菜メモ">
   <!-- スマホに古い版が残らないよう、直したら ?v= の数字を上げる -->
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
   <header class="app-header">
@@ -35,13 +35,17 @@
         <button class="mic-button" id="mic-button" type="button" aria-pressed="false" aria-label="話して記録する">
           <span aria-hidden="true">🎤</span>
         </button>
-        <p class="mic-hint" id="mic-hint">タップして話す<br><small>例：「田中さん、お米10キロ5000円、もらった」</small></p>
+        <p class="mic-hint" id="mic-hint">タップして話す<br><small>例：「田中さん、電話で、あさひメロン2箱、15日に渡す」</small></p>
       </div>
 
       <label class="field-label" for="name-input">だれから</label>
       <input class="name-input" id="name-input" list="name-list" autocomplete="off" placeholder="名前（話すと自動で入ります）">
       <datalist id="name-list"></datalist>
       <div class="chip-row" id="recent-names" aria-label="よく頼む人"></div>
+
+      <!-- 注文をどこから受けたか -->
+      <span class="field-label">受付方法</span>
+      <div class="chip-row" id="channel-chips" role="group" aria-label="受付方法"></div>
 
       <span class="field-label">なにを</span>
       <div class="chip-row" id="kind-chips" role="group" aria-label="種類"></div>
@@ -58,6 +62,32 @@
 
       <label class="field-label" for="text-input">内容</label>
       <textarea class="text-input" id="text-input" rows="3" placeholder="話した内容がここに出ます。手で書いたり直したりもできます。"></textarea>
+
+      <!-- 商品と数量（商品を押すと下に並ぶ。単価があれば金額を自動で計算） -->
+      <span class="field-label">商品と数量</span>
+      <div class="chip-row" id="product-chips" role="group" aria-label="商品"></div>
+      <div class="order-items" id="order-items"></div>
+      <!-- 商品を登録・整理する欄（「＋ 商品を登録」を押すと出る） -->
+      <div class="kind-editor" id="product-editor" hidden>
+        <div class="product-add-row">
+          <input class="kind-input product-name" id="product-name" autocomplete="off" placeholder="商品名（例：お米）">
+          <input class="kind-input product-small" id="product-unit" autocomplete="off" placeholder="単位（例：袋）">
+          <input class="kind-input product-small" id="product-price" inputmode="numeric" autocomplete="off" placeholder="単価（円）">
+        </div>
+        <button class="sub-button product-add" id="product-add" type="button">登録</button>
+        <p class="kind-note">いらない商品は × で消せます（今までの記録はそのまま残ります）</p>
+        <div class="chip-row" id="product-remove-list"></div>
+        <button class="sub-button kind-close" id="product-close" type="button">閉じる</button>
+      </div>
+
+      <!-- 受け渡し日と注文の状況 -->
+      <label class="field-label" for="delivery-input">受け渡し日</label>
+      <div class="delivery-row">
+        <input class="price-input delivery-input" type="date" id="delivery-input">
+        <button class="sub-button" id="delivery-clear" type="button">日付を消す</button>
+      </div>
+      <span class="field-label">注文の状況</span>
+      <div class="chip-row" id="status-chips" role="group" aria-label="注文の状況"></div>
 
       <!-- 金額とお金をもらったかどうか -->
       <div class="money-row">
@@ -84,6 +114,9 @@
 
     <!-- 履歴 -->
     <section class="history">
+      <!-- 今日・明日の受け渡し（遅れているものも出す） -->
+      <div class="card upcoming" id="upcoming" hidden></div>
+
       <!-- 今月の売上と、まだお金をもらっていない分 -->
       <div class="summary card" id="summary"></div>
 
@@ -93,6 +126,7 @@
       </div>
       <input class="search-input" id="search-input" type="search" placeholder="🔍 名前や品物でさがす（例：田中、玉ねぎ）">
       <div class="chip-row" id="filter-chips" role="group" aria-label="しぼりこみ"></div>
+      <div class="chip-row" id="channel-filter-chips" role="group" aria-label="受付方法でしぼりこみ"></div>
       <div id="history-list"></div>
     </section>
 
@@ -149,6 +183,6 @@
   </main>
 
   <script src="sheets-config.js?v=2"></script>
-  <script src="app.js?v=8"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

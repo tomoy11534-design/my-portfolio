@@ -3,7 +3,8 @@
 // 記録を読み出す機能は入れていないので、アドレスを知られてもシートの中身は見られません。
 
 const SHEET_NAME = '販売記録';
-const HEADERS = ['日時', '名前', '種類', '内容', '金額', '渡した', 'お金', '最後に変えた日時', 'ID'];
+// 注文の項目（受付方法〜商品）は、前の表と並びが変わらないよう右の端に足している
+const HEADERS = ['日時', '名前', '種類', '内容', '金額', '渡した', 'お金', '最後に変えた日時', 'ID', '受付方法', '受け渡し日', '状況', '商品'];
 const ID_COLUMN = 9;
 
 // つながるかどうかの確認用（記録は返さない）
@@ -44,6 +45,10 @@ function getSheet() {
     sheet.getRange('H:H').setNumberFormat('yyyy/mm/dd hh:mm');
     sheet.getRange('E:E').setNumberFormat('#,##0"円"');
   }
+  // 前の版で作った表には、足した項目の見出しを書き足す
+  if (sheet.getLastColumn() < HEADERS.length) {
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
+  }
   return sheet;
 }
 
@@ -82,6 +87,10 @@ function upsertRecord(sheet, r) {
     r.paid ? '済' : 'まだ',
     new Date(),
     String(r.id),
+    safeText(r.channel),
+    safeText(r.deliveryDate),
+    safeText(r.status),
+    safeText((r.items || []).map(function (i) { return i.name + ' ' + i.qty + (i.unit || '個'); }).join('、')),
   ];
   const at = findRow(sheet, r.id);
   if (at) sheet.getRange(at, 1, 1, row.length).setValues([row]);
