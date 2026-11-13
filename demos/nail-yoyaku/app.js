@@ -1160,7 +1160,10 @@ function renderHomeBookings() {
   wrap.innerHTML = `
     ${block('今日来る人', 'today', comingOn(today), '今日来る人はいません')}
     ${block('明日来る人', 'tomorrow', comingOn(addDays(today, 1)), '明日来る人はいません')}
-    <button id="quick-booking" class="more-btn" type="button">＋ 来る日を入れる</button>`;
+    <button id="quick-booking" class="plan-btn" type="button">
+      <svg class="plan-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg>
+      来る日を入れる
+    </button>`;
   bindComingRows(wrap);
   $('#quick-booking').addEventListener('click', () => openBookingSheet({ date: today }));
 }

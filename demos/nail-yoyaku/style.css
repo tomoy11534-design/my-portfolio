@@ -828,3 +828,16 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 .memo-empty { color: var(--muted); font-size: .8rem; }
 /* お客さんの画面の「来たので記録する」も同じグレーにそろえる */
 .bk-box-btn.is-main { background: #6f6f72; border-color: #6f6f72; color: #fff; }
+
+/* 「来る日を入れる」ボタン：点線ではなく、はっきりした枠のボタン */
+#quick-booking { margin-top: 10px; }
+.plan-btn {
+  width: 100%; min-height: var(--tap);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--paper); color: var(--fg);
+  border: 1.5px solid #6f6f72; border-radius: var(--radius);
+  font: inherit; font-size: .92rem; font-weight: 500; letter-spacing: .08em;
+  cursor: pointer;
+}
+.plan-btn:active { background: var(--tint); }
+.plan-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
