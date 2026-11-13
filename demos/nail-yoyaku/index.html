@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- ホーム画面に追加したときの表示 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ネイルカルテ予約">
+<meta name="theme-color" content="#ecebe8">
+<!-- 検索エンジンに載せない -->
+<meta name="robots" content="noindex, nofollow">
+<title>ネイルカルテ（予約機能つきの見本）</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&family=Poppins:wght@300;400;500&family=Zen+Maru+Gothic:wght@300;400;500&family=Zen+Kaku+Gothic+New:wght@400&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ポートフォリオ用デモの案内 -->
+<div style="padding:8px 16px;background:#3a3532;color:#fff;font-size:12px;line-height:1.6;text-align:center;font-family:system-ui,sans-serif">
+  予約機能をつけた見本です。入っているお客さん・記録・予約はすべて架空のサンプルで、追加した内容はこの端末のブラウザにだけ保存されます。
+  <a href="../../works/nail-karte.html#yoyaku" style="color:#f3c9b5">作品紹介へ戻る</a>
+</div>
+
+<!-- 画面はすべて app.js が描画する -->
+<div id="app" class="app"></div>
+
+<!-- 写真の拡大表示 -->
+<div id="viewer" class="viewer" hidden>
+  <img id="viewer-img" alt="記録写真の拡大">
+  <button id="viewer-close" class="viewer-close" type="button">閉じる</button>
+</div>
+
+<!-- お客さん追加シート -->
+<div id="sheet" class="sheet-wrap" hidden>
+  <form id="sheet-form" class="sheet" autocomplete="off">
+    <h2 id="sheet-title" class="sheet-title">お客さんを追加</h2>
+    <label class="field">
+      <span class="field-label">お名前</span>
+      <input id="new-name" class="input" type="text" required placeholder="例：山本 さくら">
+    </label>
+    <label class="field">
+      <span class="field-label">ふりがな（任意・検索に使います）</span>
+      <input id="new-kana" class="input" type="text" placeholder="例：やまもと さくら">
+    </label>
+    <div class="sheet-actions">
+      <button id="sheet-cancel" class="btn btn-ghost" type="button">やめる</button>
+      <button id="sheet-submit" class="btn btn-primary" type="submit">追加する</button>
+    </div>
+  </form>
+</div>
+
+<!-- 予約を入れる・直すシート -->
+<div id="booking-sheet" class="sheet-wrap" hidden>
+  <form id="booking-form" class="sheet" autocomplete="off">
+    <h2 id="bk-title" class="sheet-title">予約を入れる</h2>
+    <label class="field">
+      <span class="field-label">お客さん</span>
+      <select id="bk-customer" class="input"></select>
+    </label>
+    <div class="bk-when-fields">
+      <label class="field">
+        <span class="field-label">日にち</span>
+        <input id="bk-date" class="input" type="date" required>
+      </label>
+      <label class="field">
+        <span class="field-label">時間</span>
+        <select id="bk-time" class="input"></select>
+      </label>
+    </div>
+    <p id="bk-warn" class="bk-warn" hidden></p>
+    <div class="field">
+      <span class="field-label">メニュー</span>
+      <div id="bk-menus" class="bk-menus"></div>
+    </div>
+    <label class="field">
+      <span class="field-label">メモ（任意）</span>
+      <input id="bk-memo" class="input" type="text" placeholder="例：オフあり・前回と同じ色">
+    </label>
+    <div class="sheet-actions">
+      <button id="bk-cancel" class="btn btn-ghost" type="button">やめる</button>
+      <button class="btn btn-primary" type="submit">保存する</button>
+    </div>
+    <button id="bk-delete" class="danger-btn bk-delete" type="button" hidden>予約を取り消す</button>
+  </form>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
