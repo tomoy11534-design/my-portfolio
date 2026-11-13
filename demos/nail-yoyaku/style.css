@@ -822,6 +822,6 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 }
 .off-tag { margin-left: 4px; border: 0; }
 
-/* 「来た」ボタンは、画面下の主ボタンと同じテラコッタにして目立たせる */
-.bk-action { background: var(--red); color: #fff; font-weight: 500; padding: 0 16px; }
-.bk-action:active { background: var(--red-deep); }
+/* 「来た」ボタンは、落ち着いたチャコールグレーにする */
+.bk-action { background: var(--ink); color: var(--on-ink); font-weight: 500; padding: 0 16px; }
+.bk-action:active { background: #000; }
