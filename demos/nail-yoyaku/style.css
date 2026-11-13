@@ -822,7 +822,7 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 }
 .off-tag { margin-left: 4px; border: 0; }
 
-/* 「来た」ボタンは、落ち着いたチャコールグレーにする */
-.bk-action { background: var(--ink); color: var(--on-ink); font-weight: 500; padding: 0 16px; }
-.bk-action:active { background: #000; }
+/* 「来た」ボタンは、くすんだグレージュ（ベージュがかったグレー）。白い文字が読める濃さにしている */
+.bk-action { background: #7d736b; color: #fff; font-weight: 500; padding: 0 16px; letter-spacing: .08em; }
+.bk-action:active { background: #675e57; }
 .memo-empty { color: var(--muted); font-size: .8rem; }
