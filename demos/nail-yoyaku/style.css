@@ -789,3 +789,15 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 .bk-menu-opt input:focus-visible + span { outline: 2px solid var(--fg); outline-offset: 2px; }
 .bk-delete { justify-self: center; margin-top: 2px; }
 #booking-form { max-height: 92vh; overflow-y: auto; }
+
+/* 予約の入口（記録のあと・一覧の「＋予約」・新しいお客さん） */
+.bk-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.bk-head .section-label { flex: 1; }
+.bk-add {
+  flex: none; min-height: 34px; padding: 0 14px;
+  background: var(--ink); color: var(--on-ink);
+  border: 0; border-radius: 999px; font: inherit; font-size: .8rem; cursor: pointer;
+}
+.bk-box.is-ask { border-color: var(--red); background: #fdf7f3; }
+.bk-box-ask { font-weight: 500; font-size: .92rem; }
+.bk-new { display: grid; gap: 10px; padding: 10px; background: var(--bg); border-radius: var(--radius); }

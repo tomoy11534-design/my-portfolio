@@ -61,6 +61,7 @@ const state = {
   calMonth: '',   // 予約表で見ている月 'YYYY-MM'
   calDay: '',     // 予約表で選んでいる日 'YYYY-MM-DD'
   nextDraft: null, // 予約から記録へ進むときに、記録画面へ渡す内容
+  askNext: '',     // 記録を保存した直後に「次回の予約も入れますか？」と聞くお客さん
   query: '',
   month: '',      // 'YYYY-MM' 形式。空なら絞り込みなし
   draft: null,    // 記録フォームの入力途中の内容
@@ -991,6 +992,7 @@ function renderNew(app, c, editing = null) {
       if (b) { b.status = 'done'; await safePut('bookings', b); }
     }
     state.draft = null;
+    if (!editing && !nextBookingOf(c.id)) state.askNext = c.id;
     toast(state.canSave ? (editing ? '編集を保存しました' : '保存しました') : '保存できませんでした（この画面を閉じると消えます）');
     go('c-' + c.id);
   });
@@ -1158,7 +1160,10 @@ function renderHomeBookings() {
   const list = upcomingBookings();
   const todayCount = list.filter((b) => b.date === todayStr()).length;
   wrap.innerHTML = `
-    <h2 class="section-label">reserve<span>これからの予約${todayCount ? `（今日 ${todayCount}件）` : ''}</span></h2>
+    <div class="bk-head">
+      <h2 class="section-label">reserve<span>これからの予約${todayCount ? `（今日 ${todayCount}件）` : ''}</span></h2>
+      <button id="quick-booking" class="bk-add" type="button">＋ 予約</button>
+    </div>
     <div class="bk-list">
       ${list.length
         ? list.slice(0, 3).map((b) => bookingRow(b)).join('')
@@ -1167,11 +1172,23 @@ function renderHomeBookings() {
     <button id="open-bookings" class="more-btn" type="button">予約表を見る${list.length > 3 ? `（ほか${list.length - 3}件）` : ''}</button>`;
   bindBookingRows(wrap);
   $('#open-bookings').addEventListener('click', () => go('yoyaku'));
+  $('#quick-booking').addEventListener('click', () => openBookingSheet({ date: todayStr() }));
 }
 
 // お客さんの画面：次回の予約
 function customerBookingBox(c) {
   const b = nextBookingOf(c.id);
+  if (!b && state.askNext === c.id) {
+    return `
+    <div class="bk-box is-ask">
+      <span class="bk-box-ask">記録しました。次回の予約も入れますか？</span>
+      <span class="bk-box-none">日にちは4週間後を入れておきます（変えられます）</span>
+      <div class="bk-box-actions">
+        <button type="button" class="bk-box-btn" data-bk-later>あとで</button>
+        <button type="button" class="bk-box-btn is-main" data-bk-new data-bk-weeks="4">次回の予約を入れる</button>
+      </div>
+    </div>`;
+  }
   if (!b) {
     return `<div class="bk-box"><span class="bk-box-label">次回の予約</span><span class="bk-box-none">まだ入っていません</span><button type="button" class="bk-box-btn" data-bk-new>予約を入れる</button></div>`;
   }
@@ -1188,7 +1205,18 @@ function customerBookingBox(c) {
 }
 function bindBookingBox(root, c) {
   const n = root.querySelector('[data-bk-new]');
-  if (n) n.addEventListener('click', () => openBookingSheet({ customerId: c.id }));
+  if (n) n.addEventListener('click', () => {
+    // 記録のあとに聞いたときは、4週間後の日にちを入れておく
+    const weeks = Number(n.dataset.bkWeeks || 0);
+    state.askNext = '';
+    openBookingSheet({ customerId: c.id, date: weeks ? addDays(todayStr(), weeks * 7) : '' });
+  });
+  const later = root.querySelector('[data-bk-later]');
+  if (later) later.addEventListener('click', () => {
+    state.askNext = '';
+    root.innerHTML = customerBookingBox(c);
+    bindBookingBox(root, c);
+  });
   root.querySelectorAll('[data-bk-edit]').forEach((el) => el.addEventListener('click', () => openBookingSheet({ booking: state.bookings.find((x) => x.id === el.dataset.bkEdit) })));
   root.querySelectorAll('[data-bk-visit]').forEach((el) => el.addEventListener('click', () => startVisit(el.dataset.bkVisit)));
 }
@@ -1266,10 +1294,13 @@ function openBookingSheet({ booking = null, customerId = '', date = '' } = {}) {
   bookingEdit = booking;
   const sel = $('#bk-customer');
   const people = [...visibleCustomers()].sort((a, b) => (a.kana || a.name).localeCompare(b.kana || b.name, 'ja'));
-  sel.innerHTML = `<option value="">お客さんを選んでください</option>` + people.map((c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+  sel.innerHTML = `<option value="">お客さんを選んでください</option><option value="__new">＋ 新しいお客さん（名前を入れる）</option>` + people.map((c) => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
   sel.value = booking ? booking.customerId : customerId;
   // お客さんの画面から開いたときは、選び直せないようにする
   sel.disabled = !!(booking || customerId);
+  $('#bk-new-name').value = '';
+  $('#bk-new-kana').value = '';
+  toggleNewCustomer();
   $('#bk-date').value = booking ? booking.date : (date || addDays(todayStr(), 1));
   $('#bk-time').innerHTML = TIMES.map((t) => `<option>${t}</option>`).join('');
   $('#bk-time').value = booking ? booking.time : '13:00';
@@ -1281,6 +1312,12 @@ function openBookingSheet({ booking = null, customerId = '', date = '' } = {}) {
   resetArmed($('#bk-delete'), '予約を取り消す');
   updateBookingWarn();
   $('#booking-sheet').hidden = false;
+}
+// 「新しいお客さん」を選んだときだけ、名前の欄を出す
+function toggleNewCustomer() {
+  const isNew = $('#bk-customer').value === '__new';
+  $('#bk-new-wrap').hidden = !isNew;
+  if (isNew) setTimeout(() => $('#bk-new-name').focus(), 50);
 }
 function closeBookingSheet() {
   const el = $('#booking-sheet');
@@ -1302,6 +1339,7 @@ function updateBookingWarn() {
 function setupBookingSheet() {
   $('#bk-cancel').addEventListener('click', closeBookingSheet);
   $('#booking-sheet').addEventListener('click', (e) => { if (e.target.id === 'booking-sheet') closeBookingSheet(); });
+  $('#bk-customer').addEventListener('change', toggleNewCustomer);
   $('#bk-date').addEventListener('change', updateBookingWarn);
   $('#bk-time').addEventListener('change', updateBookingWarn);
   // 取り消しは2回押しで確定（うっかり防止）
@@ -1325,10 +1363,18 @@ function setupBookingSheet() {
   });
   $('#booking-form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const customerId = $('#bk-customer').value;
+    let customerId = $('#bk-customer').value;
     const date = $('#bk-date').value;
     if (!customerId) { toast('お客さんを選んでください'); return; }
+    if (customerId === '__new' && !$('#bk-new-name').value.trim()) { toast('お名前を入れてください'); return; }
     if (!date) { toast('日にちを入れてください'); return; }
+    // 新しいお客さんなら、先にお客さんとして登録する
+    if (customerId === '__new') {
+      const customer = { id: uid('c'), name: $('#bk-new-name').value.trim(), kana: $('#bk-new-kana').value.trim(), createdAt: new Date().toISOString() };
+      state.customers.push(customer);
+      await safePut('customers', customer);
+      customerId = customer.id;
+    }
     const fields = {
       customerId, date, time: $('#bk-time').value,
       menu: (document.querySelector('input[name="bk-menu"]:checked') || {}).value || 'ハンド',
