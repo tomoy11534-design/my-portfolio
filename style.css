@@ -1380,3 +1380,85 @@ section {
 .work-content .voice-card:has(+ .voice-card) {
   margin-bottom: 16px;
 }
+
+/* ==========================================================
+   触って試せるデモ
+   ========================================================== */
+.demo-box {
+  margin-top: 64px;
+}
+
+.demo-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.demo-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-left: 6px solid var(--demo-color, var(--color-primary));
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.demo-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.demo-link--yasai { --demo-color: #2f8f6f; }
+.demo-link--invoice { --demo-color: #c08a1e; }
+.demo-link--shizai { --demo-color: #4f8f3a; }
+.demo-link--nail { --demo-color: #c0704f; }
+
+.demo-link-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.demo-link-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.demo-link-body b {
+  font-size: 1rem;
+}
+
+.demo-link-body b::after {
+  content: " ↗";
+  color: var(--demo-color, var(--color-primary));
+}
+
+.demo-link-body small {
+  color: var(--color-ink-soft);
+  font-size: 0.82rem;
+}
+
+.demo-note {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+}
+
+/* トップページの料金表 */
+.price {
+  padding-top: 0;
+}
+
+@media (max-width: 680px) {
+  .demo-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+.demo-box + .work-group {
+  margin-top: 64px;
+}
