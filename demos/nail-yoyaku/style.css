@@ -822,9 +822,9 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 }
 .off-tag { margin-left: 4px; border: 0; }
 
-/* 「来た」ボタンは、くすんだグレージュ（ベージュがかったグレー）。白い文字が読める濃さにしている */
-.bk-action { background: #7d736b; color: #fff; font-weight: 500; padding: 0 16px; letter-spacing: .08em; }
-.bk-action:active { background: #675e57; }
+/* 「来た」ボタンは、すっきりしたグレー。白い文字が読める濃さにしている */
+.bk-action { background: #6f6f72; color: #fff; font-weight: 500; padding: 0 16px; letter-spacing: .08em; }
+.bk-action:active { background: #59595c; }
 .memo-empty { color: var(--muted); font-size: .8rem; }
-/* お客さんの画面の「来たので記録する」も同じグレージュにそろえる */
-.bk-box-btn.is-main { background: #7d736b; border-color: #7d736b; color: #fff; }
+/* お客さんの画面の「来たので記録する」も同じグレーにそろえる */
+.bk-box-btn.is-main { background: #6f6f72; border-color: #6f6f72; color: #fff; }
