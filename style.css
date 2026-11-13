@@ -1371,3 +1371,12 @@ section {
 .voice-card + .work-group {
   margin-top: 64px;
 }
+
+/* お客様の声が続くときの間 */
+.voice-card + .voice-card {
+  margin-top: 16px;
+}
+
+.work-content .voice-card:has(+ .voice-card) {
+  margin-bottom: 16px;
+}
