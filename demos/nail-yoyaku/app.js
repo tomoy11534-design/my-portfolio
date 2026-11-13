@@ -666,6 +666,7 @@ function renderCustomer(app, c) {
         ${photos ? `<div class="photos${r.photos.length === 1 ? ' single' : ''}">${photos}</div>` : ''}
         ${r.colors?.length ? `<div class="chips">${r.colors.map((col) => `<span class="chip">${esc(col)}</span>`).join('')}</div>` : ''}
         ${r.memo ? `<p class="memo">${esc(r.memo)}</p>` : ''}
+        ${!r.photos?.length && !r.colors?.length && !r.memo && !r.karte?.length ? `<p class="memo memo-empty">${r.off ? 'オフのみ（記録なし）' : '来店のみ（記録なし）'}</p>` : ''}
         ${r.karte?.length ? `
           <div class="karte">
             <span class="karte-label">手描きカルテ</span>
@@ -817,7 +818,7 @@ function renderNew(app, c, editing = null) {
       </div>
       <label class="off-toggle">
         <input id="off-only" type="checkbox"${d.off ? ' checked' : ''}>
-        <span><b>オフだけ</b>（デザインはなし。写真や色番がなくても保存できます）</span>
+        <span><b>オフだけ</b>（デザインはなし）</span>
       </label>
       <div class="field">
         <span class="field-label">写真</span>
@@ -969,10 +970,7 @@ function renderNew(app, c, editing = null) {
     // 入力欄に残った色番も拾う
     if ($('#color-input').value.trim()) addColor();
     if (!d.date) { toast('来店日を入れてください'); return; }
-    if (!d.off && d.photos.length === 0 && d.karte.length === 0 && d.colors.length === 0 && !d.memo.trim()) {
-      toast('写真・色番・メモ・カルテのどれかを入れてください');
-      return;
-    }
+    // 写真・色番・メモが何もなくても、来た日だけ残せる
     let record;
     if (editing) {
       // 既存の記録を書きかえる
