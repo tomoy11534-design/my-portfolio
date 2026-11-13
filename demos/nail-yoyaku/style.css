@@ -805,3 +805,19 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 /* 今日・明日来る人 */
 .bk-notime { font-size: .72rem; color: var(--muted); font-family: var(--font-body); }
 #quick-booking { margin-top: 10px; }
+
+/* オフだけの来店 */
+.off-toggle {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 44px; padding: 8px 12px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  font-size: .84rem; cursor: pointer;
+}
+.off-toggle input { width: 20px; height: 20px; accent-color: var(--ink); flex: none; }
+.off-toggle b { font-weight: 500; }
+.bk-off, .off-tag {
+  display: inline-block; margin-left: 6px; padding: 1px 7px;
+  font-size: .66rem; font-weight: 400; letter-spacing: .04em;
+  color: var(--lavender-ink); background: var(--lavender); border-radius: 999px; vertical-align: 1px;
+}
+.off-tag { margin-left: 4px; border: 0; }

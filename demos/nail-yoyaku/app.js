@@ -658,7 +658,7 @@ function renderCustomer(app, c) {
     body += `
       <article class="record tone-${idx % 3}${isHit ? ' is-hit' : ''}"${anchor}>
         <div class="record-head">
-          <span class="part-tag">${partEn(r)}</span>
+          <span class="part-tag">${partEn(r)}</span>${r.off ? '<span class="part-tag off-tag">OFFのみ</span>' : ''}
           <span class="record-date" aria-label="${esc(formatDate(r.date))}">${esc(r.date.slice(5).replace('-', '.'))}<small class="rd-year">${esc(r.date.slice(0, 4))}</small><small class="rd-week">${weekEn(r.date)}</small></span>
           <span class="record-ago">${esc(daysAgo(r.date))}</span>
         </div>
@@ -790,9 +790,9 @@ function renderNew(app, c, editing = null) {
   const editId = editing ? editing.id : null;
   if (!state.draft || state.draft.customerId !== c.id || state.draft.editId !== editId) {
     state.draft = editing
-      ? { editId, customerId: c.id, part: partOf(editing), date: editing.date, photos: [...(editing.photos || [])], karte: [...(editing.karte || [])], colors: [...(editing.colors || [])], memo: editing.memo || '' }
+      ? { editId, customerId: c.id, part: partOf(editing), off: !!editing.off, date: editing.date, photos: [...(editing.photos || [])], karte: [...(editing.karte || [])], colors: [...(editing.colors || [])], memo: editing.memo || '' }
       // 新しい記録は、タブで選んでいる方（ALLならハンド）から始める
-      : { editId: null, customerId: c.id, part: state.part === 'foot' ? 'foot' : 'hand', date: todayStr(), photos: [], karte: [], colors: [], memo: '' };
+      : { editId: null, customerId: c.id, part: state.part === 'foot' ? 'foot' : 'hand', off: false, date: todayStr(), photos: [], karte: [], colors: [], memo: '' };
     if (!editing && state.nextDraft && state.nextDraft.customerId === c.id) {
       // ハンド／フットは記録の画面で選ぶ
       Object.assign(state.draft, state.nextDraft);
@@ -815,6 +815,10 @@ function renderNew(app, c, editing = null) {
       <div class="seg" role="radiogroup" aria-label="ハンドかフットか">
         ${PARTS.map((p) => `<label class="seg-item seg-${p.key}${d.part === p.key ? ' is-on' : ''}"><input type="radio" name="part" value="${p.key}"${d.part === p.key ? ' checked' : ''}><span class="seg-en">${p.en}</span><span class="seg-ja">${p.ja}</span></label>`).join('')}
       </div>
+      <label class="off-toggle">
+        <input id="off-only" type="checkbox"${d.off ? ' checked' : ''}>
+        <span><b>オフだけ</b>（デザインはなし。写真や色番がなくても保存できます）</span>
+      </label>
       <div class="field">
         <span class="field-label">写真</span>
         <div class="shoot">
@@ -948,6 +952,7 @@ function renderNew(app, c, editing = null) {
     if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); addColor(); }
   });
   $('#memo').addEventListener('input', (e) => { d.memo = e.target.value; });
+  $('#off-only').addEventListener('change', (e) => { d.off = e.target.checked; });
   $('#date').addEventListener('change', (e) => { d.date = e.target.value; });
   // ハンド／フットを切り替えたら、色番の候補も入れかえる
   app.querySelectorAll('input[name="part"]').forEach((el) => {
@@ -964,7 +969,7 @@ function renderNew(app, c, editing = null) {
     // 入力欄に残った色番も拾う
     if ($('#color-input').value.trim()) addColor();
     if (!d.date) { toast('来店日を入れてください'); return; }
-    if (d.photos.length === 0 && d.karte.length === 0 && d.colors.length === 0 && !d.memo.trim()) {
+    if (!d.off && d.photos.length === 0 && d.karte.length === 0 && d.colors.length === 0 && !d.memo.trim()) {
       toast('写真・色番・メモ・カルテのどれかを入れてください');
       return;
     }
@@ -972,12 +977,12 @@ function renderNew(app, c, editing = null) {
     if (editing) {
       // 既存の記録を書きかえる
       record = Object.assign(editing, {
-        part: d.part, date: d.date, colors: [...d.colors], memo: d.memo.trim(),
+        part: d.part, off: d.off, date: d.date, colors: [...d.colors], memo: d.memo.trim(),
         photos: [...d.photos], karte: [...d.karte], updatedAt: new Date().toISOString(),
       });
     } else {
       record = {
-        id: uid('r'), customerId: c.id, part: d.part, date: d.date, colors: [...d.colors], memo: d.memo.trim(),
+        id: uid('r'), customerId: c.id, part: d.part, off: d.off, date: d.date, colors: [...d.colors], memo: d.memo.trim(),
         photos: [...d.photos], karte: [...d.karte], createdAt: new Date().toISOString(),
       };
       state.records.push(record);
@@ -1125,7 +1130,7 @@ function comingRow(b) {
     <div class="bk-row">
       <span class="bk-when"><span class="bk-time">${b.time ? esc(timeLabel(b.time)) : '<span class="bk-notime">時間未定</span>'}</span></span>
       <button type="button" class="bk-main" data-bk-open="${esc(b.customerId)}">
-        <span class="bk-name">${esc(c?.name || '')}</span>
+        <span class="bk-name">${esc(c?.name || '')}${b.off ? '<span class="bk-off">オフのみ</span>' : ''}</span>
         <span class="bk-menu">${last ? `前回 ${esc(formatShort(last.date))}${last.colors?.length ? `・${esc(last.colors[0])}` : ''}` : 'はじめての来店'}</span>
       </button>
       <button type="button" class="bk-action" data-bk-visit="${esc(b.id)}">来た</button>
@@ -1140,7 +1145,7 @@ function startVisit(bookingId) {
   const b = state.bookings.find((x) => x.id === bookingId);
   if (!b) return;
   state.draft = null;
-  state.nextDraft = { customerId: b.customerId, date: b.date, bookingId: b.id };
+  state.nextDraft = { customerId: b.customerId, date: b.date, bookingId: b.id, off: !!b.off };
   go('new-' + b.customerId);
 }
 
@@ -1182,7 +1187,7 @@ function customerBookingBox(c) {
   return `
     <div class="bk-box is-set">
       <span class="bk-box-label">次に来る日</span>
-      <span class="bk-box-when">${esc(formatDate(b.date))}${b.time ? ` ${esc(timeLabel(b.time))}` : ''}<small>${esc(dayLabel(b.date) === '今日' || dayLabel(b.date) === '明日' ? dayLabel(b.date) : daysAgo(b.date))}</small></span>
+      <span class="bk-box-when">${esc(formatDate(b.date))}${b.time ? ` ${esc(timeLabel(b.time))}` : ''}${b.off ? '<span class="bk-off">オフのみ</span>' : ''}<small>${esc(dayLabel(b.date) === '今日' || dayLabel(b.date) === '明日' ? dayLabel(b.date) : daysAgo(b.date))}</small></span>
       <div class="bk-box-actions">
         <button type="button" class="bk-box-btn" data-bk-edit="${esc(b.id)}">日にちを変える</button>
         <button type="button" class="bk-box-btn is-main" data-bk-visit="${esc(b.id)}">来たので記録する</button>
@@ -1225,6 +1230,7 @@ function openBookingSheet({ booking = null, customerId = '', date = '' } = {}) {
   // 前の形（30分ごと）で入れた時間も選べるように、候補になければ足す
   if (booking && booking.time && !TIMES.includes(booking.time)) $('#bk-time').insertAdjacentHTML('beforeend', `<option value="${esc(booking.time)}">${timeLabel(booking.time)}</option>`);
   $('#bk-time').value = booking ? (booking.time || '') : '';
+  $('#bk-off').checked = !!(booking && booking.off);
   $('#bk-title').textContent = booking ? '来る日を変える' : '来る日を入れる';
   $('#bk-delete').hidden = !booking;
   resetArmed($('#bk-delete'), 'この予定を消す');
@@ -1281,7 +1287,7 @@ function setupBookingSheet() {
       await safePut('customers', customer);
       customerId = customer.id;
     }
-    const fields = { customerId, date, time: $('#bk-time').value };
+    const fields = { customerId, date, time: $('#bk-time').value, off: $('#bk-off').checked };
     let b;
     if (bookingEdit) {
       b = Object.assign(bookingEdit, fields, { updatedAt: new Date().toISOString() });
@@ -1302,13 +1308,13 @@ async function seedBookings() {
   const today = todayStr();
   const list = [
     { who: '山本 さくら', day: 0, time: '14:00' },
-    { who: '高橋 えり', day: 0, time: '' },
+    { who: '高橋 えり', day: 0, time: '', off: true },
     { who: '佐藤 みゆき', day: 1, time: '11:00' },
   ];
   for (const x of list) {
     const c = byName(x.who);
     if (!c) continue;
-    const b = { id: uid('b'), customerId: c.id, date: addDays(today, x.day), time: x.time, status: 'booked', createdAt: new Date().toISOString(), sample: true };
+    const b = { id: uid('b'), customerId: c.id, date: addDays(today, x.day), time: x.time, off: !!x.off, status: 'booked', createdAt: new Date().toISOString(), sample: true };
     state.bookings.push(b);
     await safePut('bookings', b);
   }
