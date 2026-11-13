@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio | Web制作作品集</title>
-  <meta name="description" content="料理教室サイト・在庫管理アプリ・家族共有アプリ・AI在庫管理アプリ・サブスク管理SaaS・農業資材管理アプリ・音声メモPWA・請求書作成ツール・メロン販売ページ・ネイルサロン向け顧客カルテアプリなど、制作した10の作品を紹介するポートフォリオサイトです。">
+  <title>紙やExcelの手間を、スマホのアプリに | Portfolio</title>
+  <meta name="description" content="紙・Excel・手書きでしていた記録や管理を、スマホで使えるアプリにします。農家さんやネイルサロンの依頼で作り、今も使われている販売メモ・請求書・資材管理・顧客カルテなどの作品を紹介します。">
   <link rel="stylesheet" href="style.css">
   <!-- Googleアナリティクス（GA4） -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
@@ -36,11 +36,10 @@
     <!-- ヒーローセクション -->
     <section class="hero">
       <div class="container hero-inner">
-        <p class="hero-eyebrow">Web Developer Portfolio</p>
-        <h1>使う人の<span class="hero-highlight">毎日に寄り添う</span><br>サービスをつくる</h1>
+        <p class="hero-eyebrow">スマホアプリ・業務ツールの制作</p>
+        <h1>紙やExcelの手間を、<br><span class="hero-highlight">スマホのアプリ</span>に</h1>
         <p class="hero-lead">
-          料理教室のWebサイトから食材の在庫管理アプリ、家族で使う音声入力システム、AIが発注提案する日用品の在庫管理アプリ、AIが支出を提案するサブスク管理SaaS、農家の資材と値上がりを管理するアプリ、毎日の困りごとを声で集めるPWA、タップで作れる請求書ツール、メロン農園の販売ページ、ネイルサロンの顧客カルテアプリまで。
-          企画・UI設計・実装を担当した10の制作物を紹介します。
+          手書きの販売記録、手入力の請求書、Excelの在庫表、紙のカルテ。そんな毎日の手間を、スマホで使えるアプリにしています。農家さんやネイルサロンの依頼で作ったアプリは、今も実際に使われています。スマホが苦手な方でも迷わない画面づくりが得意です。
         </p>
         <a href="#works" class="button button-primary">作品を見る <span class="hero-arrow">↓</span></a>
       </div>
@@ -52,99 +51,168 @@
         <div class="section-head">
           <p class="section-eyebrow">Works</p>
           <h2 class="section-title">制作物</h2>
-          <p class="section-lead">それぞれ異なる課題に向けて設計した10のプロジェクトです。</p>
+          <p class="section-lead">お話を聞いて、今のやり方を生かしながら手間を減らすアプリを作っています。</p>
         </div>
 
-        <div class="work-grid">
+        <div class="work-group">
+          <h3 class="work-group-title">依頼を受けて制作したもの</h3>
+          <p class="work-group-lead">農家さん・ネイリストさんの依頼で作りました。上の5つは、今も実際に使われています。</p>
+          <div class="work-grid">
 
-          <!-- 1. Kitchen LAB -->
-          <article class="work-card work-card--kitchen">
-            <a href="works/kitchen-lab.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--kitchen">
-                <span class="work-card-icon-tile" aria-hidden="true">🍳</span>
+          <!-- 1. お米・野菜の販売メモ -->
+          <article class="work-card work-card--yasai">
+            <a href="works/yasai-memo.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--yasai">
+                <span class="work-card-icon-tile" aria-hidden="true">🥬</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">料理教室サイト</span>
-                <h3>料理教室 Kitchen LAB</h3>
+                <span class="work-card-tag">農家さんの販売記録アプリ</span>
+                <span class="work-card-badge">今も使われています</span>
+                <h3>お米・野菜の販売メモ</h3>
+                <p class="work-card-change"><span class="work-card-change-before">手書きの販売記録</span><span class="work-card-change-arrow" aria-label="から">→</span><b>話すだけで記録・未入金がひと目で分かる</b></p>
                 <p class="work-card-desc">
-                  架空の料理教室を想定して制作した、作る楽しさと美味しい感動を食卓へ届ける料理教室のサイト。ビギナー・ベーシック・プレミアムのおもてなしコースを紹介するデザイン。
+                  手書きだったお米・野菜の販売記録を、話すだけで残せるスマホ用Webアプリ。名前・品物・金額を自動で読み取り、お金をまだもらっていない人がひと目で分かる。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS / JavaScript</li>
+                  <li>Web Speech API</li>
+                  <li>Google Apps Script</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 2. かんたん請求書 -->
+          <article class="work-card work-card--invoice">
+            <a href="works/invoice-tool.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--invoice">
+                <span class="work-card-icon-tile" aria-hidden="true">🧾</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">請求書作成ツール</span>
+                <span class="work-card-badge">今も使われています</span>
+                <h3>かんたん請求書</h3>
+                <p class="work-card-change"><span class="work-card-change-before">請求書を手入力・合計も手計算</span><span class="work-card-change-arrow" aria-label="から">→</span><b>タップするだけで明細と合計</b></p>
+                <p class="work-card-desc">
+                  農家の直販向けに、品目とお客さんをタップするだけで請求書を作れるWebツール。印刷・PDF保存のたびに発行履歴をGoogleスプレッドシートへ自動で記録し、請求と入金の管理をひとつの表で続けられる。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS / JavaScript</li>
+                  <li>Google Apps Script</li>
+                  <li>jsPDF</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 3. 資材ノート -->
+          <article class="work-card work-card--shizai">
+            <a href="works/shizai-note.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--shizai">
+                <span class="work-card-icon-tile" aria-hidden="true">🌾</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">農業資材管理アプリ</span>
+                <span class="work-card-badge">今も使われています</span>
+                <h3>資材ノート</h3>
+                <p class="work-card-change"><span class="work-card-change-before">Excelで資材を管理</span><span class="work-card-change-arrow" aria-label="から">→</span><b>家族で共有・値上がりを自動計算</b></p>
+                <p class="work-card-desc">
+                  肥料・農薬・包装資材の在庫と金額を家族で共有できるWebアプリ。購入単価の履歴から前年比・3年前比を自動計算し、農林水産省の全国物価データと比べて値上がりをひと目で把握できる。
+                </p>
+                <ul class="tag-list">
+                  <li>SvelteKit / TypeScript</li>
+                  <li>Supabase</li>
+                  <li>Vercel Cron</li>
+                  <li>Google Apps Script</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 4. ネイルカルテ -->
+          <article class="work-card work-card--nail">
+            <a href="works/nail-karte.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--nail">
+                <span class="work-card-icon-tile" aria-hidden="true">💅</span>
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">ネイルサロンの顧客カルテ</span>
+                <span class="work-card-badge">今も使われています</span>
+                <h3>ネイルカルテ</h3>
+                <p class="work-card-change"><span class="work-card-change-before">写真アルバムをさかのぼって探す</span><span class="work-card-change-arrow" aria-label="から">→</span><b>名前や色番ですぐ見つかる</b></p>
+                <p class="work-card-desc">
+                  お客さんごとにネイルデザインの写真・色番・メモを残せるスマホ用Webアプリ。名前や色番、来店した月ですぐに探せて、前回の色番は候補からタップで入力できる。
                 </p>
                 <ul class="tag-list">
                   <li>HTML / CSS</li>
-                  <li>JavaScript (jQuery)</li>
+                  <li>JavaScript</li>
+                  <li>IndexedDB</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 2. ReciFridge -->
-          <article class="work-card work-card--fridge">
-            <a href="works/reci-fridge.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--fridge">
-                <span class="work-card-icon-tile" aria-hidden="true">🥦</span>
+          <!-- 5. VoiceFix -->
+          <article class="work-card work-card--voice">
+            <a href="works/voice-fix.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--voice">
+                <span class="work-card-icon-tile" aria-hidden="true">💬</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">在庫管理アプリ</span>
-                <h3>ReciFridge</h3>
+                <span class="work-card-tag">困りごと音声メモPWA</span>
+                <span class="work-card-badge">今も使われています</span>
+                <h3>VoiceFix</h3>
+                <p class="work-card-change"><span class="work-card-change-before">困りごとを文章で書き出す</span><span class="work-card-change-arrow" aria-label="から">→</span><b>話すだけで集まる</b></p>
                 <p class="work-card-desc">
-                  食材を「冷蔵庫」「冷凍庫」「野菜室」ごとに在庫管理できるアプリ。数量の増減や写真からのレシピ提案機能付き。
+                  「今日の困りごと、ひとこと話すだけ」。音声で毎日の困りごとを投稿し、運営者のスプレッドシートに集めるPWA。キーワードによる分野・困り度の自動選択やカレンダー、ランキングで毎日の記録を後押しし、急ぎの困りごとやアプリへの要望は要望ボードで相談でき、書き込みは運営者のLINEに通知される。運用費0円。
                 </p>
                 <ul class="tag-list">
-                  <li>Node.js / Express</li>
-                  <li>Firebase Auth</li>
-                  <li>Groq API</li>
+                  <li>HTML / CSS / JavaScript</li>
+                  <li>Web Speech API</li>
+                  <li>Google Apps Script</li>
+                  <li>PWA</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 3. KakeiVoice -->
-          <article class="work-card work-card--family">
-            <a href="works/kakei-voice.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--family">
-                <span class="work-card-icon-tile" aria-hidden="true">🎙️</span>
+          <!-- 6. メロン販売ページ -->
+          <article class="work-card work-card--melon">
+            <a href="works/melon-shop.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--melon">
+                <span class="work-card-icon-tile" aria-hidden="true">🍈</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">家計簿PWA</span>
-                <h3>KakeiVoice</h3>
+                <span class="work-card-tag">販売ページのリデザイン</span>
+                <h3>メロン販売ページ</h3>
+                <p class="work-card-change"><span class="work-card-change-before">大事な情報が伝わりにくい</span><span class="work-card-change-arrow" aria-label="から">→</span><b>図とカードでひと目で分かる</b></p>
                 <p class="work-card-desc">
-                  音声入力で手軽に家計簿を記録し、家族やパートナーとグループでリアルタイムに共有できるPWA。履歴確認やカテゴリ別の月次サマリーも見られる。
+                  メロン農園のネットショップを、買い物のしやすさを重視してリデザイン。購入ボタンを常に表示し、ふるさと納税・食べ頃・送料などの大事な情報を図やカードでひと目で伝える。
                 </p>
                 <ul class="tag-list">
-                  <li>Next.js / React</li>
-                  <li>TypeScript</li>
-                  <li>Firebase</li>
+                  <li>HTML / CSS</li>
+                  <li>JavaScript</li>
+                  <li>SVGイラスト</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 4. StockSnap -->
-          <article class="work-card work-card--stock">
-            <a href="works/stock-snap.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--stock">
-                <span class="work-card-icon-tile" aria-hidden="true">📦</span>
-              </div>
-              <div class="work-card-body">
-                <span class="work-card-tag">日用品在庫管理AIアプリ</span>
-                <h3>StockSnap</h3>
-                <p class="work-card-desc">
-                  トイレットペーパーや洗剤などの日用品在庫を入出庫履歴で管理し、発注点を下回った商品にはClaude APIが購入数量・緊急度・コメントを提案するアプリ。
-                </p>
-                <ul class="tag-list">
-                  <li>Python / FastAPI</li>
-                  <li>PostgreSQL</li>
-                  <li>Claude API</li>
-                </ul>
-                <p class="work-card-more">詳しく見る →</p>
-              </div>
-            </a>
-          </article>
+          </div>
+        </div>
 
-          <!-- 5. PocketSub -->
+        <div class="work-group">
+          <h3 class="work-group-title">その他の制作物（個人開発・練習）</h3>
+          <p class="work-group-lead">AI・サーバー・データベースなど、いろいろな技術を試すために自分で企画して作ったものです。</p>
+          <div class="work-grid">
+
+          <!-- 7. PocketSub -->
           <article class="work-card work-card--pocket">
             <a href="works/pocket-sub.html" class="work-card-link">
               <div class="work-card-cover work-card-cover--pocket">
@@ -167,141 +235,96 @@
             </a>
           </article>
 
-          <!-- 6. 資材ノート -->
-          <article class="work-card work-card--shizai">
-            <a href="works/shizai-note.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--shizai">
-                <span class="work-card-icon-tile" aria-hidden="true">🌾</span>
+          <!-- 8. StockSnap -->
+          <article class="work-card work-card--stock">
+            <a href="works/stock-snap.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--stock">
+                <span class="work-card-icon-tile" aria-hidden="true">📦</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">農業資材管理アプリ</span>
-                <h3>資材ノート</h3>
+                <span class="work-card-tag">日用品在庫管理AIアプリ</span>
+                <h3>StockSnap</h3>
                 <p class="work-card-desc">
-                  肥料・農薬・包装資材の在庫と金額を家族で共有できるWebアプリ。購入単価の履歴から前年比・3年前比を自動計算し、農林水産省の全国物価データと比べて値上がりをひと目で把握できる。
+                  トイレットペーパーや洗剤などの日用品在庫を入出庫履歴で管理し、発注点を下回った商品にはClaude APIが購入数量・緊急度・コメントを提案するアプリ。
                 </p>
                 <ul class="tag-list">
-                  <li>SvelteKit / TypeScript</li>
-                  <li>Supabase</li>
-                  <li>Vercel Cron</li>
-                  <li>Google Apps Script</li>
+                  <li>Python / FastAPI</li>
+                  <li>PostgreSQL</li>
+                  <li>Claude API</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 7. VoiceFix -->
-          <article class="work-card work-card--voice">
-            <a href="works/voice-fix.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--voice">
-                <span class="work-card-icon-tile" aria-hidden="true">💬</span>
+          <!-- 9. KakeiVoice -->
+          <article class="work-card work-card--family">
+            <a href="works/kakei-voice.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--family">
+                <span class="work-card-icon-tile" aria-hidden="true">🎙️</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">困りごと音声メモPWA</span>
-                <h3>VoiceFix</h3>
+                <span class="work-card-tag">家計簿PWA</span>
+                <h3>KakeiVoice</h3>
                 <p class="work-card-desc">
-                  「今日の困りごと、ひとこと話すだけ」。音声で毎日の困りごとを投稿し、運営者のスプレッドシートに集めるPWA。キーワードによる分野・困り度の自動選択やカレンダー、ランキングで毎日の記録を後押しし、急ぎの困りごとやアプリへの要望は要望ボードで相談でき、書き込みは運営者のLINEに通知される。運用費0円。
+                  音声入力で手軽に家計簿を記録し、家族やパートナーとグループでリアルタイムに共有できるPWA。履歴確認やカテゴリ別の月次サマリーも見られる。
                 </p>
                 <ul class="tag-list">
-                  <li>HTML / CSS / JavaScript</li>
-                  <li>Web Speech API</li>
-                  <li>Google Apps Script</li>
-                  <li>PWA</li>
+                  <li>Next.js / React</li>
+                  <li>TypeScript</li>
+                  <li>Firebase</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 8. かんたん請求書 -->
-          <article class="work-card work-card--invoice">
-            <a href="works/invoice-tool.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--invoice">
-                <span class="work-card-icon-tile" aria-hidden="true">🧾</span>
+          <!-- 10. ReciFridge -->
+          <article class="work-card work-card--fridge">
+            <a href="works/reci-fridge.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--fridge">
+                <span class="work-card-icon-tile" aria-hidden="true">🥦</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">請求書作成ツール</span>
-                <h3>かんたん請求書</h3>
+                <span class="work-card-tag">在庫管理アプリ</span>
+                <h3>ReciFridge</h3>
                 <p class="work-card-desc">
-                  農家の直販向けに、品目とお客さんをタップするだけで請求書を作れるWebツール。印刷・PDF保存のたびに発行履歴をGoogleスプレッドシートへ自動で記録し、請求と入金の管理をひとつの表で続けられる。
+                  食材を「冷蔵庫」「冷凍庫」「野菜室」ごとに在庫管理できるアプリ。数量の増減や写真からのレシピ提案機能付き。
                 </p>
                 <ul class="tag-list">
-                  <li>HTML / CSS / JavaScript</li>
-                  <li>Google Apps Script</li>
-                  <li>jsPDF</li>
+                  <li>Node.js / Express</li>
+                  <li>Firebase Auth</li>
+                  <li>Groq API</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 9. メロン販売ページ -->
-          <article class="work-card work-card--melon">
-            <a href="works/melon-shop.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--melon">
-                <span class="work-card-icon-tile" aria-hidden="true">🍈</span>
+          <!-- 11. Kitchen LAB -->
+          <article class="work-card work-card--kitchen">
+            <a href="works/kitchen-lab.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--kitchen">
+                <span class="work-card-icon-tile" aria-hidden="true">🍳</span>
               </div>
               <div class="work-card-body">
-                <span class="work-card-tag">販売ページのリデザイン</span>
-                <h3>メロン販売ページ</h3>
+                <span class="work-card-tag">料理教室サイト</span>
+                <h3>料理教室 Kitchen LAB</h3>
                 <p class="work-card-desc">
-                  メロン農園のネットショップを、買い物のしやすさを重視してリデザイン。購入ボタンを常に表示し、ふるさと納税・食べ頃・送料などの大事な情報を図やカードでひと目で伝える。
-                </p>
-                <ul class="tag-list">
-                  <li>HTML / CSS</li>
-                  <li>JavaScript</li>
-                  <li>SVGイラスト</li>
-                </ul>
-                <p class="work-card-more">詳しく見る →</p>
-              </div>
-            </a>
-          </article>
-
-          <!-- 10. ネイルカルテ -->
-          <article class="work-card work-card--nail">
-            <a href="works/nail-karte.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--nail">
-                <span class="work-card-icon-tile" aria-hidden="true">💅</span>
-              </div>
-              <div class="work-card-body">
-                <span class="work-card-tag">ネイルサロンの顧客カルテ</span>
-                <h3>ネイルカルテ</h3>
-                <p class="work-card-desc">
-                  お客さんごとにネイルデザインの写真・色番・メモを残せるスマホ用Webアプリ。名前や色番、来店した月ですぐに探せて、前回の色番は候補からタップで入力できる。
+                  架空の料理教室を想定して制作した、作る楽しさと美味しい感動を食卓へ届ける料理教室のサイト。ビギナー・ベーシック・プレミアムのおもてなしコースを紹介するデザイン。
                 </p>
                 <ul class="tag-list">
                   <li>HTML / CSS</li>
-                  <li>JavaScript</li>
-                  <li>IndexedDB</li>
+                  <li>JavaScript (jQuery)</li>
                 </ul>
                 <p class="work-card-more">詳しく見る →</p>
               </div>
             </a>
           </article>
 
-          <!-- 11. お米・野菜の販売メモ -->
-          <article class="work-card work-card--yasai">
-            <a href="works/yasai-memo.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--yasai">
-                <span class="work-card-icon-tile" aria-hidden="true">🥬</span>
-              </div>
-              <div class="work-card-body">
-                <span class="work-card-tag">農家さんの販売記録アプリ</span>
-                <h3>お米・野菜の販売メモ</h3>
-                <p class="work-card-desc">
-                  手書きだったお米・野菜の販売記録を、話すだけで残せるスマホ用Webアプリ。名前・品物・金額を自動で読み取り、お金をまだもらっていない人がひと目で分かる。
-                </p>
-                <ul class="tag-list">
-                  <li>HTML / CSS / JavaScript</li>
-                  <li>Web Speech API</li>
-                  <li>Google Apps Script</li>
-                </ul>
-                <p class="work-card-more">詳しく見る →</p>
-              </div>
-            </a>
-          </article>
-
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -313,16 +336,16 @@
             <p class="section-eyebrow">About</p>
             <h2 class="section-title">プロフィール</h2>
             <p class="section-lead">
-              AI駆動開発を前提に、Web制作やUI/UXデザインを中心に学んでいます。「使う人の毎日に寄り添うサービス」をモットーに、
-              ただ動くだけでなく、操作していて心地よいと感じるフロントエンド実装を心がけています。
-              日々の制作で培ったデザインの工夫や、課題解決へのアプローチを発信していきます。
+              本業（製造業の会社員）と並行して、Webアプリの企画・デザイン・実装を一人で手がけています。
+              まず今の作業のやり方をくわしく聞き、新しいやり方を押しつけずに、手間のかかっているところだけを楽にすることを大切にしています。
+              AIを使った開発で、ご相談から形にするまでを早く進められます。
             </p>
           </div>
           <div class="about-divider"></div>
           <ul class="about-list">
             <li><b>名前</b><span>新井 朋美</span></li>
             <li><b>活動内容</b><span>AIを活用したWebサイト・アプリのデザインと実装</span></li>
-            <li><b>得意分野</b><span>UI設計 / フロントエンド実装 / AI駆動開発</span></li>
+            <li><b>得意分野</b><span>業務の手間を減らすアプリ / スプレッドシート連携 / スマホ向けの画面設計</span></li>
             <li><b>興味・関心</b><span>AI活用による使いやすさの追求</span></li>
           </ul>
         </div>

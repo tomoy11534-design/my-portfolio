@@ -1257,3 +1257,61 @@ section {
     padding: 64px 0 56px;
   }
 }
+
+/* ==========================================================
+   作品のグループ分け（依頼を受けて制作 / その他）
+   ========================================================== */
+.work-group + .work-group {
+  margin-top: 64px;
+}
+
+.work-group-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding-left: 14px;
+  border-left: 5px solid var(--color-primary);
+}
+
+.work-group-lead {
+  color: var(--color-ink-soft);
+  font-size: 0.92rem;
+  margin: 8px 0 24px;
+}
+
+/* 今も使われている作品につける印 */
+.work-card-badge {
+  display: inline-block;
+  margin: 0 0 12px 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2f8f6f;
+}
+
+/* 使う前 → 使った後 */
+.work-card-change {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 0.86rem;
+  background: rgba(217, 122, 61, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.work-card-change-before {
+  color: var(--color-ink-soft);
+}
+
+.work-card-change-arrow {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.work-card-change b {
+  color: var(--color-ink);
+}
