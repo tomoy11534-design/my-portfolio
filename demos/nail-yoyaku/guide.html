@@ -126,6 +126,21 @@ ol.steps.plain > li::before { content: ""; width: 6px; height: 6px; top: 21px; l
   background: var(--bg); font-size: .86rem; white-space: nowrap;
 }
 .btn-sample.main { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-sample.visit { background: #6f6f72; border-color: #6f6f72; color: #fff; }
+.btn-sample.dark { background: #333333; border-color: #333333; color: #fff; }
+.off-mark { display: inline-block; padding: 0 7px; font-size: .74rem; border-radius: 999px; background: var(--lavender); color: var(--lavender-ink); }
+.check { display: inline-block; width: 14px; height: 14px; border: 1.5px solid var(--fg); border-radius: 2px; vertical-align: -2px; margin-right: 3px; }
+
+/* 新しい機能のお知らせ */
+.new-box { margin-top: 14px; padding: 12px 14px; border: 1.5px solid var(--sage-ink); border-radius: var(--radius); background: #fbfcf7; font-size: .9rem; }
+.new-box b { font-weight: 700; }
+.new-tag { display: inline-block; margin-right: 6px; padding: 0 8px; font-family: var(--font-display); font-size: .66rem; letter-spacing: .2em; color: #fff; background: var(--sage-ink); border-radius: 2px; vertical-align: 1px; }
+
+/* 画面の見本（一覧のいちばん上） */
+.screen { margin: 4px 0 2px; padding: 10px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); font-size: .84rem; }
+.screen-label { font-family: var(--font-display); font-size: .66rem; letter-spacing: .24em; color: var(--muted); }
+.screen-row { display: grid; grid-template-columns: 4.2em 1fr auto; align-items: center; gap: 8px; margin-top: 6px; padding: 6px 8px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+.screen-row small { display: block; color: var(--muted); font-size: .72rem; line-height: 1.4; }
 .icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; }
 
 .note {
@@ -159,8 +174,16 @@ ol.steps.plain > li::before { content: ""; width: 6px; height: 6px; top: 21px; l
   <h1 class="lead">ネイルカルテの使い方</h1>
   <p class="intro">はじめに1回だけ「ホーム画面に追加」をすると、次からはアイコンを押すだけで開けます。</p>
 
+  <div class="new-box">
+    <span class="new-tag">NEW</span><b>今日来る人・明日来る人が、一覧のいちばん上に出るようになります。</b>
+    使い方は <a href="#today">今日・明日来る人</a> から見られます。この画面はお試し用の見本で、入っているお客さんはすべて架空の人です。自由に触ってみてください。<br><b>見本はホーム画面に追加しなくて大丈夫です</b>（今お使いのアイコンと見分けがつかなくなるため）。
+  </div>
+
   <nav class="toc" aria-label="目次">
     <a href="#start">はじめに</a>
+    <a href="#today">今日・明日来る人</a>
+    <a href="#plan">来る日を入れる</a>
+    <a href="#visit">来たら記録する</a>
     <a href="#customer">お客さんを追加</a>
     <a href="#record">デザインを記録</a>
     <a href="#search">探す</a>
@@ -198,6 +221,71 @@ ol.steps.plain > li::before { content: ""; width: 6px; height: 6px; top: 21px; l
     </ol>
   </section>
 
+  <!-- ===== 今日・明日来る人 ===== -->
+  <h2 class="section-label" id="today">Today<span>今日来る人・明日来る人</span></h2>
+  <p class="intro">アプリを開くと、いちばん上に今日と明日に来る人が、時間の早い順に出ます。</p>
+  <div class="screen" aria-hidden="true">
+    <span class="screen-label">TODAY　今日来る人（2人）</span>
+    <div class="screen-row"><span>14時</span><span>山本 さくら<small>前回 10/12・PG-208</small></span><span class="btn-sample visit">来た</span></div>
+    <div class="screen-row"><span><small>時間未定</small></span><span>高橋 えり <span class="off-mark">オフのみ</span><small>前回 11/2・TR-15</small></span><span class="btn-sample visit">来た</span></div>
+  </div>
+  <section class="card">
+    <ol class="steps plain">
+      <li>名前の下に、<b>前回来た日と色番</b>が出ます。来る前に「前は何色だったか」が分かります。</li>
+      <li>名前を押すと、その人の前のデザインが見られます。</li>
+      <li>来た人の <span class="btn-sample visit">来た</span> を押して記録すると、一覧から消えます。</li>
+      <li>明日来る人は、今日来る人の下に出ます。</li>
+    </ol>
+  </section>
+
+  <!-- ===== 来る日を入れる ===== -->
+  <h2 class="section-label" id="plan">Plan<span>来る日を入れる</span></h2>
+  <p class="intro">LINEや電話で「◯日に行きます」と連絡が来たら、入れておきます。</p>
+  <section class="card">
+    <ol class="steps">
+      <li>今日・明日来る人の下にある <span class="btn-sample">＋ 来る日を入れる</span> を押します。</li>
+      <li><b>お客さん</b>を選びます。
+        <span class="hint">初めての人は「＋ 新しいお客さん（名前を入れる）」を選んで、お名前を入れます。お客さんの登録も一緒にできます。</span></li>
+      <li><b>日にち</b>を選びます。</li>
+      <li><b>時間</b>を「10時」「15時」のように選びます。
+        <span class="hint">決まっていなければ「決まっていない」のままで大丈夫です。一覧には「時間未定」と出ます。</span></li>
+      <li>オフだけで来ると分かっていれば、<span class="check"></span><b>オフだけの予定</b> にチェックを入れます。
+        <span class="hint">一覧で名前の横に <span class="off-mark">オフのみ</span> の印がつきます。分からなければ、そのままで大丈夫です。</span></li>
+      <li><span class="btn-sample dark">保存する</span> を押したら完了です。</li>
+    </ol>
+  </section>
+  <div class="note">
+    <strong>日にちや時間を変えたいとき・取りやめになったとき</strong><br>
+    お客さんの名前を押して、「次に来る日」の <span class="btn-sample">日にちを変える</span> を押します。取りやめのときは、いちばん下の「この予定を消す」を<b>2回</b>押します。
+  </div>
+
+  <!-- ===== 来たら記録する ===== -->
+  <h2 class="section-label" id="visit">Visit<span>来たら記録する</span></h2>
+  <section class="card">
+    <ol class="steps">
+      <li>今日来る人の <span class="btn-sample visit">来た</span> を押します。
+        <span class="hint">今日の日にちが入った記録の画面が開きます。</span></li>
+      <li>いつもと同じように、HAND／FOOT・写真・色番を入れます。（<a href="#record">デザインを記録する</a>と同じです）</li>
+      <li>オフだけのときは、<span class="check"></span><b>オフだけ</b> にチェックを入れます。
+        <span class="hint">「オフのみ」の印がついている人は、最初からチェックが入っています。</span></li>
+      <li><span class="btn-sample main">保存する</span> を押したら完了です。</li>
+    </ol>
+  </section>
+  <div class="note">
+    <strong>写真や色番を入れなくても保存できます。</strong>何も入れずに保存すると、記録には「来店のみ（記録なし）」と出ます。来た日はちゃんと残るので、来店した月や回数にも数えられます。あとから「編集」で写真を足すこともできます。
+  </div>
+
+  <!-- ===== 次に来る日 ===== -->
+  <h2 class="section-label" id="next">Next<span>次に来る日も入れる</span></h2>
+  <section class="card">
+    <ol class="steps">
+      <li>記録を保存すると、<b>「記録しました。次に来る日も入れますか？」</b>と出ます。</li>
+      <li>お会計のときに次の日にちが決まったら、<span class="btn-sample visit">次に来る日を入れる</span> を押します。
+        <span class="hint">4週間後の日にちが入った状態で開きます。日にちと時間を変えて保存します。</span></li>
+      <li>決まっていなければ <span class="btn-sample">あとで</span> を押します。</li>
+    </ol>
+  </section>
+
   <!-- ===== お客さんを追加 ===== -->
   <h2 class="section-label" id="customer">Guests<span>お客さんを追加する</span></h2>
   <section class="card">
@@ -220,7 +308,8 @@ ol.steps.plain > li::before { content: ""; width: 6px; height: 6px; top: 21px; l
       <li><b>色番</b>を入れて <span class="btn-sample">追加</span> を押します。
         <span class="hint">前回と同じ色なら、下に出てくる候補を押すだけで入ります。</span></li>
       <li>必要なら<b>メモ</b>を書きます。紙のカルテは「カルテを撮影」で一緒に残せます。</li>
-      <li>いちばん下の <span class="btn-sample main">保存する</span> を押したら完了です。</li>
+      <li>いちばん下の <span class="btn-sample main">保存する</span> を押したら完了です。
+        <span class="hint">写真や色番を入れなくても保存できます。</span></li>
     </ol>
   </section>
 
@@ -264,7 +353,7 @@ ol.steps.plain > li::before { content: ""; width: 6px; height: 6px; top: 21px; l
     <strong>今はお試しの版です。</strong>記録はこの携帯の中だけに保存されます。携帯を変えたり、ブラウザのデータを消したりすると記録も消えるので、大事な記録はまだ入れないでください。
   </div>
   <div class="note">
-    最初は練習用の<strong>サンプル</strong>が入っています。一覧の「サンプルを消す」で消せます。
+    この画面は<strong>お試し用の見本</strong>です。入っているお客さん・記録・来る日はすべて架空のもので、今お使いのネイルカルテとは別の場所に保存されます。ここで触っても、今の記録には何も影響しません。
   </div>
 
   <a class="back" href="./">アプリを開く</a>
