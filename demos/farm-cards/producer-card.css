@@ -1,0 +1,230 @@
+/* =========================================
+   みどりメロン農園 生産者カード（店頭用）
+   70×74mm をA5用紙（横）に6面付け／片面印刷・インク節約仕様
+   ========================================= */
+
+/* 商品カードと同じ配色トークン */
+:root {
+  --ink: #252222;
+  --muted: #696363;
+  --red: #bd1024;
+  --line: #ded9d7;
+  --sans: 'Noto Sans JP', sans-serif;
+  --serif-en: 'Cormorant Garamond', Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #ecebea;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* 画面表示用の案内 */
+.guide {
+  max-width: 210mm;
+  margin: 24px auto 0;
+  padding: 0 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.guide strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* A5用紙（横向き）1枚：3列×2段 */
+.sheet {
+  position: relative;
+  width: 210mm;
+  height: 148mm;
+  margin: 28px auto 32px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, .12);
+  display: grid;
+  grid-template-columns: repeat(3, 70mm);
+  grid-template-rows: repeat(2, 74mm);
+}
+
+/* 裁断ガイド（ごく薄いグレーの点線） */
+.cut {
+  position: absolute;
+  pointer-events: none;
+}
+
+.cut.v {
+  top: 0;
+  bottom: 0;
+  border-left: .2mm dashed #d6d3d1;
+}
+
+.cut.h {
+  left: 0;
+  right: 0;
+  border-top: .2mm dashed #d6d3d1;
+}
+
+/* カード1枚 */
+.card {
+  padding: 6mm 6mm 5mm;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 上部（キャッチコピー〜紹介文）は中央揃え */
+.head {
+  text-align: center;
+}
+
+/* キャッチコピー（Instagramのプロフィールと同じ言葉） */
+.slogan {
+  font-size: 5.6pt;
+  letter-spacing: .14em;
+  color: var(--red);
+}
+
+.name {
+  margin-top: 1.2mm;
+  font-size: 10pt;
+  font-weight: 400;
+  letter-spacing: .14em;
+  line-height: 1.3;
+}
+
+.name .en {
+  display: block;
+  font-family: var(--serif-en);
+  font-size: 6.4pt;
+  letter-spacing: .3em;
+  color: var(--muted);
+}
+
+.about {
+  margin-top: 1.2mm;
+  font-size: 5pt;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* 収穫カレンダー */
+.calendar {
+  margin-top: 2.6mm;
+  padding: 1.6mm 0;
+  border-top: .2mm solid var(--ink);
+  border-bottom: .2mm solid var(--ink);
+}
+
+/* 小見出し「旬のカレンダー」（日本語なので斜体にせず、小さめの赤） */
+.calendar .label {
+  display: block;
+  font-size: 5.4pt;
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: var(--red);
+  margin-bottom: .6mm;
+  text-align: center;
+}
+
+/* 一覧はまとまりごと中央に置く（中の月・作物の揃えはそのまま） */
+.calendar dl {
+  width: fit-content;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.6mm;
+  row-gap: .2mm;
+  font-size: 5.6pt;
+  line-height: 1.55;
+}
+
+/* 月の列は右揃えにして「月」の位置を縦にそろえる */
+/* 「〜」と数字の高さがそろうよう、本文と同じ日本語書体にする */
+.calendar dt {
+  font-size: 5.6pt;
+  font-weight: 400;
+  letter-spacing: .02em;
+  text-align: right;
+}
+
+/* 主役のメロンの行だけ太字にして目立たせる */
+.calendar .main {
+  font-weight: 500;
+}
+
+/* QRコード2つ */
+.qrs {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3mm;
+}
+
+.qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.qr img {
+  display: block;
+  width: 14mm;
+  height: 14mm;
+  object-fit: contain;
+}
+
+/* QRの見出し（少し大きめ・太字） */
+.qr-title {
+  margin-top: 1.4mm;
+  font-size: 5.8pt;
+  font-weight: 500;
+  letter-spacing: .04em;
+  line-height: 1.4;
+}
+
+/* QRの補足（小さめ・グレー、見出しとの間を少しあける） */
+.qr-sub {
+  margin-top: .5mm;
+  font-size: 4.6pt;
+  letter-spacing: .04em;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* -------- 印刷設定 -------- */
+@page {
+  size: A5 landscape;
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .guide {
+    display: none;
+  }
+
+  .sheet {
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+/* スマホ幅での確認用（用紙を縮小表示） */
+@media screen and (max-width: 820px) {
+  .sheet {
+    zoom: .45;
+  }
+}

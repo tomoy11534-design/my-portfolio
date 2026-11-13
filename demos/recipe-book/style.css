@@ -1,0 +1,417 @@
+/* ===== 色・共通設定 ===== */
+:root {
+  --bg: #faf6ee;
+  --surface: #ffffff;
+  --text: #3a3226;
+  --muted: #7a6e5d;
+  --line: #e6dccb;
+  --green: #4f7a3a;
+  --green-light: #e8f0df;
+  --accent: #c8792b;
+
+  /* 作物ごとの色 */
+  --melon: #8cbf5a;
+  --zucchini: #3f7d4a;
+  --chestnut: #8a5a34;
+  --rice: #d9b24c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", sans-serif;
+  line-height: 1.8;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ===== ヘッダー ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(250, 246, 238, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 60px;
+}
+
+.logo {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.logo span {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+.nav {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: var(--green);
+}
+
+/* ===== メインビジュアル ===== */
+.hero {
+  padding: 80px 0 72px;
+  background:
+    radial-gradient(circle at 85% 20%, rgba(140, 191, 90, 0.25), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgba(200, 121, 43, 0.15), transparent 40%),
+    var(--bg);
+}
+
+.hero-place {
+  margin: 0 0 8px;
+  color: var(--green);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.hero-title {
+  margin: 0 0 20px;
+  font-family: "Shippori Mincho", serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  line-height: 1.35;
+}
+
+.hero-lead {
+  margin: 0 0 28px;
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* ===== セクション共通 ===== */
+.section {
+  padding: 72px 0;
+}
+
+.section-title {
+  margin: 0 0 12px;
+  font-family: "Shippori Mincho", serif;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.section-lead {
+  margin: 0 0 28px;
+  color: var(--muted);
+}
+
+/* ===== 農園紹介 ===== */
+.about {
+  background: var(--surface);
+}
+
+.about-inner {
+  display: grid;
+  gap: 40px;
+}
+
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.feature-list li {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--green-light);
+}
+
+.feature-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.feature-list h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  color: var(--green);
+}
+
+.feature-list p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+/* ===== 収穫カレンダー ===== */
+.calendar-scroll {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.calendar-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.calendar-table th,
+.calendar-table td {
+  padding: 10px 4px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar-table thead th {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.calendar-table tbody th {
+  text-align: left;
+  padding-left: 12px;
+  white-space: nowrap;
+}
+
+.calendar-table tr:last-child th,
+.calendar-table tr:last-child td {
+  border-bottom: none;
+}
+
+.calendar-table th.is-now {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.harvest-bar {
+  display: block;
+  height: 14px;
+  border-radius: 7px;
+}
+
+.calendar-note {
+  margin-top: 16px;
+  color: var(--muted);
+}
+
+/* ===== レシピ ===== */
+.recipes {
+  background: var(--surface);
+}
+
+.filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.filter-btn.is-active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+
+.recipe-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.recipe-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.recipe-card[hidden] {
+  display: none;
+}
+
+.recipe-head {
+  padding: 20px 20px 0;
+  border-top: 6px solid var(--crop-color);
+}
+
+.recipe-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--crop-color);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.recipe-title {
+  margin: 10px 0 6px;
+  font-size: 1.2rem;
+}
+
+.recipe-desc {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.recipe-meta {
+  display: flex;
+  gap: 16px;
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.recipe-detail {
+  margin: 16px 20px 20px;
+}
+
+.recipe-detail summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.recipe-detail h4 {
+  margin: 16px 0 6px;
+  font-size: 0.95rem;
+}
+
+.recipe-detail ul,
+.recipe-detail ol {
+  margin: 0;
+  padding-left: 1.4em;
+  font-size: 0.92rem;
+}
+
+.farmer-tip {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff4e3;
+  font-size: 0.88rem;
+}
+
+.farmer-tip strong {
+  color: var(--accent);
+}
+
+/* ===== フッター ===== */
+.site-footer {
+  padding: 40px 0;
+  background: var(--green);
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+.footer-name {
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.3rem;
+  margin-bottom: 4px !important;
+}
+
+.copyright {
+  margin-top: 16px !important;
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+/* ===== スマートフォン ===== */
+@media (max-width: 600px) {
+  .nav {
+    display: none;
+  }
+
+  .hero {
+    padding: 56px 0 48px;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+}
+
+/* ===== タブレット以上 ===== */
+@media (min-width: 768px) {
+  .about-inner {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== PC ===== */
+@media (min-width: 1100px) {
+  .recipe-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

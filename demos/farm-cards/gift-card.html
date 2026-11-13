@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>メロン贈り主カード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="gift-card.css">
+</head>
+<body>
+
+  <!-- 画面だけに出る案内（印刷時は非表示） -->
+  <div class="guide">
+    <strong>贈り主カード（A7・105×74mm）</strong><br>
+    <strong>印刷方法：</strong>A5用紙（横向き）・<strong>倍率100%（実際のサイズ）</strong>・余白なし・<strong>片面印刷</strong>。点線で十字に切ると4枚できます。<br>
+    贈り先へ直送するときに、注文者のお名前を手書きして商品カードと一緒に箱へ入れてください。ひとことメッセージは任意です。
+  </div>
+
+  <!-- A5用紙：贈り主カード ×4 -->
+  <section class="sheet" id="sheet"></section>
+
+  <!-- 贈り主カードのテンプレート -->
+  <template id="tpl-gift">
+    <article class="card">
+      <p class="eyebrow">A GIFT FOR YOU</p>
+      <p class="lead">旬のメロンをお届けします</p>
+
+      <!-- 贈り主のお名前（手書き） -->
+      <p class="from"><span class="line"></span><span class="suffix">様より</span></p>
+
+      <!-- ひとことメッセージ（任意・手書き） -->
+      <div class="message">
+        <span class="label">ひとこと</span>
+        <div class="dotline"></div>
+        <div class="dotline"></div>
+        <div class="dotline"></div>
+      </div>
+
+      <p class="farm"><span class="en">MIDORI FARM</span>みどりメロン農園</p>
+    </article>
+  </template>
+
+  <script>
+    // テンプレートを用紙に4枚複製する
+    const sheet = document.getElementById('sheet');
+    const tpl = document.getElementById('tpl-gift');
+    for (let i = 0; i < 4; i++) {
+      sheet.appendChild(tpl.content.cloneNode(true));
+    }
+  </script>
+</body>
+</html>

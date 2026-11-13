@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>みどりメロン農園 同梱カード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="product-card.css">
+</head>
+<body>
+
+  <!-- 画面だけに出る案内（印刷時は非表示） -->
+  <div class="guide">
+    <strong>印刷方法：</strong>A5用紙（横向き）・<strong>倍率100%（実際のサイズ）</strong>・余白なし・両面印刷（<strong>短辺とじ</strong>）で印刷し、真ん中の点線で1回切るとA6（105×148mm）のカードが2枚できます。<br>
+    <strong>写真の入れ方：</strong>「写真」フォルダに下の名前で写真を保存すると、裏面の枠に自動で入ります（横長・4:3くらいがおすすめ）。<br>
+    tsuru-katame.jpg ／ kaniku-katame.jpg ／ tsuru-tabegoro.jpg ／ kaniku-tabegoro.jpg ／ tsuru-yawarakame.jpg ／ kaniku-yawarakame.jpg<br>
+    写真がない枠は点線の枠のまま表示されます。食べごろの日付は表面に手書きで記入してください。
+  </div>
+
+  <!-- 1ページ目：表面 ×2 -->
+  <section class="sheet" id="sheet-front">
+    <span class="sheet-label">1ページ目：表面</span>
+  </section>
+
+  <!-- 2ページ目：裏面 ×2 -->
+  <section class="sheet" id="sheet-back">
+    <span class="sheet-label">2ページ目：裏面</span>
+  </section>
+
+  <!-- 表面のテンプレート -->
+  <template id="tpl-front">
+    <article class="card front">
+      <p class="eyebrow">A GIFT FROM MIDORI</p>
+
+      <!-- メロンの線画（インク節約のため細線のみ） -->
+      <svg class="melon" viewBox="0 0 120 112" fill="none" stroke="#252222" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <!-- つる（T字） -->
+        <path d="M38 14 Q60 9 84 15" />
+        <path d="M60 11 L60 24" />
+        <!-- 実 -->
+        <circle cx="60" cy="66" r="42" />
+        <!-- ネット模様 -->
+        <g stroke-width=".6" opacity=".8">
+          <path d="M30 37 Q46 52 40 72 Q36 88 46 102" />
+          <path d="M48 26 Q58 46 54 64 Q50 86 62 107" />
+          <path d="M70 25 Q76 44 72 62 Q68 84 78 104" />
+          <path d="M88 35 Q96 54 90 72 Q86 88 92 96" />
+          <path d="M20 58 Q40 54 54 64 Q70 72 100 60" />
+          <path d="M22 82 Q42 74 60 84 Q78 92 98 82" />
+          <path d="M30 42 Q50 36 66 44 Q80 50 92 40" />
+        </g>
+        <!-- 葉 -->
+        <path d="M84 15 Q92 6 101 9 Q96 18 84 15 Z" stroke-width=".9" />
+      </svg>
+
+      <h1 class="catch">大切な人へ、<br>旬のひと箱。</h1>
+      <p class="sub">お裾分けしたくなるメロン</p>
+
+      <!-- 品種（該当するものにチェック） -->
+      <ul class="variety">
+        <li><span class="box"></span>あさひメロン ラブコール</li>
+        <li><span class="box"></span>赤肉メロン レノンハート</li>
+        <li><span class="box"></span>食べ比べセット</li>
+        <li><span class="box"></span>アンデスメロン</li>
+      </ul>
+
+      <!-- 食べごろの記入欄（農園が手書きで記入） -->
+      <div class="ripe">
+        <p class="ripe-head"><span class="label">Best Time to Enjoy</span>食べごろの目安</p>
+        <p class="ripe-date">
+          <span class="blank"></span>月<span class="blank"></span>日
+          <span class="tilde">〜</span>
+          <span class="blank"></span>月<span class="blank"></span>日
+        </p>
+        <p class="ripe-note">直射日光を避け、風通しのよい涼しい場所で常温保存した場合の目安です。<br>暑いと早く、涼しいと遅く熟します。</p>
+      </div>
+
+      <p class="farm"><span class="en">MIDORI FARM</span>みどりメロン農園</p>
+    </article>
+  </template>
+
+  <!-- 裏面のテンプレート -->
+  <template id="tpl-back">
+    <article class="card back">
+      <p class="eyebrow">HOW TO TELL</p>
+      <h2 class="title">食べごろの見分け方</h2>
+
+      <!-- 列の見出し -->
+      <div class="stage-head">
+        <span class="head-left">状態・説明</span><span>ツルの状態</span><span>果肉の状態</span>
+      </div>
+
+      <!-- 3段階（写真は「写真」フォルダから読み込む） -->
+      <ol class="stages">
+        <li class="stage">
+          <p class="stage-name">かため</p>
+          <figure class="photo"><img src="写真/tsuru-katame.jpg" alt="かための時のツル" data-label="ツル（かため）"></figure>
+          <figure class="photo"><img src="写真/kaniku-katame.jpg" alt="かための時の果肉" data-label="果肉（かため）"></figure>
+          <p class="stage-text">ツルが青くピンと張っています。<br>シャキッとした歯ごたえ。</p>
+        </li>
+        <li class="stage is-best">
+          <p class="stage-name">食べごろ<span class="badge"><span class="bracket">【</span>一番おすすめ！<span class="bracket">】</span></span></p>
+          <figure class="photo"><img src="写真/tsuru-tabegoro.jpg" alt="食べごろのツル" data-label="ツル（食べごろ）"></figure>
+          <figure class="photo"><img src="写真/kaniku-tabegoro.jpg" alt="食べごろの果肉" data-label="果肉（食べごろ）"></figure>
+          <div class="stage-text">
+            ツルが少ししおれ、<br>甘い香りが立ちます。
+            <!-- 一番の決め手：独立したブロックで目立たせる -->
+            <p class="key-sign"><strong>お尻を押して<br>少しへこめば食べごろ！</strong><span>（※お尻＝ツルの反対側）</span></p>
+          </div>
+        </li>
+        <li class="stage">
+          <p class="stage-name">やわらかめ</p>
+          <figure class="photo"><img src="写真/tsuru-yawarakame.jpg" alt="やわらかめの時のツル" data-label="ツル（やわらかめ）"></figure>
+          <figure class="photo"><img src="写真/kaniku-yawarakame.jpg" alt="やわらかめの時の果肉" data-label="果肉（やわらかめ）"></figure>
+          <p class="stage-text">ツルが枯れて、<br>香りが強くなります。<br>とろける食感。お早めにどうぞ。</p>
+        </li>
+      </ol>
+
+      <!-- 食べる前のひと手間 -->
+      <!-- おいしく召し上がっていただくために ＋ Instagram -->
+      <div class="enjoy">
+        <div class="care">
+          <p class="care-title">【おいしく召し上がっていただくために】</p>
+          <dl>
+            <dt>保存方法</dt>
+            <dd>直射日光を避け、風通しの良い常温で保存</dd>
+            <dt>冷やし方</dt>
+            <dd>食べる <strong class="chill-lead">2〜3時間前</strong> に冷蔵庫へ</dd>
+          </dl>
+        </div>
+
+        <div class="insta">
+          <p class="insta-title">
+            <!-- カメラの線画アイコン（絵文字はカラー印刷になるため使わない） -->
+            <svg class="cam" viewBox="0 0 24 24" fill="none" stroke="#bd1024" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.3" cy="6.7" r=".6" fill="#bd1024" />
+            </svg>
+            Instagramでシェアしてください！
+          </p>
+          <div class="insta-body">
+            <!-- QRコード：「写真」フォルダに instagram-qr.png を保存すると表示される -->
+            <figure class="photo qr"><img src="qr-sample.svg" alt="InstagramのQRコード" data-label="QRコード"></figure>
+            <p class="insta-text">
+              食べた感想や写真を<br><strong class="hashtag">#みどりメロン農園</strong> で<br>シェアしていただけたら<br>嬉しいです！
+              <span class="account">@midori_melon_farm</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact">
+        <div>
+          <span class="name">みどりメロン農園</span><br>
+          〇〇県〇〇町
+        </div>
+        <div class="tel">
+          TEL 000-0000-0000<br>
+          info@example.com
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    // テンプレートを各用紙（A5）に2枚ずつ複製する
+    function fill(sheetId, tplId) {
+      const sheet = document.getElementById(sheetId);
+      const tpl = document.getElementById(tplId);
+      for (let i = 0; i < 2; i++) {
+        sheet.appendChild(tpl.content.cloneNode(true));
+      }
+    }
+    fill('sheet-front', 'tpl-front');
+    fill('sheet-back', 'tpl-back');
+
+    // 写真が見つからない枠は、点線の空き枠にしてファイル名の代わりにラベルを表示する
+    document.querySelectorAll('.photo img').forEach(function (img) {
+      function toEmpty() {
+        const fig = img.parentElement;
+        fig.classList.add('is-empty');
+        fig.setAttribute('data-label', img.dataset.label);
+        img.remove();
+      }
+      if (img.complete && img.naturalWidth === 0) {
+        toEmpty();
+      } else {
+        img.addEventListener('error', toEmpty);
+      }
+    });
+  </script>
+</body>
+</html>

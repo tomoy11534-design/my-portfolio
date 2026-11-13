@@ -1462,3 +1462,8 @@ section {
 .demo-box + .work-group {
   margin-top: 64px;
 }
+
+/* 制作途中の作品につける印 */
+.work-card-badge--wip {
+  background: #8a8178;
+}

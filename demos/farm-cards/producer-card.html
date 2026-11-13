@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>農園の生産者カード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="producer-card.css"></head>
+<body>
+
+  <!-- 画面だけに出る案内（印刷時は非表示） -->
+  <div class="guide">
+    <strong>生産者カード（店頭用・70×74mm）</strong><br>
+    <strong>印刷方法：</strong>A5用紙（横向き）・<strong>倍率100%（実際のサイズ）</strong>・余白なし・<strong>片面印刷</strong>。点線で切ると6枚できます。<br>
+    ゆめマート・サンロードの売り場で、野菜やメロンの袋に入れたり、テープで留めたりして使います（付ける前にお店の許可を確認してください）。
+  </div>
+
+  <!-- A5用紙：生産者カード ×6 -->
+  <section class="sheet" id="sheet">
+    <!-- 裁断ガイド -->
+    <span class="cut v" style="left: 70mm"></span>
+    <span class="cut v" style="left: 140mm"></span>
+    <span class="cut h" style="top: 74mm"></span>
+  </section>
+
+  <!-- 生産者カードのテンプレート -->
+  <template id="tpl-producer">
+    <article class="card">
+      <!-- 上部（キャッチコピー〜紹介文）は中央揃え -->
+      <div class="head">
+        <p class="slogan">＼ 食べる喜びを育む ／</p>
+        <h1 class="name"><span class="en">MIDORI FARM</span>みどりメロン農園</h1>
+        <p class="about">九州の山あいの町の農家です</p>
+      </div>
+
+      <!-- 収穫カレンダー（Instagramのプロフィールより） -->
+      <div class="calendar">
+        <span class="label">旬のカレンダー</span>
+        <dl>
+          <dt>3〜5月</dt><dd>ズッキーニ</dd>
+          <dt class="main">4〜6月</dt><dd class="main">メロン</dd>
+          <dt>8〜10月</dt><dd>栗・きゅうり</dd>
+          <dt>9〜10月</dt><dd>お米</dd>
+        </dl>
+      </div>
+
+      <!-- QRコード：Instagram と 贈答用メロンの予約ページ -->
+      <div class="qrs">
+        <div class="qr">
+          <img src="qr-sample.svg" alt="InstagramのQRコード">
+          <p class="qr-title">Instagram</p>
+          <p class="qr-sub">@midori_melon_farm</p>
+        </div>
+        <div class="qr">
+          <img src="qr-sample.svg" alt="贈答用メロン予約ページのQRコード">
+          <p class="qr-title">贈答用メロン</p>
+          <p class="qr-sub">ご予約はこちら</p>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    // テンプレートを用紙に6枚複製する（裁断ガイドの後ろに追加）
+    const sheet = document.getElementById('sheet');
+    const tpl = document.getElementById('tpl-producer');
+    for (let i = 0; i < 6; i++) {
+      sheet.appendChild(tpl.content.cloneNode(true));
+    }
+  </script>
+</body>
+</html>

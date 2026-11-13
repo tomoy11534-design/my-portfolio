@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>みどり農園のレシピ帖</title>
+  <meta name="description" content="九州の山あいの町・みどり農園の農家がつくる、旬の野菜と果物のレシピ集。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">みどり農園<span>のレシピ集</span></a>
+      <nav class="nav">
+        <a href="#about">農園について</a>
+        <a href="#calendar">収穫カレンダー</a>
+        <a href="#recipes">レシピ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- メインビジュアル -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-place">九州 山あいの町</p>
+      <h1 class="hero-title">畑でとれたものを、<br>いちばんおいしく。</h1>
+      <p class="hero-lead">
+        メロン、ズッキーニ、栗、そしてお米。<br>
+        育てている私たちが、毎日の台所で作っているレシピをまとめました。
+      </p>
+      <a href="#recipes" class="btn">レシピを見る</a>
+    </div>
+  </section>
+
+  <!-- 農園紹介 -->
+  <section id="about" class="section about">
+    <div class="container about-inner">
+      <div>
+        <h2 class="section-title">土づくりから、はじめています</h2>
+        <p>
+          みどり農園は、九州の山あいの町にある小さな農園です。
+          寒暖差の大きい山あいの気候と、川の豊かな水に恵まれた土地で野菜や果物、お米を育てています。
+        </p>
+        <p>
+          畑に入れるのは、自分たちで配合した<strong>自家製の「ぼかし肥料」</strong>。
+          米ぬかや油かすなどの有機物をじっくり発酵させてつくります。
+        </p>
+      </div>
+      <ul class="feature-list">
+        <li>
+          <span class="feature-icon" aria-hidden="true">🦠</span>
+          <div>
+            <h3>微生物の力</h3>
+            <p>発酵で増えた微生物が土をふかふかにし、根がのびのび育つ環境をつくります。</p>
+          </div>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">🧪</span>
+          <div>
+            <h3>アミノ酸の効果</h3>
+            <p>発酵で生まれるアミノ酸が作物に吸収され、甘みとうまみの濃い味わいに。</p>
+          </div>
+        </li>
+        <li>
+          <span class="feature-icon" aria-hidden="true">🌱</span>
+          <div>
+            <h3>自家配合</h3>
+            <p>畑の土や作物に合わせて配合を工夫。毎年少しずつ改良を重ねています。</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 収穫カレンダー -->
+  <section id="calendar" class="section calendar">
+    <div class="container">
+      <h2 class="section-title">収穫カレンダー</h2>
+      <p class="section-lead">旬の時期にいちばんおいしい状態でお届けしています。</p>
+      <div class="calendar-scroll">
+        <table class="calendar-table">
+          <thead>
+            <tr>
+              <th scope="col">作物</th>
+              <th scope="col">1</th><th scope="col">2</th><th scope="col">3</th>
+              <th scope="col">4</th><th scope="col">5</th><th scope="col">6</th>
+              <th scope="col">7</th><th scope="col">8</th><th scope="col">9</th>
+              <th scope="col">10</th><th scope="col">11</th><th scope="col">12</th>
+            </tr>
+          </thead>
+          <!-- 収穫月はscript.jsで描画 -->
+          <tbody id="calendar-body"></tbody>
+        </table>
+      </div>
+      <p class="calendar-note" id="season-now"></p>
+    </div>
+  </section>
+
+  <!-- レシピ一覧 -->
+  <section id="recipes" class="section recipes">
+    <div class="container">
+      <h2 class="section-title">農家のレシピ</h2>
+      <p class="section-lead">作物ごとに絞り込めます。カードを開くと材料と作り方が見られます。</p>
+
+      <div class="filter" role="group" aria-label="作物で絞り込み">
+        <button class="filter-btn is-active" data-filter="all">すべて</button>
+        <button class="filter-btn" data-filter="melon">🍈 メロン</button>
+        <button class="filter-btn" data-filter="zucchini">🥒 ズッキーニ</button>
+        <button class="filter-btn" data-filter="chestnut">🌰 栗</button>
+        <button class="filter-btn" data-filter="rice">🍚 お米</button>
+      </div>
+
+      <!-- レシピカードはscript.jsで描画 -->
+      <div class="recipe-grid" id="recipe-grid"></div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-name">みどり農園</p>
+      <p>九州の山あいの町</p>
+      <p class="copyright">&copy; みどり農園</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

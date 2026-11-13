@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>農園のレシピ帖 | Portfolio</title>
+  <meta name="description" content="農家が育てた作物を、育てている人のレシピで紹介するWebサイト。収穫カレンダーと、作物ごとに絞り込めるレシピ一覧。">
+  <link rel="stylesheet" href="../style.css">
+  <!-- Googleアナリティクス（GA4） -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FF0GN3Z2HY');
+  </script>
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="logo">My<span>Portfolio</span></a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html#works">Works</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- 作品ヒーロー -->
+    <section class="work-hero work-hero--yasai">
+      <div class="container">
+        <a href="../index.html#works" class="work-back">← Worksへ戻る</a>
+        <h1>農園のレシピ帖</h1>
+        <p class="work-hero-lead">
+          農園で育てている作物を、育てている人が毎日の台所で作っているレシピと一緒に紹介するWebサイトです。今が旬の作物が分かる収穫カレンダーと、作物ごとに絞り込めるレシピ一覧を作りました。
+        </p>
+        <ul class="tag-list">
+          <li>Webサイト</li>
+          <li>農園の情報発信</li>
+          <li>知人の農園向けに制作（途中）</li>
+        </ul>
+        <a href="../demos/recipe-book/" class="button button-ghost work-hero-link" target="_blank" rel="noopener">見本を見る（農園名・地名は架空） ↗</a>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="work-content">
+        <div>
+          <div class="work-section">
+            <h2>制作の背景</h2>
+            <p>
+              メロンなどを育てている農園向けに制作しました。直売やネット販売では、買ったあとの「どうやって食べよう」に答えられると、また買ってもらうきっかけになります。そこで、農家ならではの食べ方を発信できるレシピのサイトを考えました。今は構成とデザインを作った段階で、制作を一時止めています。
+            </p>
+          </div>
+
+          <div class="work-section">
+            <h2>主な機能</h2>
+            <div class="feature-grid">
+              <div class="feature-card">
+                <h3>収穫カレンダー</h3>
+                <p>作物ごとの収穫の時期を、月ごとの帯で表示。今月が自動で分かり、旬の作物がない月は「端境期」と案内する。</p>
+              </div>
+              <div class="feature-card">
+                <h3>作物で絞り込めるレシピ</h3>
+                <p>メロン・ズッキーニ・栗・お米のボタンで、レシピを絞り込める。</p>
+              </div>
+              <div class="feature-card">
+                <h3>カードを開いて作り方を見る</h3>
+                <p>一覧はすっきり見せ、カードを開くと材料と作り方、農家のひとことが出る。</p>
+              </div>
+              <div class="feature-card">
+                <h3>農園の紹介</h3>
+                <p>土づくりや自家製の肥料など、農園のこだわりを短くまとめた。</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="work-section">
+            <h2>工夫したポイント</h2>
+            <p>
+              農園の方が自分でレシピを足せるように、レシピの中身は1か所にまとめて書く形にし、カレンダーや一覧はそこから自動で作られるようにしました。見た目は明朝体の見出しと生成りの色で、手書きのレシピ帖のような落ち着いた雰囲気にしています。
+            </p>
+          </div>
+        </div>
+
+        <aside class="work-sidebar work-sidebar--yasai">
+          <h3 class="work-sidebar-label">制作情報</h3>
+          <ul class="tag-list">
+            <li>HTML / CSS / JavaScript</li>
+            <li>レスポンシブ対応</li>
+          </ul>
+          <div class="work-sidebar-divider"></div>
+          <h3 class="work-sidebar-label">担当範囲</h3>
+          <p class="work-sidebar-text">構成・デザイン・実装を担当</p>
+        </aside>
+      </div>
+
+      <div class="work-nav-footer">
+        <a href="farm-cards.html">← 前の作品：メロンの同梱カード・ステッカー</a>
+        <a href="../index.html#works">作品一覧へ →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="site-footer">
+    <p>&copy; <span data-year></span> My Portfolio</p>
+  </footer>
+
+  <script src="../script.js"></script>
+</body>
+</html>
