@@ -6,11 +6,11 @@
 <!-- ホーム画面に追加したときの表示 -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="ネイルカルテ予約">
+<meta name="apple-mobile-web-app-title" content="ネイルカルテ">
 <meta name="theme-color" content="#ecebe8">
 <!-- 検索エンジンに載せない -->
 <meta name="robots" content="noindex, nofollow">
-<title>ネイルカルテ（予約機能つきの見本）</title>
+<title>ネイルカルテ（今日・明日来る人を表示する見本）</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
 
 <!-- ポートフォリオ用デモの案内 -->
 <div style="padding:8px 16px;background:#3a3532;color:#fff;font-size:12px;line-height:1.6;text-align:center;font-family:system-ui,sans-serif">
-  予約機能をつけた見本です。入っているお客さん・記録・予約はすべて架空のサンプルで、追加した内容はこの端末のブラウザにだけ保存されます。
+  今日・明日来る人を表示する見本です。入っているお客さん・記録・予定はすべて架空のサンプルで、追加した内容はこの端末のブラウザにだけ保存されます。
   <a href="../../works/nail-karte.html#yoyaku" style="color:#f3c9b5">作品紹介へ戻る</a>
 </div>
 
@@ -53,10 +53,10 @@
   </form>
 </div>
 
-<!-- 予約を入れる・直すシート -->
+<!-- 来る日を入れる・変えるシート -->
 <div id="booking-sheet" class="sheet-wrap" hidden>
   <form id="booking-form" class="sheet" autocomplete="off">
-    <h2 id="bk-title" class="sheet-title">予約を入れる</h2>
+    <h2 id="bk-title" class="sheet-title">来る日を入れる</h2>
     <label class="field">
       <span class="field-label">お客さん</span>
       <select id="bk-customer" class="input"></select>
@@ -77,24 +77,15 @@
         <input id="bk-date" class="input" type="date" required>
       </label>
       <label class="field">
-        <span class="field-label">時間</span>
+        <span class="field-label">時間（任意）</span>
         <select id="bk-time" class="input"></select>
       </label>
     </div>
-    <p id="bk-warn" class="bk-warn" hidden></p>
-    <div class="field">
-      <span class="field-label">メニュー</span>
-      <div id="bk-menus" class="bk-menus"></div>
-    </div>
-    <label class="field">
-      <span class="field-label">メモ（任意）</span>
-      <input id="bk-memo" class="input" type="text" placeholder="例：オフあり・前回と同じ色">
-    </label>
     <div class="sheet-actions">
       <button id="bk-cancel" class="btn btn-ghost" type="button">やめる</button>
       <button class="btn btn-primary" type="submit">保存する</button>
     </div>
-    <button id="bk-delete" class="danger-btn bk-delete" type="button" hidden>予約を取り消す</button>
+    <button id="bk-delete" class="danger-btn bk-delete" type="button" hidden>この予定を消す</button>
   </form>
 </div>
 

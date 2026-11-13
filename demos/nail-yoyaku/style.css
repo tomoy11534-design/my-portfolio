@@ -801,3 +801,7 @@ textarea.input { min-height: 76px; resize: vertical; line-height: 1.7; }
 .bk-box.is-ask { border-color: var(--red); background: #fdf7f3; }
 .bk-box-ask { font-weight: 500; font-size: .92rem; }
 .bk-new { display: grid; gap: 10px; padding: 10px; background: var(--bg); border-radius: var(--radius); }
+
+/* 今日・明日来る人 */
+.bk-notime { font-size: .72rem; color: var(--muted); font-family: var(--font-body); }
+#quick-booking { margin-top: 10px; }

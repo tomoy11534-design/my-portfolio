@@ -1,9 +1,9 @@
 'use strict';
 
 /* =========================================================
-   ネイルカルテ（予約機能つきの見本）
+   ネイルカルテ（今日・明日来る人を表示する見本）
    - お客さんごとにデザイン写真・色番・メモを記録する
-   - 予約を入れて、予約表（月のカレンダー）で確かめられる。来店したらそのまま記録できる
+   - 「この人はこの日に来る」を入れておくと、一覧の上に今日来る人・明日来る人が出る。来たらそのまま記録できる
    - 名前・ふりがな・色番と、年月で検索できる
    - 記録はこの端末のブラウザ（IndexedDB）に保存する
    ========================================================= */
@@ -57,9 +57,7 @@ const dbDelete = (name, id) => withStore(name, 'readwrite', (s) => s.delete(id))
 const state = {
   customers: [],
   records: [],
-  bookings: [],   // 予約 { id, customerId, date, time, menu, memo, status: 'booked' | 'done' }
-  calMonth: '',   // 予約表で見ている月 'YYYY-MM'
-  calDay: '',     // 予約表で選んでいる日 'YYYY-MM-DD'
+  bookings: [],   // 来る日 { id, customerId, date, time（空でもよい）, status: 'booked' | 'done' }
   nextDraft: null, // 予約から記録へ進むときに、記録画面へ渡す内容
   askNext: '',     // 記録を保存した直後に「次回の予約も入れますか？」と聞くお客さん
   query: '',
@@ -399,7 +397,6 @@ function route() {
   if (h.startsWith('c-')) return { view: 'customer', id: h.slice(2) };
   if (h.startsWith('new-')) return { view: 'new', id: h.slice(4) };
   if (h.startsWith('edit-')) return { view: 'edit', id: h.slice(5) };
-  if (h === 'yoyaku') return { view: 'bookings' };
   return { view: 'home' };
 }
 function go(hash) {
@@ -418,7 +415,6 @@ function render() {
   const app = $('#app');
   if (r.view === 'customer' && customerById(r.id)) renderCustomer(app, customerById(r.id));
   else if (r.view === 'new' && customerById(r.id)) renderNew(app, customerById(r.id));
-  else if (r.view === 'bookings') renderBookings(app);
   else if (r.view === 'edit' && editTarget(r.id)) renderNew(app, customerById(editTarget(r.id).customerId), editTarget(r.id));
   else renderHome(app);
 }
@@ -798,6 +794,7 @@ function renderNew(app, c, editing = null) {
       // 新しい記録は、タブで選んでいる方（ALLならハンド）から始める
       : { editId: null, customerId: c.id, part: state.part === 'foot' ? 'foot' : 'hand', date: todayStr(), photos: [], karte: [], colors: [], memo: '' };
     if (!editing && state.nextDraft && state.nextDraft.customerId === c.id) {
+      // ハンド／フットは記録の画面で選ぶ
       Object.assign(state.draft, state.nextDraft);
     }
     state.nextDraft = null;
@@ -811,7 +808,7 @@ function renderNew(app, c, editing = null) {
       <div class="back-bar"><button id="back" class="back-btn" type="button">‹ やめる</button></div>
       <div>
         <h1 class="page-title">${esc(c.name)}</h1>
-        <p class="page-sub">${editing ? '記録を編集' : (d.bookingId ? '予約の日のデザインを記録' : '今日のデザインを記録')}</p>
+        <p class="page-sub">${editing ? '記録を編集' : (d.bookingId ? '来た日のデザインを記録' : '今日のデザインを記録')}</p>
       </div>
     </header>
     <form id="record-form" class="form" autocomplete="off">
@@ -986,7 +983,7 @@ function renderNew(app, c, editing = null) {
       state.records.push(record);
     }
     await safePut('records', record);
-    // 予約から記録したときは、その予約を「来店済み」にする
+    // 「来た」から記録したときは、その予定を「来た」ことにする（今日・明日の一覧から消える）
     if (d.bookingId) {
       const b = state.bookings.find((x) => x.id === d.bookingId);
       if (b) { b.status = 'done'; await safePut('bookings', b); }
@@ -1084,38 +1081,34 @@ async function start() {
   render();
 }
 
-// =========================================================
-// ===== 予約 =====
-// =========================================================
-// メニューの候補（フットが入るものは、記録のときにフットを選んでおく）
-const MENUS = ['ハンド', 'フット', 'ハンド＋フット', 'オフのみ', 'ケア'];
-// 予約の時間の候補（9:00〜20:00、30分ごと）
+// ===== 来る日（今日・明日来る人を一覧の上に出す） =====
+// 予約の管理まではせず、「この人はこの日に来る」だけを残す。
+// データは bookings に { id, customerId, date, time（空でもよい）, status: 'booked' | 'done' } で入れる
+// 時間の候補は1時間ごとのざっくり（9時〜20時）。空なら「時間は決まっていない」
+// 並べ替えのため保存は '10:00' の形にして、表示は「10時」にする
 const TIMES = [];
-for (let h = 9; h <= 20; h++) for (const m of ['00', '30']) TIMES.push(`${String(h).padStart(2, '0')}:${m}`);
+for (let h = 9; h <= 20; h++) TIMES.push(`${String(h).padStart(2, '0')}:00`);
+const timeLabel = (t) => (t ? `${Number(t.slice(0, 2))}時${t.slice(3) !== '00' ? t.slice(3) + '分' : ''}` : '');
 
 function addDays(dateStr, n) {
   const [y, m, d] = dateStr.split('-').map(Number);
   const t = new Date(y, m - 1, d + n);
   return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
 }
+// 時間が決まっている人を先に、時間の早い順に並べる
 function sortBookings(list) {
-  return [...list].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  return [...list].sort((a, b) => (a.date + (a.time || '99')).localeCompare(b.date + (b.time || '99')));
 }
-// まだ来店していない、今日以降の予約
-function upcomingBookings() {
-  const today = todayStr();
+// その日に来る人（まだ来ていない人）
+function comingOn(date) {
   const ids = new Set(visibleCustomers().map((c) => c.id));
-  return sortBookings(state.bookings.filter((b) => b.status !== 'done' && b.date >= today && ids.has(b.customerId)));
+  return sortBookings(state.bookings.filter((b) => b.date === date && b.status !== 'done' && ids.has(b.customerId)));
 }
-function bookingsOn(date) {
-  const ids = new Set(visibleCustomers().map((c) => c.id));
-  return sortBookings(state.bookings.filter((b) => b.date === date && ids.has(b.customerId)));
-}
+// そのお客さんの、次に来る日
 function nextBookingOf(customerId) {
   const today = todayStr();
   return sortBookings(state.bookings.filter((b) => b.customerId === customerId && b.status !== 'done' && b.date >= today))[0];
 }
-// 「今日」「明日」「11/20（木）」のような短い日付
 function dayLabel(date) {
   const today = todayStr();
   if (date === today) return '今日';
@@ -1124,82 +1117,75 @@ function dayLabel(date) {
   return `${m}/${d}（${WEEK[new Date(y, m - 1, d).getDay()]}）`;
 }
 
-// 予約の1行（一覧画面・予約表で共通）
-function bookingRow(b, { showDay = true } = {}) {
+// 来る人の1行
+function comingRow(b) {
   const c = customerById(b.customerId);
-  const done = b.status === 'done';
+  const last = recordsOf(b.customerId)[0];
   return `
-    <div class="bk-row${done ? ' is-done' : ''}">
-      <span class="bk-when">${showDay ? `<span class="bk-day">${esc(dayLabel(b.date))}</span>` : ''}<span class="bk-time">${esc(b.time)}</span></span>
+    <div class="bk-row">
+      <span class="bk-when"><span class="bk-time">${b.time ? esc(timeLabel(b.time)) : '<span class="bk-notime">時間未定</span>'}</span></span>
       <button type="button" class="bk-main" data-bk-open="${esc(b.customerId)}">
         <span class="bk-name">${esc(c?.name || '')}</span>
-        <span class="bk-menu">${esc(b.menu)}${b.memo ? `・${esc(b.memo)}` : ''}</span>
+        <span class="bk-menu">${last ? `前回 ${esc(formatShort(last.date))}${last.colors?.length ? `・${esc(last.colors[0])}` : ''}` : 'はじめての来店'}</span>
       </button>
-      ${done
-        ? '<span class="bk-done">来店済み</span>'
-        : `<button type="button" class="bk-action" data-bk-visit="${esc(b.id)}">来店した</button>`}
+      <button type="button" class="bk-action" data-bk-visit="${esc(b.id)}">来た</button>
     </div>`;
 }
-function bindBookingRows(root) {
+function bindComingRows(root) {
   root.querySelectorAll('[data-bk-open]').forEach((el) => el.addEventListener('click', () => go('c-' + el.dataset.bkOpen)));
   root.querySelectorAll('[data-bk-visit]').forEach((el) => el.addEventListener('click', () => startVisit(el.dataset.bkVisit)));
 }
-// 「来店した」を押したら、予約の日とメニューを入れた記録画面を開く
+// 「来た」を押したら、来る日を入れた記録画面を開く（保存すると「来た」ことになる）
 function startVisit(bookingId) {
   const b = state.bookings.find((x) => x.id === bookingId);
   if (!b) return;
   state.draft = null;
-  state.nextDraft = { customerId: b.customerId, date: b.date, part: b.menu === 'フット' ? 'foot' : 'hand', bookingId: b.id };
+  state.nextDraft = { customerId: b.customerId, date: b.date, bookingId: b.id };
   go('new-' + b.customerId);
 }
 
-// 一覧画面の上：今日からの予約（3件まで）
+// 一覧の上：今日来る人・明日来る人
 function renderHomeBookings() {
   const wrap = $('#booking-wrap');
   if (!wrap) return;
-  const list = upcomingBookings();
-  const todayCount = list.filter((b) => b.date === todayStr()).length;
-  wrap.innerHTML = `
-    <div class="bk-head">
-      <h2 class="section-label">reserve<span>これからの予約${todayCount ? `（今日 ${todayCount}件）` : ''}</span></h2>
-      <button id="quick-booking" class="bk-add" type="button">＋ 予約</button>
-    </div>
+  const today = todayStr();
+  const block = (label, en, list, emptyText) => `
+    <h2 class="section-label">${en}<span>${label}${list.length ? `（${list.length}人）` : ''}</span></h2>
     <div class="bk-list">
-      ${list.length
-        ? list.slice(0, 3).map((b) => bookingRow(b)).join('')
-        : '<div class="bk-empty">これからの予約はありません</div>'}
-    </div>
-    <button id="open-bookings" class="more-btn" type="button">予約表を見る${list.length > 3 ? `（ほか${list.length - 3}件）` : ''}</button>`;
-  bindBookingRows(wrap);
-  $('#open-bookings').addEventListener('click', () => go('yoyaku'));
-  $('#quick-booking').addEventListener('click', () => openBookingSheet({ date: todayStr() }));
+      ${list.length ? list.map(comingRow).join('') : `<div class="bk-empty">${emptyText}</div>`}
+    </div>`;
+  wrap.innerHTML = `
+    ${block('今日来る人', 'today', comingOn(today), '今日来る人はいません')}
+    ${block('明日来る人', 'tomorrow', comingOn(addDays(today, 1)), '明日来る人はいません')}
+    <button id="quick-booking" class="more-btn" type="button">＋ 来る日を入れる</button>`;
+  bindComingRows(wrap);
+  $('#quick-booking').addEventListener('click', () => openBookingSheet({ date: today }));
 }
 
-// お客さんの画面：次回の予約
+// お客さんの画面：次に来る日
 function customerBookingBox(c) {
   const b = nextBookingOf(c.id);
   if (!b && state.askNext === c.id) {
     return `
     <div class="bk-box is-ask">
-      <span class="bk-box-ask">記録しました。次回の予約も入れますか？</span>
-      <span class="bk-box-none">日にちは4週間後を入れておきます（変えられます）</span>
+      <span class="bk-box-ask">記録しました。次に来る日も入れますか？</span>
+      <span class="bk-box-none">4週間後の日にちを入れておきます（変えられます）</span>
       <div class="bk-box-actions">
         <button type="button" class="bk-box-btn" data-bk-later>あとで</button>
-        <button type="button" class="bk-box-btn is-main" data-bk-new data-bk-weeks="4">次回の予約を入れる</button>
+        <button type="button" class="bk-box-btn is-main" data-bk-new data-bk-weeks="4">次に来る日を入れる</button>
       </div>
     </div>`;
   }
   if (!b) {
-    return `<div class="bk-box"><span class="bk-box-label">次回の予約</span><span class="bk-box-none">まだ入っていません</span><button type="button" class="bk-box-btn" data-bk-new>予約を入れる</button></div>`;
+    return `<div class="bk-box"><span class="bk-box-label">次に来る日</span><span class="bk-box-none">まだ入っていません</span><button type="button" class="bk-box-btn" data-bk-new>来る日を入れる</button></div>`;
   }
   return `
     <div class="bk-box is-set">
-      <span class="bk-box-label">次回の予約</span>
-      <span class="bk-box-when">${esc(formatDate(b.date))} ${esc(b.time)}<small>${esc(daysAgo(b.date))}</small></span>
-      <span class="bk-box-menu">${esc(b.menu)}${b.memo ? `・${esc(b.memo)}` : ''}</span>
+      <span class="bk-box-label">次に来る日</span>
+      <span class="bk-box-when">${esc(formatDate(b.date))}${b.time ? ` ${esc(timeLabel(b.time))}` : ''}<small>${esc(dayLabel(b.date) === '今日' || dayLabel(b.date) === '明日' ? dayLabel(b.date) : daysAgo(b.date))}</small></span>
       <div class="bk-box-actions">
-        <button type="button" class="bk-box-btn" data-bk-edit="${esc(b.id)}">予約を変更</button>
-        <button type="button" class="bk-box-btn is-main" data-bk-visit="${esc(b.id)}">来店したので記録する</button>
+        <button type="button" class="bk-box-btn" data-bk-edit="${esc(b.id)}">日にちを変える</button>
+        <button type="button" class="bk-box-btn is-main" data-bk-visit="${esc(b.id)}">来たので記録する</button>
       </div>
     </div>`;
 }
@@ -1221,75 +1207,8 @@ function bindBookingBox(root, c) {
   root.querySelectorAll('[data-bk-visit]').forEach((el) => el.addEventListener('click', () => startVisit(el.dataset.bkVisit)));
 }
 
-// ===== 予約表（月のカレンダー＋選んだ日の予約） =====
-function renderBookings(app) {
-  const today = todayStr();
-  if (!state.calMonth) state.calMonth = today.slice(0, 7);
-  if (!state.calDay || !state.calDay.startsWith(state.calMonth)) {
-    state.calDay = today.startsWith(state.calMonth) ? today : state.calMonth + '-01';
-  }
-  const [y, m] = state.calMonth.split('-').map(Number);
-  const first = new Date(y, m - 1, 1).getDay();
-  const days = new Date(y, m, 0).getDate();
-  const ids = new Set(visibleCustomers().map((c) => c.id));
-  const countOf = new Map();
-  for (const b of state.bookings) {
-    if (!ids.has(b.customerId) || !b.date.startsWith(state.calMonth)) continue;
-    countOf.set(b.date, (countOf.get(b.date) || 0) + 1);
-  }
-  let cells = '';
-  for (let i = 0; i < first; i++) cells += '<span class="bc-cell is-blank"></span>';
-  for (let d = 1; d <= days; d++) {
-    const date = `${state.calMonth}-${String(d).padStart(2, '0')}`;
-    const n = countOf.get(date) || 0;
-    const wd = (first + d - 1) % 7;
-    cells += `<button type="button" class="bc-cell${date === today ? ' is-today' : ''}${date === state.calDay ? ' is-on' : ''}${wd === 0 ? ' is-sun' : ''}${wd === 6 ? ' is-sat' : ''}" data-day="${date}" aria-label="${m}月${d}日${n ? `（予約${n}件）` : ''}">
-      <span class="bc-num">${d}</span>${n ? `<span class="bc-dots">${'●'.repeat(Math.min(n, 3))}</span>` : ''}</button>`;
-  }
-  const dayList = bookingsOn(state.calDay);
-  app.innerHTML = `
-    <header class="top">
-      <div class="back-bar"><button id="back" class="back-btn" type="button">‹ 一覧へ</button></div>
-      <div class="title-row">
-        <div class="title-line">
-          <h1 class="page-title">予約表</h1>
-          <span class="page-sub">これからの予約 ${upcomingBookings().length}件</span>
-        </div>
-      </div>
-    </header>
-    <section class="bc">
-      <div class="bc-head">
-        <button id="prev-month" class="bc-nav" type="button" aria-label="前の月">‹</button>
-        <span class="bc-title">${y}年${m}月</span>
-        <button id="next-month" class="bc-nav" type="button" aria-label="次の月">›</button>
-      </div>
-      <div class="bc-week">${WEEK.map((w) => `<span>${w}</span>`).join('')}</div>
-      <div class="bc-grid">${cells}</div>
-    </section>
-    <h2 class="section-label">${esc(formatDate(state.calDay))}<span>${dayList.length}件</span></h2>
-    <div class="bk-list">
-      ${dayList.length ? dayList.map((b) => bookingRow(b, { showDay: false })).join('') : '<div class="bk-empty">この日の予約はありません</div>'}
-    </div>
-    <div class="dock"><div class="dock-inner">
-      <button id="add-booking" class="btn btn-primary" type="button"><span class="btn-plus" aria-hidden="true">+</span>この日に予約を入れる</button>
-    </div></div>
-  `;
-  $('#back').addEventListener('click', () => go(''));
-  const shift = (n) => {
-    const t = new Date(y, m - 1 + n, 1);
-    state.calMonth = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}`;
-    state.calDay = '';
-    render();
-  };
-  $('#prev-month').addEventListener('click', () => shift(-1));
-  $('#next-month').addEventListener('click', () => shift(1));
-  app.querySelectorAll('[data-day]').forEach((el) => el.addEventListener('click', () => { state.calDay = el.dataset.day; render(); }));
-  bindBookingRows(app);
-  $('#add-booking').addEventListener('click', () => openBookingSheet({ date: state.calDay }));
-}
-
-// ===== 予約を入れる・直すシート =====
-let bookingEdit = null; // 直している予約（新しく入れるときは null）
+// ===== 来る日を入れる・変えるシート =====
+let bookingEdit = null; // 変えている来る日（新しく入れるときは null）
 function openBookingSheet({ booking = null, customerId = '', date = '' } = {}) {
   bookingEdit = booking;
   const sel = $('#bk-customer');
@@ -1301,16 +1220,14 @@ function openBookingSheet({ booking = null, customerId = '', date = '' } = {}) {
   $('#bk-new-name').value = '';
   $('#bk-new-kana').value = '';
   toggleNewCustomer();
-  $('#bk-date').value = booking ? booking.date : (date || addDays(todayStr(), 1));
-  $('#bk-time').innerHTML = TIMES.map((t) => `<option>${t}</option>`).join('');
-  $('#bk-time').value = booking ? booking.time : '13:00';
-  const menu = booking ? booking.menu : 'ハンド';
-  $('#bk-menus').innerHTML = MENUS.map((mn) => `<label class="bk-menu-opt"><input type="radio" name="bk-menu" value="${esc(mn)}"${mn === menu ? ' checked' : ''}><span>${esc(mn)}</span></label>`).join('');
-  $('#bk-memo').value = booking ? (booking.memo || '') : '';
-  $('#bk-title').textContent = booking ? '予約を変更' : '予約を入れる';
+  $('#bk-date').value = booking ? booking.date : (date || todayStr());
+  $('#bk-time').innerHTML = `<option value="">決まっていない</option>` + TIMES.map((t) => `<option value="${t}">${timeLabel(t)}</option>`).join('');
+  // 前の形（30分ごと）で入れた時間も選べるように、候補になければ足す
+  if (booking && booking.time && !TIMES.includes(booking.time)) $('#bk-time').insertAdjacentHTML('beforeend', `<option value="${esc(booking.time)}">${timeLabel(booking.time)}</option>`);
+  $('#bk-time').value = booking ? (booking.time || '') : '';
+  $('#bk-title').textContent = booking ? '来る日を変える' : '来る日を入れる';
   $('#bk-delete').hidden = !booking;
-  resetArmed($('#bk-delete'), '予約を取り消す');
-  updateBookingWarn();
+  resetArmed($('#bk-delete'), 'この予定を消す');
   $('#booking-sheet').hidden = false;
 }
 // 「新しいお客さん」を選んだときだけ、名前の欄を出す
@@ -1327,38 +1244,27 @@ function resetArmed(el, text) {
   el.classList.remove('armed');
   el.textContent = text;
 }
-// 同じ日・同じ時間にほかの予約があれば知らせる（入れることはできる）
-function updateBookingWarn() {
-  const date = $('#bk-date').value;
-  const time = $('#bk-time').value;
-  const clash = state.bookings.find((b) => b.date === date && b.time === time && b.status !== 'done' && (!bookingEdit || b.id !== bookingEdit.id));
-  const warn = $('#bk-warn');
-  warn.hidden = !clash;
-  if (clash) warn.textContent = `同じ時間に ${customerById(clash.customerId)?.name || '別のお客さん'} さんの予約があります`;
-}
 function setupBookingSheet() {
   $('#bk-cancel').addEventListener('click', closeBookingSheet);
   $('#booking-sheet').addEventListener('click', (e) => { if (e.target.id === 'booking-sheet') closeBookingSheet(); });
   $('#bk-customer').addEventListener('change', toggleNewCustomer);
-  $('#bk-date').addEventListener('change', updateBookingWarn);
-  $('#bk-time').addEventListener('change', updateBookingWarn);
-  // 取り消しは2回押しで確定（うっかり防止）
+  // 消すときは2回押しで確定（うっかり防止）
   let armTimer = 0;
   $('#bk-delete').addEventListener('click', async () => {
     const el = $('#bk-delete');
     if (!bookingEdit) return;
     if (!el.classList.contains('armed')) {
       el.classList.add('armed');
-      el.textContent = 'もう一度押すと取り消します';
+      el.textContent = 'もう一度押すと消します';
       clearTimeout(armTimer);
-      armTimer = setTimeout(() => resetArmed(el, '予約を取り消す'), 3000);
+      armTimer = setTimeout(() => resetArmed(el, 'この予定を消す'), 3000);
       return;
     }
     const id = bookingEdit.id;
     state.bookings = state.bookings.filter((b) => b.id !== id);
     try { await dbDelete('bookings', id); } catch (e) { /* 画面からは消す */ }
     closeBookingSheet();
-    toast('予約を取り消しました');
+    toast('予定を消しました');
     render();
   });
   $('#booking-form').addEventListener('submit', async (e) => {
@@ -1375,11 +1281,7 @@ function setupBookingSheet() {
       await safePut('customers', customer);
       customerId = customer.id;
     }
-    const fields = {
-      customerId, date, time: $('#bk-time').value,
-      menu: (document.querySelector('input[name="bk-menu"]:checked') || {}).value || 'ハンド',
-      memo: $('#bk-memo').value.trim(),
-    };
+    const fields = { customerId, date, time: $('#bk-time').value };
     let b;
     if (bookingEdit) {
       b = Object.assign(bookingEdit, fields, { updatedAt: new Date().toISOString() });
@@ -1389,28 +1291,24 @@ function setupBookingSheet() {
     }
     await safePut('bookings', b);
     closeBookingSheet();
-    toast(bookingEdit ? '予約を変更しました' : `${dayLabel(date)} ${fields.time} に予約を入れました`);
-    // 予約表から入れたときは、その月・その日を表示する
-    state.calMonth = date.slice(0, 7);
-    state.calDay = date;
+    toast(`${dayLabel(date)}${fields.time ? `の${timeLabel(fields.time)}` : ''}に来る予定を入れました`);
     render();
   });
 }
 
-// 見本の予約（今日を基準に、いくつか入れておく）
+// 見本の予定（今日を基準に入れておく）
 async function seedBookings() {
   const byName = (n) => state.customers.find((c) => c.sample && c.name === n);
   const today = todayStr();
   const list = [
-    { who: '山本 さくら', day: 0, time: '14:00', menu: 'ハンド', memo: '前回と同じ色の予定' },
-    { who: '佐藤 みゆき', day: 1, time: '11:00', menu: 'フット', memo: '' },
-    { who: '高橋 えり', day: 3, time: '18:30', menu: 'ハンド＋フット', memo: 'オフあり' },
-    { who: '佐藤 みゆき', day: 24, time: '13:30', menu: 'ハンド', memo: '' },
+    { who: '山本 さくら', day: 0, time: '14:00' },
+    { who: '高橋 えり', day: 0, time: '' },
+    { who: '佐藤 みゆき', day: 1, time: '11:00' },
   ];
   for (const x of list) {
     const c = byName(x.who);
     if (!c) continue;
-    const b = { id: uid('b'), customerId: c.id, date: addDays(today, x.day), time: x.time, menu: x.menu, memo: x.memo, status: 'booked', createdAt: new Date().toISOString(), sample: true };
+    const b = { id: uid('b'), customerId: c.id, date: addDays(today, x.day), time: x.time, status: 'booked', createdAt: new Date().toISOString(), sample: true };
     state.bookings.push(b);
     await safePut('bookings', b);
   }
