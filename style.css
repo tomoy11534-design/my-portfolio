@@ -1315,3 +1315,59 @@ section {
 .work-card-change b {
   color: var(--color-ink);
 }
+
+/* ==========================================================
+   お客様の声
+   ========================================================== */
+.voice-card {
+  position: relative;
+  margin: 40px 0 0;
+  padding: 28px 28px 24px;
+  background: #fff;
+  border: 2px solid rgba(47, 143, 111, 0.35);
+  border-radius: var(--radius-lg);
+}
+
+.voice-card-label {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  background: #2f8f6f;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.voice-card blockquote {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.9;
+  color: var(--color-ink);
+}
+
+.voice-card blockquote::before { content: "「"; }
+.voice-card blockquote::after { content: "」"; }
+
+.voice-card figcaption {
+  margin-top: 12px;
+  text-align: right;
+  font-size: 0.86rem;
+  color: var(--color-ink-soft);
+}
+
+.voice-card figcaption a {
+  color: #1f6650;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* 作品ページ・クラウドワークス用ページでは上下の余白をそろえる */
+.work-content .voice-card {
+  margin: 0 0 40px;
+}
+
+/* お客様の声のあとに続くグループとの間をあける */
+.voice-card + .work-group {
+  margin-top: 64px;
+}
