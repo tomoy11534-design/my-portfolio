@@ -1677,3 +1677,96 @@ h3 {
     max-width: 960px;
   }
 }
+
+/* ==========================================================
+   作品ページの「画面」
+   ========================================================== */
+.shot-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.shot {
+  margin: 0;
+}
+
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+}
+
+/* スマホの画面 */
+.shot--phone {
+  width: 220px;
+}
+
+.shot--phone img {
+  border-radius: 18px;
+}
+
+/* パソコンの画面・横長の紙 */
+.shot--wide {
+  width: 100%;
+}
+
+.shot--wide img {
+  border-radius: var(--radius-md);
+}
+
+/* 紙のカード */
+.shot--card {
+  width: 240px;
+}
+
+.shot--card img {
+  border-radius: 4px;
+}
+
+.shot figcaption {
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+}
+
+@media (max-width: 680px) {
+  .shot-gallery {
+    gap: 14px;
+  }
+
+  /* スマホでは2枚ずつ並べる */
+  .shot--phone,
+  .shot--card {
+    width: calc(50% - 7px);
+  }
+}
+
+/* トップの「ご依頼の流れ」 */
+.flow {
+  padding-top: 0;
+}
+
+@media (min-width: 900px) {
+  /* パソコンでは横に5つ並べる */
+  .flow-list {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  /* 横に並べるときは、番号を上に置く */
+  .flow-list li {
+    padding: 56px 16px 18px;
+  }
+
+  .flow-list li::before {
+    left: 16px;
+    top: 16px;
+  }
+}
