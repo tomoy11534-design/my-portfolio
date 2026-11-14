@@ -1505,3 +1505,48 @@ section {
 .work-card:hover .work-card-shot {
   transform: translateX(-50%) translateY(-6px);
 }
+
+/* ==========================================================
+   日本語の改行：言葉の途中で切れないようにする
+   - auto-phrase：文節のまとまりで改行する（Chrome・Edge。対応していないブラウザでは今までどおり）
+   - pretty：最後の行が1〜2文字だけになるのを防ぐ
+   ========================================================== */
+body {
+  line-break: strict;
+  word-break: auto-phrase;
+}
+
+p,
+li,
+.section-lead,
+.work-card-desc,
+.hero-lead {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+/* 見出しの説明は、1行を少し長めにとる */
+.section-lead {
+  max-width: 680px;
+}
+
+.hero-inner {
+  max-width: 760px;
+}
+
+/* パソコンでは文ごとに改行し、スマホでは自然に折り返す */
+@media (max-width: 760px) {
+  .pc-br {
+    display: none;
+  }
+}
+
+/* プロフィールの説明も、文ごとの改行が1行に収まる幅にする */
+.about-intro .section-lead {
+  max-width: 760px;
+}
