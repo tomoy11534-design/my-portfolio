@@ -1550,3 +1550,11 @@ h3 {
 .about-intro .section-lead {
   max-width: 760px;
 }
+
+/* 制作物の説明は、パソコンでは必ず1行で見せる（スマホでは画面に収まらないので折り返す） */
+@media (min-width: 761px) {
+  .lead-one-line {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
