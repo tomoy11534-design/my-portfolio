@@ -1770,3 +1770,13 @@ h3 {
     top: 16px;
   }
 }
+
+/* お客様の声の上の、どんな方に作ったかの一言 */
+.voice-card-context {
+  margin: 0 0 10px;
+  padding-left: 10px;
+  border-left: 3px solid rgba(47, 143, 111, 0.45);
+  font-size: 0.86rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
