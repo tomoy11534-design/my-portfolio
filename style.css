@@ -1780,3 +1780,12 @@ h3 {
   color: var(--color-ink-soft);
   line-height: 1.7;
 }
+
+/* プロフィールの屋号の説明 */
+.about-note {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.84rem;
+  color: var(--color-ink-soft);
+  line-height: 1.7;
+}
