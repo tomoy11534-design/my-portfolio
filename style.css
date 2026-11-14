@@ -1811,3 +1811,9 @@ h3 {
 .logo .logo-text span {
   color: var(--color-primary);
 }
+
+/* ロゴのマークを少し大きく */
+.logo-mark {
+  width: 34px;
+  height: 34px;
+}

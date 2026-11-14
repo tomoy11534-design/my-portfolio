@@ -1,25 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="TOMORU">
-  <!-- TOMORU のマーク：2つのやわらかい灯りが寄りそって、1つの灯りになる（「ともに」＋「灯る」） -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="14 6 92 102" role="img" aria-label="TOMORU">
+  <!-- TOMORU のマーク：2つのやわらかい灯りが寄りそって、1つの灯りになる（「ともに」＋「灯る」）
+       明るい背景でもはっきり見えるよう、色を濃いめにし、光を大きくしている -->
   <defs>
-    <radialGradient id="tm-glow" cx="50%" cy="60%" r="50%">
-      <stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/>
+    <radialGradient id="tm-glow" cx="50%" cy="58%" r="50%">
+      <stop offset="0" stop-color="#ffb347" stop-opacity=".55"/>
+      <stop offset=".6" stop-color="#ffc56b" stop-opacity=".25"/>
       <stop offset="1" stop-color="#ffd27a" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="tm-a" cx="50%" cy="74%" r="70%">
-      <stop offset="0" stop-color="#fff4cf"/>
-      <stop offset=".5" stop-color="#ffbe5c"/>
-      <stop offset="1" stop-color="#ea7a30"/>
+    <radialGradient id="tm-a" cx="50%" cy="76%" r="72%">
+      <stop offset="0" stop-color="#ffe7a3"/>
+      <stop offset=".35" stop-color="#ffab3d"/>
+      <stop offset="1" stop-color="#dd5a17"/>
     </radialGradient>
-    <radialGradient id="tm-b" cx="50%" cy="74%" r="70%">
-      <stop offset="0" stop-color="#fffaea"/>
-      <stop offset=".55" stop-color="#ffd88a"/>
-      <stop offset="1" stop-color="#f3a347"/>
+    <radialGradient id="tm-b" cx="50%" cy="76%" r="72%">
+      <stop offset="0" stop-color="#fff0bf"/>
+      <stop offset=".4" stop-color="#ffc24f"/>
+      <stop offset="1" stop-color="#ee8a1f"/>
     </radialGradient>
   </defs>
-  <!-- うしろのやわらかい光 -->
-  <circle cx="60" cy="66" r="50" fill="url(#tm-glow)"/>
+  <!-- うしろの光 -->
+  <circle cx="60" cy="64" r="43" fill="url(#tm-glow)"/>
   <!-- 左の灯り：先が右（相手のほう）へ少し傾く -->
-  <path d="M54 14 C 58 34 76 48 76 70 C 76 89 64 100 49 100 C 34 100 24 89 24 72 C 24 52 44 40 54 14 Z" fill="url(#tm-a)"/>
+  <path d="M54 12 C 58 33 78 48 78 71 C 78 90 65 102 49 102 C 33 102 22 90 22 72 C 22 51 43 39 54 12 Z" fill="url(#tm-a)"/>
   <!-- 右の灯り：先が左へ少し傾き、左の灯りに寄りそう -->
-  <path d="M74 38 C 72 54 96 62 96 80 C 96 94 86 102 74 102 C 62 102 54 94 54 82 C 54 66 70 58 74 38 Z" fill="url(#tm-b)" opacity=".93"/>
+  <path d="M75 36 C 73 53 98 62 98 81 C 98 95 87 104 74 104 C 61 104 52 95 52 82 C 52 65 70 57 75 36 Z" fill="url(#tm-b)"/>
+  <!-- 2つの灯りの重なりに、細い線を入れて形を分かりやすくする -->
+  <path d="M75 36 C 73 53 98 62 98 81 C 98 95 87 104 74 104 C 61 104 52 95 52 82 C 52 65 70 57 75 36 Z" fill="none" stroke="#fff6e6" stroke-width="2.2" stroke-opacity=".9"/>
 </svg>
