@@ -1467,3 +1467,41 @@ section {
 .work-card-badge--wip {
   background: #8a8178;
 }
+
+/* ==========================================================
+   作品カードの表紙：本物の画面の画像
+   ========================================================== */
+.work-card-cover--shot {
+  height: 220px;
+}
+
+.work-card-shot {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease;
+}
+
+/* スマホの枠：下は表紙で切れるように少しはみ出させる */
+.shot-phone {
+  top: 20px;
+  width: 200px;
+}
+
+/* ブラウザの枠（パソコンの画面） */
+.shot-browser {
+  top: 26px;
+  width: 330px;
+  max-width: 96%;
+}
+
+/* 紙の印刷物 */
+.shot-paper {
+  top: 6px;
+  width: 216px;
+}
+
+.work-card:hover .work-card-shot {
+  transform: translateX(-50%) translateY(-6px);
+}

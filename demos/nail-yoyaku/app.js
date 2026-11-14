@@ -1059,6 +1059,8 @@ async function start() {
   window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
 
   try {
+    // 作品紹介の画像を撮るときだけ（?shot）、保存を使わずに見本を表示する
+    if (new URLSearchParams(location.search).has('shot')) throw new Error('shot');
     db = await openDb();
     state.customers = (await dbGetAll('customers')) || [];
     state.records = (await dbGetAll('records')) || [];
@@ -1078,7 +1080,8 @@ async function start() {
   } catch (e) {
     // 保存できない環境（プライベートモードなど）ではメモリ上だけで動かす
     db = null;
-    state.canSave = false;
+    // 撮影用（?shot）のときは「保存できません」の注意を出さない
+    state.canSave = new URLSearchParams(location.search).has('shot');
     if (state.customers.length === 0) await seedSamples();
   }
   render();
