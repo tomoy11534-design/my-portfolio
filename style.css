@@ -1552,9 +1552,11 @@ h3 {
 }
 
 /* 制作物の説明は、パソコンでは必ず1行で見せる（スマホでは画面に収まらないので折り返す） */
-@media (min-width: 761px) {
+@media (min-width: 600px) {
   .lead-one-line {
     max-width: none;
     white-space: nowrap;
+    /* 画面が少しせまいパソコンでも1行に収まるよう、文字を少しだけ小さくする */
+    font-size: min(1rem, calc((100vw - 64px) / 38));
   }
 }
