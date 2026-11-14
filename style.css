@@ -1670,3 +1670,10 @@ h3 {
     font-size: 0.72rem;
   }
 }
+
+/* 作品ページの説明（上の色つきの部分）は、パソコンでは横に広く使う */
+@media (min-width: 761px) {
+  .work-hero-lead {
+    max-width: 960px;
+  }
+}
