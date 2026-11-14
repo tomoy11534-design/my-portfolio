@@ -1567,3 +1567,106 @@ h3 {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
+
+/* スマホでは、作品カードの種類のタグと「今も使われています」を1行に収める */
+@media (max-width: 680px) {
+  .work-card-body {
+    padding: 20px 18px;
+  }
+
+  .work-card-tag,
+  .work-card-badge {
+    font-size: 0.68rem;
+    letter-spacing: 0;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+
+  .work-card-badge {
+    margin-left: 4px;
+  }
+}
+
+/* 「（〇〇を使っています）」は途中で切らず、入らないときはまとめて次の行へ */
+.voice-app {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* スマホでは、お客様の声の「ネイリストさん（〇〇を使っています）」を1行に収める */
+@media (max-width: 680px) {
+  .voice-card {
+    padding: 22px 18px 18px;
+  }
+
+  .voice-card figcaption {
+    font-size: 0.76rem;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+}
+
+/* スマホでは料金の表を、横にスクロールしなくても見られる「1件ずつの行」にする
+   1段目：内容　2段目：金額（左）と期間（右） */
+@media (max-width: 680px) {
+  .cw-price {
+    min-width: 0;
+  }
+
+  .cw-price thead {
+    display: none;
+  }
+
+  .cw-price tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 2px 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .cw-price tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .cw-price td {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .cw-price td:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .cw-price td:nth-child(2) {
+    font-size: 1.02rem;
+  }
+
+  .cw-price td:nth-child(3)::before {
+    content: "期間 ";
+    font-size: 0.78rem;
+  }
+}
+
+/* お問い合わせの注意書き：言葉の切れ目（<wbr>）でだけ改行する */
+.contact-note {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.nw {
+  white-space: nowrap;
+}
+
+/* スマホのお客様の声：「（〇〇を使っています）」が1行に収まるよう、もう少し小さく */
+@media (max-width: 680px) {
+  .voice-card {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .voice-card figcaption {
+    font-size: 0.72rem;
+  }
+}
