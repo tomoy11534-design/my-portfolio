@@ -1789,3 +1789,25 @@ h3 {
   color: var(--color-ink-soft);
   line-height: 1.7;
 }
+
+/* ロゴのマーク（2つの灯り） */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logo-mark {
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+
+/* 「TOMO」と「RU」の間があかないよう、文字をひとまとまりにする */
+.logo .logo-text {
+  color: var(--color-ink);
+}
+
+.logo .logo-text span {
+  color: var(--color-primary);
+}
