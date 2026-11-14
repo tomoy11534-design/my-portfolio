@@ -1560,3 +1560,10 @@ h3 {
     font-size: min(1rem, calc((100vw - 64px) / 38));
   }
 }
+
+/* 言葉の切れ目（<wbr>）でだけ改行する。Safari など、文節での改行に対応していないブラウザ向け */
+.hero-lead,
+.lead-one-line {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
