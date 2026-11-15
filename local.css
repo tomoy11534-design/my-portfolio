@@ -75,7 +75,8 @@ b {
 
 .hero h1 {
   margin: 0 0 18px;
-  font-size: clamp(1.6rem, 6vw, 2.3rem);
+  /* 2行目「かんたんに使える道具に。」が、幅の狭いスマホでも1行に収まる大きさにする */
+  font-size: clamp(1.3rem, 6.3vw, 2.3rem);
   line-height: 1.5;
   font-weight: 700;
 }
@@ -212,7 +213,7 @@ b {
 
 .case {
   position: relative;
-  padding: 20px 20px 18px;
+  overflow: hidden;
   background: var(--paper);
   border-radius: var(--radius);
   border-top: 6px solid var(--case-color, var(--primary));
@@ -225,6 +226,7 @@ b {
 .case--shizai { --case-color: #4f8f3a; }
 .case--voice { --case-color: #d9577a; }
 .case--melon { --case-color: #8fa61a; }
+.case--yasai { --case-color: #5a9a3c; }
 
 .case-who {
   margin: 0;
@@ -495,4 +497,310 @@ b {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ===== 追加分（ロゴ・作品の画面・お客様の声・作っている人・下のLINEボタン） ===== */
+
+/* 名前の横の小さなロゴ */
+.hero-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-mark {
+  width: 22px;
+  height: 22px;
+}
+
+/* LINEボタンの下の小さなリンク */
+.hero-sub {
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+}
+
+.hero-sub a {
+  color: var(--ink-soft);
+}
+
+/* 作品カードの上に、本物の画面を見せる */
+.case-cover {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--case-color) 30%, white), transparent 70%),
+    color-mix(in srgb, var(--case-color) 10%, white);
+}
+
+.case-shot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 10px 16px rgba(43, 38, 32, 0.18));
+}
+
+/* スマホの画面：下は切れるように少しはみ出させる */
+.case-shot.shot-phone {
+  top: 18px;
+  width: 172px;
+}
+
+/* パソコンの画面 */
+.case-shot.shot-browser {
+  top: 22px;
+  width: 300px;
+  max-width: 92%;
+}
+
+.case-body {
+  padding: 18px 20px 18px;
+}
+
+/* 「今も使ってもらっています」の印 */
+.case-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--case-color);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.7;
+  vertical-align: 1px;
+}
+
+.case-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 6px;
+}
+
+.case-link {
+  margin-top: 0;
+}
+
+/* 「さわって試す」はボタンの形にして目立たせる */
+.case-link--try {
+  padding: 4px 14px;
+  border: 2px solid var(--case-color);
+  border-radius: 999px;
+  line-height: 1.6;
+}
+
+.try-note {
+  margin-bottom: 0;
+}
+
+/* ===== 使っている方の声 ===== */
+.sub-title {
+  margin: 40px 0 14px;
+  font-size: 1.1rem;
+}
+
+.voices {
+  display: grid;
+  gap: 14px;
+}
+
+.voice {
+  position: relative;
+  margin: 0;
+  padding: 22px 20px 16px 22px;
+  background: var(--paper);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+/* 吹き出しの大きなかぎかっこ */
+.voice::before {
+  content: "“";
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--primary);
+  opacity: 0.5;
+}
+
+.voice blockquote {
+  margin: 0 0 10px;
+  font-weight: 700;
+  line-height: 1.8;
+}
+
+.voice figcaption {
+  font-size: 0.9rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.voice figcaption small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* ===== つくっている人 ===== */
+.about {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 20px;
+  background: var(--paper);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.about-mark {
+  flex: none;
+  width: 56px;
+  height: 56px;
+}
+
+.about-name {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.about-name small {
+  margin-left: 8px;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.about-text {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.about-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== スマホで下に出るLINEボタン ===== */
+.float-line {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: calc(14px + env(safe-area-inset-bottom));
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  border-radius: 999px;
+  background: var(--line-green);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 10px 24px -8px rgba(43, 38, 32, 0.5);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.float-line.is-show {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* ボタンに一番下の文字が隠れないよう、下にすき間を作る */
+@media (max-width: 767px) {
+  .footer {
+    padding-bottom: 96px;
+  }
+}
+
+/* パソコンでは下のボタンは出さない */
+@media (min-width: 768px) {
+  .float-line {
+    display: none;
+  }
+
+  .voices {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* 長い声は横いっぱいに */
+  .voice:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float-line {
+    transition: none;
+  }
+}
+
+/* ===== こんなこと、ありませんか？ ===== */
+.check-section {
+  padding-top: 8px;
+  padding-bottom: 16px;
+}
+
+.check-title {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: clamp(1.2rem, 5.4vw, 1.5rem);
+}
+
+.check-list {
+  list-style: none;
+  margin: 0;
+  padding: 18px 18px 8px;
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.check-list li {
+  position: relative;
+  padding: 0 0 12px 34px;
+  line-height: 1.7;
+}
+
+/* チェックの印 */
+.check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.check-after {
+  margin: 16px 0 0;
+  text-align: center;
+  font-weight: 700;
+  line-height: 1.8;
+}
+
+/* 最後の行に1〜2文字だけ残らないようにする（対応しているブラウザのみ） */
+p,
+li,
+blockquote,
+summary,
+figcaption {
+  text-wrap: pretty;
 }
