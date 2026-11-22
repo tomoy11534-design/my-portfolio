@@ -651,6 +651,37 @@ section {
   font-size: 0.95rem;
 }
 
+/* プロフィールの「製造の現場で身についたこと」 */
+.about-genba-title {
+  text-align: center;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+
+.about-genba-lead {
+  text-align: center;
+  color: var(--color-ink-soft);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* カードの背景を、上の項目（屋号・名前など）と同じ色にそろえる */
+.about-genba .feature-card {
+  background: var(--color-bg);
+}
+
+.about-genba-more {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.about-genba-more a {
+  color: var(--color-primary-dark);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .about-list li b {
   color: var(--color-ink-soft);
   font-weight: 700;
