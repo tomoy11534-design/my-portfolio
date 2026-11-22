@@ -1295,6 +1295,21 @@ section {
   background: #2f8f6f;
 }
 
+/* 作品カードの「相談から最初の見本まで○日」 */
+.work-card-speed {
+  font-size: 0.8rem;
+  color: var(--color-ink-soft);
+  margin: -4px 0 12px;
+}
+
+.work-card-speed::before {
+  content: "⏱ ";
+}
+
+.work-card-speed b {
+  color: var(--color-primary-dark);
+}
+
 /* 使う前 → 使った後 */
 .work-card-change {
   display: flex;
