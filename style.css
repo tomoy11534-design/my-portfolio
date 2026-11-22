@@ -270,6 +270,76 @@ h4 {
   margin-bottom: 36px;
 }
 
+/* 最初の画面の実績の数字（3つ横並び、スマホでは縦に並べる） */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: -8px auto 32px;
+  max-width: 640px;
+  list-style: none;
+  padding: 0;
+}
+
+.hero-stats li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+}
+
+.hero-stats b {
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--color-primary-dark);
+}
+
+.hero-stats span {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-ink-soft);
+}
+
+@media (max-width: 560px) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hero-stats li {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 14px;
+  }
+
+  .hero-stats b {
+    font-size: 1.2rem;
+    min-width: 4.5em;
+    text-align: right;
+  }
+
+  .hero-stats span {
+    text-align: left;
+  }
+
+  .hero-stats span br {
+    display: none;
+  }
+}
+
+/* 最初の画面のボタン（作品を見る・ご相談はこちら） */
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .hero-arrow {
   display: inline-block;
   transition: transform 0.2s ease;
