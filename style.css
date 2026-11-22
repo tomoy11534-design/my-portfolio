@@ -332,6 +332,11 @@ h4 {
   }
 }
 
+/* クラウドワークス用ページでは、色つきの見出し部分に左そろえで置く */
+.hero-stats--cw {
+  margin: 24px 0 0;
+}
+
 /* 最初の画面のボタン（作品を見る・ご相談はこちら） */
 .hero-actions {
   display: flex;
@@ -822,6 +827,52 @@ section {
   text-align: center;
   color: var(--color-ink-soft);
   font-size: 0.82rem;
+}
+
+/* フッターのプライバシーポリシーへのリンク */
+.footer-links {
+  margin-bottom: 6px;
+}
+
+.footer-links a {
+  color: var(--color-ink-soft);
+  text-decoration: underline;
+}
+
+/* プライバシーポリシーのページ */
+.policy {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 120px 0 64px;
+}
+
+.policy h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  margin-bottom: 20px;
+}
+
+.policy h2 {
+  font-size: 1.1rem;
+  margin: 36px 0 10px;
+}
+
+.policy p {
+  color: var(--color-ink-soft);
+  line-height: 1.9;
+  margin-bottom: 12px;
+  /* 作品ページと同じく、行の右端までつめて折り返す */
+  word-break: normal;
+}
+
+.policy a {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.policy-date {
+  margin-top: 40px;
+  text-align: right;
+  font-size: 0.88rem;
 }
 
 /* ==========================================================
