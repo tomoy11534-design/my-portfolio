@@ -737,6 +737,11 @@ b {
   .voice:first-child {
     grid-column: 1 / -1;
   }
+
+  /* 最後の声が1つだけ余るときも横いっぱいに */
+  .voice:last-child:nth-child(even) {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
