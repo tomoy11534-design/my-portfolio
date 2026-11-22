@@ -1817,3 +1817,32 @@ h3 {
   width: 34px;
   height: 34px;
 }
+
+/* ===== LINE公式アカウント（課題作品）の色 ===== */
+.work-card-cover--line {
+  background-color: #06a94d;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.5px, transparent 1.5px),
+    linear-gradient(135deg, #b9ecc8 0%, #3cc06e 45%, #0b7a3b 100%);
+}
+
+.work-card--line .work-card-tag {
+  background: rgba(6, 169, 77, 0.12);
+  color: #0b7a3b;
+}
+
+.work-card--line .work-card-more {
+  color: #06a94d;
+}
+
+.work-hero--line {
+  background: linear-gradient(135deg, #3cc06e, #0b7a3b);
+}
+
+.work-sidebar--line::before {
+  background: linear-gradient(135deg, #3cc06e, #0b7a3b);
+}
+
+.work-sidebar--line .work-sidebar-label::before {
+  background: #06a94d;
+}
