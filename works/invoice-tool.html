@@ -70,6 +70,24 @@
             </div>
           </div>
 
+          <!-- スプレッドシート連携（GAS）の中身が見えるように -->
+          <div class="work-section" id="sheet">
+            <h2>スプレッドシートに自動で残る仕組み</h2>
+            <p>
+              請求書を印刷・PDF保存・送信すると、Google Apps Script（GAS）で作った受け口に内容が送られ、Googleスプレッドシートの「発行履歴」シートに1行ずつ自動で追加されます。請求番号・発行日・宛名・明細に加えて、作物代と送料を分けて記録するので、あとから売上と送料をそれぞれ集計できます。
+            </p>
+            <figure class="shot shot--wide">
+              <!-- 文字が小さいので、押すと大きな画像で開けるようにする -->
+              <a href="../images/works/invoice-tool-sheet.webp" target="_blank" rel="noopener">
+                <img src="../images/works/invoice-tool-sheet.webp" alt="スプレッドシートの発行履歴シート：請求書を発行するたびに1行ずつ自動で追加される（見本のデータ）" loading="lazy" decoding="async" width="2400" height="944">
+              </a>
+              <figcaption>発行するたびに1行ずつ自動で追加される「発行履歴」シート（見本のデータ・押すと大きく見られます）</figcaption>
+            </figure>
+            <p>
+              入金確認の列は手で入れる欄にして、自動の書き込みでは上書きしないようにしました。電波が届かず送れなかった分は、次に開いたときに自動で送り直します。
+            </p>
+          </div>
+
           <div class="work-section">
             <h2>制作の背景</h2>
             <p>
