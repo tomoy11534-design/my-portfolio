@@ -17,7 +17,7 @@
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="images/brand/tomoru-mark.svg?v=4" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=20261122f">
+  <link rel="stylesheet" href="style.css?v=20261122g">
   <!-- Googleアナリティクス（GA4） -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FF0GN3Z2HY"></script>
   <script>
@@ -56,7 +56,16 @@
         <p class="hero-lead">
           手書きの<wbr>販売記録、<wbr>手入力の<wbr>請求書、<wbr>Excelの<wbr>在庫表、<wbr>紙の<wbr>カルテ。<br>そんな<wbr>毎日の<wbr>手間を、<wbr>スマホで<wbr>使える<wbr>アプリに<wbr>しています。<br>農家さんや<wbr>ネイルサロンの<wbr>依頼で<wbr>作った<wbr>アプリは、<wbr>今も<wbr>実際に<wbr>使われています。<br>スマホが<wbr>苦手な方でも<wbr>迷わない<wbr>画面づくりが<wbr>得意です。
         </p>
-        <a href="#works" class="button button-primary">作品を見る <span class="hero-arrow">↓</span></a>
+        <!-- 実績をひと目で見せる数字 -->
+        <ul class="hero-stats">
+          <li><b>5つ</b><span>依頼で作ったアプリが<br>今も使われています</span></li>
+          <li><b>約1週間</b><span>ご相談から<br>最初の見本まで</span></li>
+          <li><b>1か月</b><span>納品後の直し・相談が<br>無料</span></li>
+        </ul>
+        <div class="hero-actions">
+          <a href="#works" class="button button-primary">作品を見る <span class="hero-arrow">↓</span></a>
+          <a href="#contact" class="button button-ghost">ご相談はこちら</a>
+        </div>
       </div>
     </section>
 
@@ -225,49 +234,6 @@
           </article>
 
 
-          <!-- 7. メロンの同梱カード・ステッカー -->
-          <article class="work-card work-card--melon">
-            <a href="works/farm-cards.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--melon work-card-cover--shot">
-                <img class="work-card-shot shot-paper" src="images/covers/farm-cards.webp" alt="メロンの同梱カード" loading="lazy" decoding="async">
-              </div>
-              <div class="work-card-body">
-                <span class="work-card-tag">印刷物のデザイン</span>
-                <span class="work-card-badge work-card-badge--wip">制作途中</span>
-                <h3>メロンの同梱カード・ステッカー</h3>
-                <p class="work-card-desc">
-                  メロンの箱に入れる同梱カード、店頭の生産者カード、贈り主カード、QRコードつきのステッカー。家庭のプリンターで印刷して、切る・折るだけで使える。
-                </p>
-                <ul class="tag-list">
-                  <li>HTML / CSS</li>
-                  <li>印刷用CSS</li>
-                </ul>
-                <p class="work-card-more">詳しく見る →</p>
-              </div>
-            </a>
-          </article>
-
-          <!-- 8. 農園のレシピ帖 -->
-          <article class="work-card work-card--yasai">
-            <a href="works/recipe-book.html" class="work-card-link">
-              <div class="work-card-cover work-card-cover--yasai work-card-cover--shot">
-                <img class="work-card-shot shot-phone" src="images/covers/recipe-book.webp" alt="農園のレシピ帖の画面" loading="lazy" decoding="async">
-              </div>
-              <div class="work-card-body">
-                <span class="work-card-tag">農園のWebサイト</span>
-                <span class="work-card-badge work-card-badge--wip">制作途中</span>
-                <h3>農園のレシピ帖</h3>
-                <p class="work-card-desc">
-                  育てている作物を、農家のレシピと一緒に紹介するサイト。今が旬の作物が分かる収穫カレンダーと、作物ごとに絞り込めるレシピ一覧。
-                </p>
-                <ul class="tag-list">
-                  <li>HTML / CSS</li>
-                  <li>JavaScript</li>
-                </ul>
-                <p class="work-card-more">詳しく見る →</p>
-              </div>
-            </a>
-          </article>
           </div>
         </div>
 
@@ -318,6 +284,59 @@
             </a>
           </div>
           <p class="demo-note">※ 販売メモは本物のアプリです。試しに入れた記録は、開いた方のスマホ・パソコンの中だけに残り、だれにも送られません。</p>
+        </div>
+
+        <!-- 依頼を受けて、いま制作中のもの（完成した作品と分けて見せる） -->
+        <div class="work-group">
+          <h3 class="work-group-title">いま制作中のもの</h3>
+          <p class="work-group-lead">農家さんの依頼で、いま作っているものです。</p>
+          <div class="work-grid">
+
+          <!-- 7. メロンの同梱カード・ステッカー -->
+          <article class="work-card work-card--melon">
+            <a href="works/farm-cards.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--melon work-card-cover--shot">
+                <img class="work-card-shot shot-paper" src="images/covers/farm-cards.webp" alt="メロンの同梱カード" loading="lazy" decoding="async">
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">印刷物のデザイン</span>
+                <span class="work-card-badge work-card-badge--wip">制作途中</span>
+                <h3>メロンの同梱カード・ステッカー</h3>
+                <p class="work-card-desc">
+                  メロンの箱に入れる同梱カード、店頭の生産者カード、贈り主カード、QRコードつきのステッカー。家庭のプリンターで印刷して、切る・折るだけで使える。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS</li>
+                  <li>印刷用CSS</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          <!-- 8. 農園のレシピ帖 -->
+          <article class="work-card work-card--yasai">
+            <a href="works/recipe-book.html" class="work-card-link">
+              <div class="work-card-cover work-card-cover--yasai work-card-cover--shot">
+                <img class="work-card-shot shot-phone" src="images/covers/recipe-book.webp" alt="農園のレシピ帖の画面" loading="lazy" decoding="async">
+              </div>
+              <div class="work-card-body">
+                <span class="work-card-tag">農園のWebサイト</span>
+                <span class="work-card-badge work-card-badge--wip">制作途中</span>
+                <h3>農園のレシピ帖</h3>
+                <p class="work-card-desc">
+                  育てている作物を、農家のレシピと一緒に紹介するサイト。今が旬の作物が分かる収穫カレンダーと、作物ごとに絞り込めるレシピ一覧。
+                </p>
+                <ul class="tag-list">
+                  <li>HTML / CSS</li>
+                  <li>JavaScript</li>
+                </ul>
+                <p class="work-card-more">詳しく見る →</p>
+              </div>
+            </a>
+          </article>
+
+          </div>
         </div>
 
         <div class="work-group">
