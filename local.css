@@ -248,6 +248,14 @@ b {
   line-height: 1.75;
 }
 
+/* 見本であることなどの小さな補足 */
+.case-note {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
 /* 「困っていたこと」「こうなりました」のラベル */
 .case-before span:not(.tail-keep),
 .case-after span:not(.tail-keep) {
