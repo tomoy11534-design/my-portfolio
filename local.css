@@ -555,6 +555,16 @@ b {
   width: 172px;
 }
 
+/* LINEの画面の下に出るメニュー（横長の画像） */
+.case-shot.shot-menu {
+  top: 16px;
+  height: 158px;
+  width: auto;
+  max-width: 92%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
 /* パソコンの画面 */
 .case-shot.shot-browser {
   top: 22px;
