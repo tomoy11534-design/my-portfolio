@@ -226,6 +226,7 @@ b {
 .case--shizai { --case-color: #4f8f3a; }
 .case--voice { --case-color: #d9577a; }
 .case--melon { --case-color: #8fa61a; }
+.case--line { --case-color: #06a64a; }
 .case--yasai { --case-color: #5a9a3c; }
 
 .case-who {
@@ -248,8 +249,8 @@ b {
 }
 
 /* 「困っていたこと」「こうなりました」のラベル */
-.case-before span,
-.case-after span {
+.case-before span:not(.tail-keep),
+.case-after span:not(.tail-keep) {
   display: block;
   width: fit-content;
   margin-bottom: 2px;
@@ -259,12 +260,12 @@ b {
   font-weight: 700;
 }
 
-.case-before span {
+.case-before span:not(.tail-keep) {
   background: #eee8e1;
   color: var(--ink-soft);
 }
 
-.case-after span {
+.case-after span:not(.tail-keep) {
   background: color-mix(in srgb, var(--case-color) 16%, white);
   color: var(--case-color);
 }
